@@ -288,8 +288,8 @@ tr.wu-sep td{padding:4px 12px;font-size:9px;text-transform:uppercase;letter-spac
 .anatomy-wrap{display:flex;justify-content:center;gap:12px;padding:4px 8px 8px}
 .anatomy-fig{flex:1;max-width:148px}
 .anatomy-lbl{font-size:9px;text-align:center;color:var(--tx3);margin-top:3px;text-transform:uppercase;letter-spacing:.05em}
-.vol-legend{display:flex;flex-wrap:wrap;gap:8px;padding:0 14px 8px;justify-content:center}
-.vol-li{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--tx2)}
+.vol-legend{display:grid;grid-template-columns:1fr 1fr;gap:5px 12px;padding:6px 14px 8px}
+.vol-li{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--tx2)}
 .vol-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -789,7 +789,7 @@ function closeModal(){document.getElementById('modal').innerHTML='';}
 
 // ─── PLAN ────────────────────────────────────────────────────
 const DAYC={legs:'var(--dl)',push:'var(--dp)',pull:'var(--du)',full:'var(--df)'};
-const DAYS_SHORT={legs:'ขา',push:'ดัน',pull:'ดึง',full:'เต็มตัว'};
+const DAYS_SHORT={legs:'Legs',push:'Push',pull:'Pull',full:'Full'};
 const CYCLE=[{d:'legs'},{d:'push'},{d:'pull'},{r:1},{d:'full'},{r:1},{r:2}];
 function gapAfter(dayId){return(dayId==='pull'||dayId==='full')?2:1;}
 
@@ -827,7 +827,7 @@ function renderPlan(){
   const nxCard=`<div class="nxt"><div class="nxt-top"><div class="nxt-dot" style="background:${DAYC[nx.dayId]}">${DAYS_SHORT[nx.dayId]}</div><div style="flex:1;min-width:0"><div class="nxt-lbl">${nx.ready||!nx.last?'ถัดไป':'พักอยู่'}</div><div class="nxt-nm">${day.name}</div><div class="nxt-sub">${day.th} · สัปดาห์ ${nx.week}${nx.last?' · ล่าสุด '+fmtDate(nx.last.date):''}</div></div></div><div class="nxt-act">${statusHtml}</div></div>`;
 
   const curIdx=(()=>{if(!nx.last)return 0;const li=CYCLE.findIndex(c=>c.d===nx.last.dayId);if(nx.ready)return CYCLE.findIndex(c=>c.d===nx.dayId);return Math.min(li+nx.since,CYCLE.length-1);})();
-  const cycHtml=CYCLE.map((c,i)=>{const on=i===curIdx?' now':'';if(c.r)return`<div class="cyc-i rest${on}"><div class="cyc-b" style="background:var(--bdr)"></div><div class="cyc-t">พัก</div></div>`;return`<div class="cyc-i${on}"><div class="cyc-b" style="background:${DAYC[c.d]}"></div><div class="cyc-t">${DAYS_SHORT[c.d]}</div></div>`;}).join('');
+  const cycHtml=CYCLE.map((c,i)=>{const on=i===curIdx?' now':'';if(c.r)return`<div class="cyc-i rest${on}"><div class="cyc-b" style="background:var(--bdr)"></div><div class="cyc-t">Rest</div></div>`;return`<div class="cyc-i${on}"><div class="cyc-b" style="background:${DAYC[c.d]}"></div><div class="cyc-t">${DAYS_SHORT[c.d]}</div></div>`;}).join('');
 
   const doneMap={};hist.forEach(s=>{doneMap[(s.week||1)+'_'+s.dayId]=s;});
   let pgHtml=`<div class="pg-h"></div>`+order.map(id=>`<div class="pg-h" style="color:${DAYC[id]}">${DAYS_SHORT[id]}</div>`).join('');
