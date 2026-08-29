@@ -642,9 +642,8 @@ function renderWorkout(){
   const done=s.exercises.reduce((a,e)=>a+e.sets.filter(x=>x.done).length,0);
   const pct=total?Math.round(done/total*100):0;
   const totalEx=s.exercises.length;
-  const doneEx=s.exercises.filter(e=>e.sets.every(x=>x.done)&&e.sets.length>0).length;
-  const curEx=s.exercises.findIndex(e=>e.sets.some(x=>!x.done));
-  const curExNum=curEx===-1?totalEx:curEx+1;
+  const doneExFull=s.exercises.filter(e=>e.sets.length>0&&e.sets.every(x=>x.done)).length;
+  const curExNum=Math.min(doneExFull+1,totalEx);
   const isLeg=s.dayId==='legs'||s.dayId==='full';
   const wuItems=P.generalWarmup.items.filter(i=>!i.legDayOnly||isLeg)
     .map(i=>{const vid=WU_VIDEOS[i.name];const vl=vid?` · <button class="wu-video-link" onclick="window.open('${vid}','_blank','noopener')">▶ วิดีโอ</button>`:'';return`<div class="wu-item"><span class="wu-dot">•</span><div><div class="wu-name">${i.name}${i.optional?' <span style="font-size:10px;color:var(--tx3)">(ทางเลือก)</span>':''}</div><div class="wu-meta">${i.repsTime}${vl}</div></div></div>`;}).join('');
@@ -796,8 +795,8 @@ function markDone(ei,si){
   const ps=document.querySelector('.prog-sets');if(ps)ps.textContent=done+'/'+total+' เซ็ต';
   const pp=document.querySelector('.prog-pct');if(pp)pp.textContent=pct+'%';
   const totalEx=SESS.exercises.length;
-  const curEx=SESS.exercises.findIndex(e=>e.sets.some(x=>!x.done));
-  const curExNum=curEx===-1?totalEx:curEx+1;
+  const doneExFull=SESS.exercises.filter(e=>e.sets.length>0&&e.sets.every(x=>x.done)).length;
+  const curExNum=Math.min(doneExFull+1,totalEx);
   const pe=document.querySelector('.prog-ex');if(pe)pe.textContent='ท่า '+curExNum+'/'+totalEx;
   const vol=SESS.exercises.reduce((a,e)=>a+(e.sets?.reduce((b,x)=>b+(x.done?(x.weight||0)*(x.reps||1):0),0)||0),0);
   const vv=document.getElementById('sess-vol');if(vv)vv.textContent=vol>0?vol.toFixed(0)+' kg vol':'— kg';
