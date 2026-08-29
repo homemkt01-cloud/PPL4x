@@ -659,7 +659,7 @@ function renderWorkout(){
   <div class="prog-row">
     <span class="prog-sets">${done}/${total} เซ็ต</span>
     <span class="prog-pct">${pct}%</span>
-    <span style="font-size:12px;color:var(--tx3)">ท่า ${curExNum}/${totalEx}</span>
+    <span class="prog-ex" style="font-size:12px;color:var(--tx3)">ท่า ${curExNum}/${totalEx}</span>
     <span class="prog-vol" id="sess-vol">— kg</span>
   </div>
   ${deload?`<div class="dlnote" style="margin-top:0">⚠️ Deload — ลดน้ำหนัก ห้ามดันถึงหมดแรง</div>`:''}
@@ -795,6 +795,10 @@ function markDone(ei,si){
   const pb=document.querySelector('.pbf');if(pb)pb.style.width=pct+'%';
   const ps=document.querySelector('.prog-sets');if(ps)ps.textContent=done+'/'+total+' เซ็ต';
   const pp=document.querySelector('.prog-pct');if(pp)pp.textContent=pct+'%';
+  const totalEx=SESS.exercises.length;
+  const curEx=SESS.exercises.findIndex(e=>e.sets.some(x=>!x.done));
+  const curExNum=curEx===-1?totalEx:curEx+1;
+  const pe=document.querySelector('.prog-ex');if(pe)pe.textContent='ท่า '+curExNum+'/'+totalEx;
   const vol=SESS.exercises.reduce((a,e)=>a+(e.sets?.reduce((b,x)=>b+(x.done?(x.weight||0)*(x.reps||1):0),0)||0),0);
   const vv=document.getElementById('sess-vol');if(vv)vv.textContent=vol>0?vol.toFixed(0)+' kg vol':'— kg';
   if(set.done){
