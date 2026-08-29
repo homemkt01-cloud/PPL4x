@@ -337,6 +337,7 @@ let CFG  = {week:1, repFloor4:false};
 let SUBS = {};     // "dayId_exIdx" -> name
 let TIMER = {on:false, rem:0, total:0, lbl:'', tid:null};
 let HOLDS = {};    // "exIdx_si" -> {rem, done, tid}
+let CALM  = null;  // calendar month state for plan screen
 
 // ─── STORAGE ────────────────────────────────────────────────
 function loadStorage(){
