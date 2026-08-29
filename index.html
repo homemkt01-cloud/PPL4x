@@ -16,6 +16,7 @@
   --grn:#3fb950;--grn-d:rgba(63,185,80,.12);
   --red:#f85149;--yel:#d29922;--blu:#388bfd;
   --nav:60px;--r:6px;
+  --dl:#d9600a;--dp:#388bfd;--du:#3fb950;--df:#a855f7;
 }
 @media(prefers-color-scheme:light){:root:not([data-theme=dark]){
   --bg:#f0f4f8;--bg2:#fff;--surf:#fff;--surf2:#f6f8fa;
@@ -23,6 +24,7 @@
   --tx:#1f2328;--tx2:#636c76;--tx3:#818b98;
   --grn:#1a7f37;--grn-d:rgba(26,127,55,.1);
   --red:#cf222e;--yel:#9a6700;--blu:#0969da;
+  --dl:#d9600a;--dp:#0969da;--du:#1a7f37;--df:#8250df;
 }}
 :root[data-theme=dark]{
   --bg:#0d1117;--bg2:#161b22;--surf:#21262d;--surf2:#2d333b;
@@ -30,6 +32,7 @@
   --tx:#e6edf3;--tx2:#8b949e;--tx3:#6e7681;
   --grn:#3fb950;--grn-d:rgba(63,185,80,.12);
   --red:#f85149;--yel:#d29922;--blu:#388bfd;
+  --dl:#d9600a;--dp:#388bfd;--du:#3fb950;--df:#a855f7;
 }
 :root[data-theme=light]{
   --bg:#f0f4f8;--bg2:#fff;--surf:#fff;--surf2:#f6f8fa;
@@ -37,6 +40,7 @@
   --tx:#1f2328;--tx2:#636c76;--tx3:#818b98;
   --grn:#1a7f37;--grn-d:rgba(26,127,55,.1);
   --red:#cf222e;--yel:#9a6700;--blu:#0969da;
+  --dl:#d9600a;--dp:#0969da;--du:#1a7f37;--df:#8250df;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.5}
@@ -197,6 +201,96 @@ tr.dc td{opacity:.55}
 .bon{font-size:11px;color:var(--yel);padding:3px 12px 4px;background:rgba(210,153,34,.08);border-bottom:1px solid var(--bdr)}
 /* sect label */
 .slbl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);font-weight:600;padding:10px 14px 3px}
+/* ── Plan screen ── */
+.nxt{margin:10px 12px;border-radius:var(--r);border:1px solid var(--bdr);background:var(--surf);overflow:hidden}
+.nxt-top{padding:13px 14px 11px;display:flex;align-items:center;gap:12px}
+.nxt-dot{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;line-height:1}
+.nxt-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);font-weight:600}
+.nxt-nm{font-family:'Barlow Condensed',sans-serif;font-size:23px;font-weight:700;line-height:1.1;margin-top:1px}
+.nxt-sub{font-size:12px;color:var(--tx2);margin-top:2px}
+.nxt-act{padding:0 14px 13px}
+.nxt-btn{width:100%;padding:11px;border:none;border-radius:5px;font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;cursor:pointer;background:var(--acc);color:#fff}
+.nxt-rest{background:rgba(210,153,34,.12);border:1px solid rgba(210,153,34,.35);color:var(--yel);border-radius:5px;padding:9px 12px;font-size:13px;line-height:1.45}
+.nxt-btn.ghost{background:var(--surf2);color:var(--tx2);border:1px solid var(--bdr);font-size:14px;padding:8px;margin-top:7px}
+.cyc{display:flex;align-items:stretch;gap:0;margin:0 12px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.cyc::-webkit-scrollbar{display:none}
+.cyc-i{flex:1;min-width:52px;text-align:center;padding:8px 3px 7px;border:1px solid var(--bdr);border-right:none;background:var(--surf);position:relative}
+.cyc-i:first-child{border-radius:var(--r) 0 0 var(--r)}
+.cyc-i:last-child{border-radius:0 var(--r) var(--r) 0;border-right:1px solid var(--bdr)}
+.cyc-i.now{background:var(--acc-g);border-color:var(--acc);z-index:1;box-shadow:inset 0 0 0 1px var(--acc)}
+.cyc-b{width:9px;height:9px;border-radius:50%;margin:0 auto 4px}
+.cyc-t{font-size:11px;font-weight:600;color:var(--tx2);line-height:1.2}
+.cyc-i.now .cyc-t{color:var(--acc)}
+.cyc-i.rest .cyc-t{color:var(--tx3);font-weight:400}
+.pg{display:grid;grid-template-columns:26px repeat(4,1fr);gap:4px;margin:0 12px}
+.pg-h{font-size:9px;text-transform:uppercase;letter-spacing:.05em;color:var(--tx3);font-weight:600;text-align:center;padding-bottom:2px}
+.pg-w{font-size:11px;color:var(--tx3);display:flex;align-items:center;justify-content:flex-end;padding-right:3px;font-variant-numeric:tabular-nums}
+.pg-c{aspect-ratio:1.5;border-radius:4px;border:1px solid var(--bdr);background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--tx3);cursor:pointer;padding:2px}
+.pg-c.on{border-color:transparent;color:#fff}
+.pg-c.cur{box-shadow:0 0 0 2px var(--acc)}
+.cal-h{display:flex;align-items:center;justify-content:space-between;padding:0 14px 7px}
+.cal-m{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:700}
+.cal-nav{background:var(--surf);border:1px solid var(--bdr);color:var(--tx2);width:30px;height:30px;border-radius:5px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center}
+.cal-nav:active{border-color:var(--acc);color:var(--acc)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin:0 12px}
+.cal-dow{font-size:9px;color:var(--tx3);text-align:center;font-weight:600;padding-bottom:2px}
+.cal-d{aspect-ratio:1;border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;color:var(--tx2);border:1px solid transparent;font-variant-numeric:tabular-nums}
+.cal-d.has{background:var(--surf);border-color:var(--bdr);cursor:pointer;color:var(--tx)}
+.cal-d.today{border-color:var(--acc);color:var(--acc);font-weight:700}
+.cal-d.pad{opacity:0}
+.cal-dots{display:flex;gap:2px;height:6px;align-items:center}
+.cal-dot{width:6px;height:6px;border-radius:50%}
+.lg{display:flex;flex-wrap:wrap;gap:9px;padding:9px 14px 0}
+.lg-i{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--tx2)}
+.lg-d{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 12px}
+.stat{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:9px 10px;text-align:center}
+.stat-n{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.stat-l{font-size:10px;color:var(--tx3);margin-top:3px}
+.slbl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);font-weight:600;padding:10px 14px 3px}
+/* ── Ring timer ── */
+#tov{position:fixed;bottom:calc(var(--nav) + env(safe-area-inset-bottom) + 10px);left:0;right:0;z-index:200;display:flex;flex-direction:column;align-items:center;pointer-events:none;gap:6px}
+.tring-wrap{position:relative;width:136px;height:136px;pointer-events:all;filter:drop-shadow(0 4px 20px rgba(0,0,0,.5))}
+.tring-svg{width:136px;height:136px;transform:rotate(-90deg)}
+.tring-bg{fill:rgba(0,0,0,.75);stroke:rgba(255,255,255,.07);stroke-width:7}
+.tring-fg{fill:none;stroke-width:7;stroke-linecap:round;stroke-dasharray:301.6;transition:stroke-dashoffset .98s linear,stroke .5s}
+.tring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ttim{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
+.tlbl{font-size:10px;color:var(--tx3);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center;padding:0 6px}
+.tskp{background:rgba(0,0,0,.7);border:1px solid var(--bdr);color:var(--tx2);padding:6px 20px;border-radius:20px;font-size:12px;cursor:pointer;pointer-events:all;font-family:inherit;backdrop-filter:blur(6px)}
+.tskp:active{color:var(--acc);border-color:var(--acc)}
+/* ── Warmup rows ── */
+tr.wuset td{padding:4px 6px 4px 10px;border-top:1px solid var(--bdr);vertical-align:middle;opacity:.7}
+tr.wuset.wudone td{opacity:.32}
+.wusn{font-size:11px;color:var(--acc);font-weight:700;width:26px;font-family:'Barlow Condensed',sans-serif}
+tr.wu-sep td{padding:4px 12px;font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--tx3);font-weight:600;background:var(--bg);border-top:1px solid var(--bdr)}
+/* ── PR badge ── */
+@keyframes prIn{0%{opacity:0;transform:translateY(-5px) scale(.85)}60%{transform:translateY(1px) scale(1.06)}100%{opacity:1;transform:translateY(0) scale(1)}}
+.pr-badge{display:inline-flex;align-items:center;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.45);color:#fbbf24;border-radius:3px;font-size:9px;font-weight:700;padding:2px 5px;letter-spacing:.05em;text-transform:uppercase;animation:prIn .35s ease forwards}
+/* ── Set flash ── */
+@keyframes setFlash{0%{background:transparent}20%{background:rgba(34,197,94,.14)}100%{background:transparent}}
+.row-flash td{animation:setFlash .55s ease forwards}
+/* ── Confetti ── */
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:500;display:none}
+/* ── Progress row ── */
+.prog-row{padding:5px 14px;display:flex;gap:10px;align-items:center;border-bottom:1px solid var(--bdr)}
+.prog-sets{font-size:12px;color:var(--tx2)}
+.prog-pct{font-size:13px;color:var(--acc);font-weight:700;font-variant-numeric:tabular-nums}
+.prog-vol{font-size:12px;color:var(--tx3);margin-left:auto;font-variant-numeric:tabular-nums}
+/* ── General warmup ── */
+.wu-item{display:flex;gap:8px;padding:7px 0;border-bottom:1px solid var(--bdr);align-items:flex-start}
+.wu-item:last-child{border-bottom:none}
+.wu-dot{color:var(--acc);font-size:11px;flex-shrink:0;margin-top:2px}
+.wu-name{font-size:13px;color:var(--tx)}
+.wu-meta{font-size:11px;color:var(--tx3);margin-top:1px}
+.wu-video-link{color:var(--acc);text-decoration:none;font-size:11px}
+/* ── Anatomy ── */
+.anatomy-wrap{display:flex;justify-content:center;gap:12px;padding:4px 8px 8px}
+.anatomy-fig{flex:1;max-width:148px}
+.anatomy-lbl{font-size:9px;text-align:center;color:var(--tx3);margin-top:3px;text-transform:uppercase;letter-spacing:.05em}
+.vol-legend{display:flex;flex-wrap:wrap;gap:8px;padding:0 14px 8px;justify-content:center}
+.vol-li{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--tx2)}
+.vol-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -207,6 +301,10 @@ tr.dc td{opacity:.55}
     <button class="nb on" id="nb-today" onclick="goNav('today')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="4" height="10" rx="1"/><rect x="18" y="7" width="4" height="10" rx="1"/><path d="M6 9h12M6 15h12"/></svg>
       ซ้อมวันนี้
+    </button>
+    <button class="nb" id="nb-plan" onclick="goNav('plan')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      แผน
     </button>
     <button class="nb" id="nb-history" onclick="goNav('history')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -223,9 +321,12 @@ tr.dc td{opacity:.55}
   </nav>
 </div>
 <div id="tov" style="display:none"></div>
+<canvas id="confetti-canvas"></canvas>
 <div id="modal"></div>
 
 <script>
+// ─── WARMUP VIDEOS ───────────────────────────────────────────
+const WU_VIDEOS={'Low Intensity Cardio':'','Front/Back Leg Swing':'https://youtu.be/MIaVCNRhRZ4','Side/Side Leg Swing':'https://youtu.be/MIaVCNRhRZ4','Arm Swings':'https://youtu.be/VGQTrVL2FWo','Cable External Rotation':'https://youtu.be/l9ZrdxFQgpA','Foam Rolling':'https://youtu.be/NmBh0pEcJUo'};
 // ─── PROGRAM DATA ───────────────────────────────────────────
 const P = {"meta":{"title":"Ultimate PPL System 4x/week","author":"Jeff Nippard","scope":"Phase 1 (Base Hypertrophy) — Week 1-6","unit":"kg"},"keyTerms":[{"term":"RPE","full":"Rate of Perceived Exertion","th":"ระดับความหนักของเซ็ต 1-10 โดย 10 = หมดแรงจริง ยกต่อไม่ได้อีก RPE 9 = เหลืออีก 1 ครั้ง RPE 8 = เหลืออีก 2 ครั้ง"},{"term":"RIR","full":"Reps In Reserve","th":"จำนวนครั้งที่เหลืออยู่ในถัง เป็นอีกด้านของ RPE — RIR 2 เท่ากับ RPE 8"},{"term":"Working set","full":"Hard set","th":"เซ็ตจริงที่นับผล ต้องหนักพอให้เหลือไม่เกิน 3 ครั้งก่อนหมดแรง เซ็ตวอร์มไม่นับ"},{"term":"Warm-up set","full":"","th":"เซ็ตเบาก่อนเซ็ตจริง ไว้เตรียมข้อต่อและหาน้ำหนักที่เหมาะ ไม่ต้องเหนื่อย"},{"term":"Concentric","full":"","th":"จังหวะออกแรงดัน/ดึง (ขาขึ้น)"},{"term":"Eccentric","full":"","th":"จังหวะปล่อยลงช้าๆ ต้านน้ำหนัก (ขาลง)"},{"term":"ROM","full":"Range of Motion","th":"ช่วงการเคลื่อนไหวของท่า"},{"term":"Progressive overload","full":"","th":"การค่อยๆ เพิ่มความหนักตามเวลา ทำได้ทั้งเพิ่มน้ำหนัก เพิ่มจำนวนครั้ง คุมฟอร์มให้ดีขึ้น หรือรู้สึกถึงกล้ามเนื้อชัดขึ้น"},{"term":"Volume","full":"","th":"ปริมาณงานรวม นับจากจำนวนเซ็ตหนักที่ทำ"},{"term":"Hypertrophy","full":"","th":"การขยายขนาดของกล้ามเนื้อ"},{"term":"DOMS","full":"Delayed Onset Muscle Soreness","th":"อาการปวดกล้ามเนื้อที่มาช้า มักหลังซ้อม 1-2 วัน ไม่ปวดไม่ได้แปลว่าไม่ได้ผล"},{"term":"Dropset","full":"","th":"ทำจนหมดแรง แล้วลดน้ำหนักลงทันทีทำต่ออีกชุด ไม่พัก เช่น 10+5"},{"term":"Mechanical dropset","full":"","th":"แทนที่จะลดน้ำหนัก เปลี่ยนมุมหรือช่วง ROM กลางเซ็ตให้ท่าง่ายขึ้นแล้วทำต่อ เช่น 8+8"},{"term":"Feeder set","full":"","th":"ไต่น้ำหนักขึ้นทีละเซ็ต RPE เบา→หนัก จบที่เซ็ตสุดท้ายหมดแรง ช่วยอุ่นกล้ามและหาน้ำหนักไปด้วย"},{"term":"Back-off set","full":"","th":"เซ็ตที่ลดน้ำหนักลงจากเซ็ตหนักสุด เพื่อเก็บปริมาณเพิ่มโดยไม่ล้าเกิน"},{"term":"AMRAP","full":"As Many Reps As Possible","th":"ทำให้ได้มากที่สุดเท่าที่ทำได้ในเซ็ตนั้น"},{"term":"Deload","full":"","th":"สัปดาห์ลดความหนัก เพื่อให้ร่างกายฟื้นตัวก่อนรอบต่อไป สัปดาห์ 6 ของ Phase 1 เป็น semi-deload"}],"generalWarmup":{"items":[{"name":"Low Intensity Cardio","repsTime":"~5 นาที","th":"เครื่องอะไรก็ได้ ให้ชีพจรขึ้นไปที่ 100-135 BPM"},{"name":"Front/Back Leg Swing","repsTime":"12","legDayOnly":true,"th":"แกว่งขาหน้า-หลัง ข้างละ 12 ครั้ง"},{"name":"Side/Side Leg Swing","repsTime":"12","legDayOnly":true,"th":"แกว่งขาซ้าย-ขวา ข้างละ 12 ครั้ง"},{"name":"Arm Swings","repsTime":"12","th":"แกว่งแขนกางออกด้านข้าง"},{"name":"Cable External Rotation","repsTime":"15","th":"หมุนไหล่ออกด้วยเคเบิล ข้างละ 15 ครั้ง"},{"name":"Foam Rolling","repsTime":"0-3 นาที","optional":true,"th":"ทางเลือก โฟมโรลกล้ามมัดใหญ่"}]},"warmupCalc":{"rules":[{"warmupSets":1,"steps":[{"pct":60,"reps":"เท่าเซ็ตจริง"}]},{"warmupSets":2,"steps":[{"pct":50,"reps":"เท่าเซ็ตจริง"},{"pct":70,"reps":"น้อยกว่าเซ็ตจริงเล็กน้อย"}]},{"warmupSets":3,"steps":[{"pct":40,"reps":"เท่าเซ็ตจริง"},{"pct":60,"reps":"น้อยลง"},{"pct":80,"reps":"น้อยลงอีก"}]},{"warmupSets":4,"steps":[{"pct":40,"reps":"เท่าเซ็ตจริง"},{"pct":55,"reps":"น้อยลง"},{"pct":70,"reps":"น้อยลง"},{"pct":85,"reps":"1-2 ครั้ง"}]}],"note_th":"ไม่มีสูตรตายตัว ปรับได้ตามความรู้สึก เป้าหมายคือเลือดไหลเวียนและพร้อมยก ไม่ใช่ทำให้ล้า"},"progression":{"rules_th":["ท่าที่มีช่วง reps เช่น 8-10: เพิ่มจำนวนครั้งที่น้ำหนักเดิมไปเรื่อยๆ จนถึงเลขบนของช่วง แล้วค่อยเพิ่มน้ำหนักและกลับไปเริ่มที่เลขล่าง","ท่าที่ทำ 4-6 reps: ถ้าได้ 4 หรือ 5 ครั้ง สัปดาห์หน้าพยายามเพิ่มอีก 1 ครั้ง ถ้าได้ครบ 6 ครั้ง แปลว่าถึงเวลาเพิ่มน้ำหนักแล้ว","ท่าที่ทำ 6-8 reps: ใช้หลักเดียวกัน ได้ครบ 8 เมื่อไหร่ เพิ่มน้ำหนัก","บางท่าจะเพิ่มน้ำหนักทุกสัปดาห์ไม่ไหว ไม่เป็นไร ขอแค่ทำอะไรให้ดีขึ้นกว่าเดิม","สัปดาห์ 6 เป็น semi-deload ห้ามดันถึงหมดแรง ลดน้ำหนักลง เตรียมตัวสำหรับ Phase ถัดไป"]},"faq":[{"q_th":"ซ้อมนานเกินไป ทำให้สั้นลงได้มั้ย","a_th":"อย่างแรกให้พักตามเวลาขั้นต่ำของช่วงที่กำหนด เช่นถ้าเขียน 2-3 นาที ก็พักแค่ 2 นาที ถ้ายังไม่พอ ให้จับท่า isolation มา superset กัน โดยรวมควรใช้เวลา 60-90 นาทีรวมวอร์ม"},{"q_th":"ไม่อยากเล่น Squat / Bench / Deadlift ทำยังไง","a_th":"โปรแกรมนี้ใส่ท่า powerlift มาน้อยมากอยู่แล้ว สัปดาห์ละเซ็ตหนัก 1 เซ็ตกับ back-off ถ้าไม่อยากเล่นจริงๆ ให้ใช้ท่าทดแทน หรือเปิด repFloor4 ในเครื่องมือ"},{"q_th":"ทำท่าที่กำหนดไม่ได้ เปลี่ยนเป็นอะไร","a_th":"ทุกท่ามีตัวเลือกทดแทน 2 แบบ เรียงตามลำดับความเหมาะสม ลอง option 1 ก่อน ผลลัพธ์ใกล้เคียงกัน กดไอคอนลูกศรที่ชื่อท่าเพื่อเปลี่ยน"},{"q_th":"ปวดกล้ามเนื้อมาก ควรหยุดซ้อมมั้ย","a_th":"ซ้อมทั้งที่ปวดไม่ได้เสียหายในตัวมันเอง ยกเว้นว่าปวดจนเข้าท่าไม่ได้หรือทำ ROM เต็มไม่ไหว กรณีนั้นข้ามท่านั้นไปก่อน"}],"muscleLabels":{"quads":"ต้นขาหน้า","hamstrings":"ต้นขาหลัง","glutes":"ก้น","calves":"น่อง","chest":"อก","lats":"ปีก","upperBack":"หลังบน","frontDelts":"ไหล่หน้า","sideDelts":"ไหล่ข้าง","rearDelts":"ไหล่หลัง","biceps":"ไบเซ็ปส์","triceps":"ไตรเซ็ปส์","abs":"หน้าท้อง"},"schedule":{"daysPerWeek":4,"order":["legs","push","pull","full"],"restRule_th":"หลัง Pull และหลัง Full Body พักบังคับ 1-2 วัน ไม่ผูกกับวันในปฏิทิน เลื่อนเองได้ตามสะดวก"},"days":{"legs":{"id":"legs","name":"Legs #1","th":"วันขา","ex":[{"n":"Squat","wu":"3-4","ws":1,"reps":"2-4","rpe":"8-9","rest":210,"type":"normal","m":["quads","glutes"],"sub":["Hack Squat","DB Bulgarian Split Squat"],"th":"นั่งลงหลังไปด้านหลัง เกร็งหลังส่วนบนให้แน่นกับบาร์","video":"https://youtu.be/bEv6CCg2BC8?t=147","subVideo":["https://youtu.be/wEgQUCdtFLg","https://youtu.be/htDXu61MPio"]},{"n":"Pause Squat (Back off)","wu":"0","ws":2,"reps":"5","rpe":"8-9","rest":210,"type":"normal","m":["quads","glutes"],"backoffPct":75,"sub":["Pause Hack Squat","Pause DB Bulgarian Split Squat"],"th":"ลดน้ำหนักลง ~25% จากเซ็ตหนัก ค้างล่าง 2 วินาที","video":"https://youtu.be/1Rd1QgA46hQ","subVideo":["https://youtu.be/JAT2dTyLXPI","https://youtu.be/HyFNlo47d8Y"]},{"n":"Barbell RDL","wu":"2","ws":3,"reps":"8-10","rpe":"8-9","rest":150,"type":"normal","m":["hamstrings","glutes"],"sub":["DB RDL","45° Hyperextension"],"th":"หลังล่างตรงเป็นกลาง ดันสะโพกไปหลัง อย่าให้หลังงอ","video":"https://youtu.be/_oyxCn2iSjU?t=95","subVideo":["https://youtu.be/V5u2AP9wBwE","https://youtu.be/J46aPqFl0WE?t=178"]},{"n":"Walking Lunge","wu":"1","ws":2,"reps":"10","rpe":"8-9","rest":150,"type":"normal","m":["quads","glutes"],"sub":["DB Step-Up","Goblet Squat"],"th":"ก้าวปานกลาง ลดการถีบจากขาหลังให้น้อยที่สุด","video":"https://youtu.be/Y4Vv2ASsyhs?t=536","subVideo":["https://youtu.be/cP77gUDvAPA?t=745","https://youtu.be/v-mQm_droHg?t=489"]},{"n":"Seated Leg Curl","wu":"1","ws":3,"reps":"10-12","rpe":"9-10","rest":90,"type":"normal","m":["hamstrings"],"sub":["Lying Leg Curl","Nordic Ham Curl"],"th":"โฟกัสบีบแฮมสตริงเพื่อดึงน้ำหนัก","video":"https://youtu.be/2CMmuH4qJh0","subVideo":["https://www.youtube.com/watch?v=e_48W0vlU58","https://youtu.be/qVek72z3F1U?t=683"]},{"n":"Leg Press Toe Press","wu":"1","ws":4,"reps":"10-12","rpe":"9-10","rest":90,"type":"normal","m":["calves"],"sub":["Seated Calf Raise","Standing Calf Raise"],"th":"ดันขึ้นสุดปลายเท้า ยืดน่องเต็มที่ตอนล่าง อย่าเด้ง","video":"https://youtu.be/VJ_9xii47Sk","subVideo":["https://youtu.be/-qsRtp_PbVM?t=311","https://youtu.be/-qsRtp_PbVM?t=162"]},{"n":"Decline Plate-Weighted Crunch","wu":"1","ws":3,"reps":"10-12","rpe":"9-10","rest":90,"type":"normal","m":["abs"],"sub":["Cable Crunch","Machine Crunch"],"th":"กอดแผ่นน้ำหนักหรือดัมเบลไว้ที่อก แล้วครันช์ให้สุด","video":"https://youtu.be/Aos574-Brzw","subVideo":["https://youtu.be/2RrGnjxSsiA?t=124","https://youtu.be/zU6X6DLCH_U"]}]},"push":{"id":"push","name":"Push #1","th":"วันดัน","ex":[{"n":"Bench Press","wu":"3-4","ws":1,"reps":"3-5","rpe":"8-9","rest":210,"type":"normal","m":["chest","triceps","frontDelts"],"sub":["DB Bench Press","Machine Chest Press"],"th":"แอ่นหลังพอสบาย แตะอกหยุดสั้นๆ แล้วระเบิดขึ้น","video":"https://youtu.be/vcBig73ojpE?t=134","subVideo":["https://youtu.be/ers_ZfvpL34","https://youtu.be/0GW4HdrWlcQ"]},{"n":"Larsen Press","wu":"0","ws":2,"reps":"10","rpe":"8-9","rest":210,"type":"normal","m":["chest","triceps"],"sub":["DB Bench Press (No Leg Drive)","Machine Chest Press (No Leg Drive)"],"th":"สะบักหุบและกดลงตลอด แอ่นหลังบนเล็กน้อย ห้ามใช้แรงขาช่วย","video":"https://youtu.be/RQjPWrMMDqQ","subVideo":["https://youtu.be/ers_ZfvpL34","https://youtu.be/0GW4HdrWlcQ"]},{"n":"Standing Dumbbell Arnold Press","wu":"2","ws":3,"reps":"8-10","rpe":"8-9","rest":150,"type":"normal","m":["frontDelts","sideDelts","triceps"],"sub":["Seated DB Shoulder Press","Machine Shoulder Press"],"th":"เริ่มศอกอยู่ด้านหน้า ฝ่ามือหันเข้า หมุนฝ่ามือออกหน้าระหว่างดันขึ้น","video":"https://www.youtube.com/watch?v=zOpA1Op0zvc","subVideo":["https://youtu.be/ae9IxwoEpQ8?t=507","https://www.youtube.com/watch?v=flr4ohSl0j8"]},{"n":"A1. Press-Around","wu":"1","ws":2,"reps":"12-15","rpe":"9-10","rest":0,"type":"normal","m":["chest"],"superset":"A","sub":["DB Flye","Deficit Push Up"],"th":"ยันตัวด้วยแขนอีกข้าง บีบอกดันเคเบิลข้ามลำตัว","video":"https://youtu.be/NsEbXsTwas8?t=483","subVideo":["https://youtu.be/e-zTAhmXetM","https://youtu.be/-MRNjTr6xrE?t=791"]},{"n":"A2. Pec Static Stretch 30s","wu":"0","ws":2,"reps":"30s HOLD","rpe":"N/A","rest":90,"type":"hold","holdSec":30,"m":["chest"],"superset":"A","sub":[],"th":"ยืดอกค้าง 30 วินาที ความแรงประมาณ 7/10","video":"https://youtu.be/B5ZoqtHClCA","subVideo":[]},{"n":"Cross-Body Cable Y-Raise (Side Delt)","wu":"1","ws":3,"reps":"12-15","rpe":"9-10","rest":90,"type":"normal","m":["sideDelts"],"sub":["DB Lateral Raise","Machine Lateral Raise"],"th":"นึกภาพเหมือนชักดาบออกจากข้างลำตัว เหวี่ยงออกและขึ้น","video":"https://youtu.be/Jt2hV6dCbmE","subVideo":["https://youtu.be/v_ZkxWzYnMc?t=215","https://youtu.be/-9QsrJ542ao"]},{"n":"Triceps Pressdown + OH Extension","wu":"1","ws":3,"reps":"8 + 8","rpe":"9-10","rest":90,"type":"mechdrop","m":["triceps"],"sub":["Triceps Pressdown (12-15 reps)","DB Skull Crusher (12-15 reps)"],"th":"Pressdown ทำครึ่งล่างของ ROM 8 ครั้ง แล้วต่อด้วย Overhead Extension ครึ่งบน อีก 8 ครั้ง ไม่พักระหว่าง","video":"https://youtu.be/M9k0RcOQKOo","subVideo":["https://youtu.be/94DXwlcX8Po?t=106","https://www.youtube.com/watch?t=336&v=popGXI-qs98"]},{"n":"N1-Style Cross-Body Triceps Extension","wu":"0","ws":2,"reps":"10-12","rpe":"10","rest":90,"type":"normal","m":["triceps"],"sub":["Single-Arm Tricep Pressdown","Single-Arm Cable Tricep Kickback"],"th":"เหยียดไตรฯ โดยกางแขนออกด้านข้างมากกว่า pressdown ปกติ รู้สึกยืดตอนเคเบิลข้ามลำตัว","video":"https://youtu.be/tkCXYakxafs","subVideo":["https://youtu.be/g3_V9jIP35g","https://youtu.be/94DXwlcX8Po?t=327"]}]},"pull":{"id":"pull","name":"Pull #1","th":"วันดึง","ex":[{"n":"Lat Pulldown (Feeder Sets)","wu":"0","ws":4,"reps":"10","rpe":"ดูโน้ต","rest":150,"type":"feeder","feederRPE":["4-5","6-7","7-8","10"],"m":["lats","biceps"],"sub":["Machine Pulldown","Pull-Up"],"th":"ไต่น้ำหนักขึ้นทีละเซ็ต เซ็ต 1 เบา RPE 4-5 / เซ็ต 2 RPE 6-7 / เซ็ต 3 RPE 7-8 / เซ็ต 4 คือเซ็ตหนัก ดันให้หมดแรงที่ 10 ครั้ง","video":"https://youtu.be/O94yEoGXtBY?t=150","subVideo":["https://youtu.be/j8Q50oBDK44","https://youtu.be/Hdc7Mw6BIEE?t=99"]},{"n":"Lat Pulldown (Failure + Dropset)","wu":"0","ws":1,"reps":"10+5","rpe":"10","rest":150,"type":"dropset","dropPct":40,"m":["lats","biceps"],"sub":["Machine Pulldown","Pull-Up"],"th":"หมดแรงที่ ~10 ครั้ง แล้วลดน้ำหนักลง 30-50% ทำต่ออีก 5 ครั้งแบบคุมจังหวะ","video":"https://youtu.be/O94yEoGXtBY?t=150","subVideo":["https://youtu.be/j8Q50oBDK44","https://youtu.be/Hdc7Mw6BIEE?t=99"]},{"n":"Omni-Grip Chest-Supported Row","wu":"2","ws":3,"reps":"10-12","rpe":"8-9","rest":150,"type":"normal","m":["upperBack","lats","biceps"],"sub":["Incline Chest-Supported DB Row","Cable Seated Row"],"th":"ใช้กริปต่างกัน 3 แบบใน 3 เซ็ต ไล่จากกว้างไปแคบ","video":"https://youtu.be/w2YTOoDBOZg","subVideo":["https://youtu.be/bsx8PIGIuaI","https://youtu.be/FbWfA_s0XL8?t=273"]},{"n":"A1. Bottom-Half DB Lat Pullover","wu":"1","ws":2,"reps":"10-12","rpe":"9-10","rest":0,"type":"normal","m":["lats"],"superset":"A","sub":["Cable Lat Pullover","1-Arm Lat Pull-In"],"th":"ทำ pullover แต่ตัดครึ่งบนของ ROM ออก อยู่ในช่วงยืดอย่างเดียว","video":"https://youtu.be/blJj6xxOJQs","subVideo":["https://youtu.be/Vf7wf6bZODQ","https://youtu.be/f2JDJV0AnyY?t=36"]},{"n":"A2. Lat Static Stretch 30s","wu":"0","ws":2,"reps":"30s HOLD","rpe":"N/A","rest":90,"type":"hold","holdSec":30,"m":["lats"],"superset":"A","sub":[],"th":"ยืดแลทค้าง 30 วินาที ความแรงประมาณ 7/10","video":"https://youtu.be/gxD9coWulU0","subVideo":[]},{"n":"Omni-Direction Face Pull","wu":"1","ws":3,"reps":"12-15","rpe":"9-10","rest":90,"type":"normal","m":["rearDelts","upperBack"],"sub":["Reverse Cable Flye","Bent-Over Reverse DB Flye"],"th":"เซ็ต 1 ดึงจากล่างขึ้นบน / เซ็ต 2 ระดับกลาง / เซ็ต 3 ดึงจากบนลงล่าง","video":"https://youtu.be/uoWXumFUeCc","subVideo":["https://youtu.be/uCV40OQMGpM","https://youtu.be/qfc70k40318?t=311"]},{"n":"EZ-Bar Curl","wu":"1","ws":3,"reps":"6-8","rpe":"9-10","rest":90,"type":"normal","m":["biceps"],"sub":["DB Curl","Cable Curl"],"th":"โฟกัสบีบไบเซ็ปส์ อย่าเหวี่ยงลำตัวช่วย","video":"https://www.youtube.com/watch?v=Dd0t5UOCEUc","subVideo":["https://youtu.be/i1YgFZB6alI?t=487","https://youtu.be/tw1h5XOD23Y"]},{"n":"Bottom-Half Preacher Curl","wu":"0","ws":2,"reps":"10-12","rpe":"10","rest":90,"type":"normal","m":["biceps"],"sub":["Bottom-Half Spider Curl","Bottom-Half Bayesian Curl"],"th":"ทำ preacher curl แต่ตัดครึ่งบนออก อยู่ในช่วงยืดอย่างเดียว","video":"https://youtu.be/hAELX8JE9uw","subVideo":["https://youtu.be/Nat88nFRS5U","https://youtu.be/7d5WEXB0W5Y"]}]},"full":{"id":"full","name":"Full Body #1","th":"วันเต็มตัว","ex":[{"n":"Deadlift","wu":"3-4","ws":1,"reps":"5","rpe":"8-9","rest":240,"type":"normal","m":["hamstrings","glutes","upperBack"],"sub":["Trap Bar Deadlift","Barbell Hip Thrust"],"th":"เกร็งแลท อกตั้ง ดึงบาร์ให้ตึงก่อนออกแรงยก","video":"https://youtu.be/VL5Ab0T07e4?t=175","subVideo":["https://youtu.be/AWsIWeZa_Mw","https://youtu.be/xDmFkJxPzeM?t=97"]},{"n":"Stiff-Leg Deadlift","wu":"0","ws":2,"reps":"8","rpe":"8-9","rest":210,"type":"normal","m":["hamstrings","glutes"],"sub":["Barbell RDL","DB RDL"],"th":"คิดเหมือน deadlift สะโพกสูง เข่างอเล็กน้อย","video":"https://youtu.be/EbDSWqgmcA0","subVideo":["https://youtu.be/_oyxCn2iSjU?t=95","https://youtu.be/V5u2AP9wBwE"]},{"n":"Close-Grip Barbell Incline Press","wu":"2-3","ws":3,"reps":"8, 5, 12","rpe":"8-9","rest":210,"type":"perset","perSetReps":[8,5,12],"m":["chest","triceps","frontDelts"],"sub":["Close-Grip DB Incline Press","Close-Grip Machine Press"],"th":"เอียงม้าประมาณ 45° จับกว้างกว่าหัวไหล่นิดเดียว เซ็ต 1 ทำ 8 / เซ็ต 2 ทำ 5 / เซ็ต 3 ทำ 12","video":"https://youtu.be/0P4Ep0SBW5Q","subVideo":["https://youtu.be/mW2Mx0msvaU","https://youtu.be/WqDwmwN56lY"]},{"n":"Chin-Up","wu":"2","ws":2,"reps":"8-10","rpe":"8-9","rest":150,"type":"normal","m":["lats","biceps"],"sub":["Underhand Lat Pulldown","Pull-Up"],"th":"จับหงายมือ ดึงอกเข้าหาบาร์ ถ่วงน้ำหนักเพิ่มถ้ายังไม่ถึง RPE","video":"https://youtu.be/-d2Uui6MtRk","subVideo":["https://youtu.be/O94yEoGXtBY?t=316","https://youtu.be/Hdc7Mw6BIEE?t=99"]},{"n":"Leg Press","wu":"2-3","ws":3,"reps":"10-12","rpe":"8-9","rest":150,"type":"normal","m":["quads","glutes"],"sub":["Goblet Squat","Walking Lunge"],"th":"วางเท้ากว้างปานกลางบนแป้น อย่าให้หลังล่างงอ","video":"https://youtu.be/didU4ZwAkPI?t=241","subVideo":["https://youtu.be/v-mQm_droHg?t=489","https://youtu.be/Y4Vv2ASsyhs?t=536"]},{"n":"Kroc Row","wu":"2","ws":2,"reps":"10-12","rpe":"8-9","rest":150,"type":"normal","m":["lats","upperBack","biceps"],"sub":["Single-Arm DB Row","Meadows Row"],"th":"โรว์ดัมเบลข้างเดียว โกงได้เล็กน้อย ลำตัวตั้งกว่าปกติ ใช้สายรัดได้ถ้าจับไม่อยู่","video":"https://youtu.be/nD0KoWhnTks","subVideo":["https://youtu.be/djKXLt7kv7Q?t=115","https://youtu.be/f2JDJV0AnyY?t=336"]},{"n":"Diamond Pushup","wu":"0","ws":1,"reps":"AMRAP","rpe":"10","rest":0,"type":"amrap","m":["triceps","chest"],"sub":["Close-Grip Push Up","Kneeling Modified Push Up"],"th":"วางมือชิดกันเป็นรูปเพชร ดันให้ได้มากที่สุดด้วยจังหวะสม่ำเสมอ","video":"https://youtu.be/3RprT_9LAZg","subVideo":["https://youtu.be/GNfIE4dDQ1M","https://youtu.be/_68eM9w5N1E"]}]}},"weeks":{"1":{"label":"สัปดาห์ 1","legs":{},"push":{},"pull":{},"full":{}},"2":{"label":"สัปดาห์ 2","legs":{"0":{"reps":"3-5"}},"push":{},"pull":{},"full":{"0":{"reps":"4"}}},"3":{"label":"สัปดาห์ 3","legs":{"0":{"reps":"4-6"}},"push":{"0":{"reps":"2-4"}},"pull":{},"full":{"0":{"reps":"3"}}},"4":{"label":"สัปดาห์ 4","legs":{"0":{"reps":"3-5"}},"push":{"0":{"reps":"2-4"},"5":{"rpe":"8-9"},"6":{"rpe":"8-9"}},"pull":{},"full":{"0":{"reps":"2"}}},"5":{"label":"สัปดาห์ 5","legs":{"0":{"reps":"2-4"}},"push":{"0":{"reps":"3-5"}},"pull":{},"full":{"0":{"reps":"1"}}},"6":{"label":"สัปดาห์ 6 — semi-deload","deload":true,"deloadNote_th":"สัปดาห์ลดความหนัก ห้ามดันถึงหมดแรง ใช้น้ำหนักเบาลง เพื่อฟื้นตัวก่อนเข้า 6 สัปดาห์ถัดไป","legs":{"0":{"reps":"1-3","rpe":"7"},"1":{"rpe":"7"},"2":{"ws":2,"rpe":"7"},"3":{"rpe":"7"},"4":{"ws":2,"rpe":"8"},"5":{"ws":2,"rpe":"8"},"6":{"ws":2,"rpe":"8"}},"push":{"0":{"rpe":"7"},"1":{"rpe":"7"},"2":{"ws":2,"rpe":"7"},"3":{"rpe":"8"},"5":{"ws":2,"rpe":"8"},"6":{"ws":2,"rpe":"8"},"7":{"rpe":"8"}},"pull":{"2":{"rpe":"7"},"3":{"rpe":"8"},"5":{"rpe":"8"},"6":{"ws":2,"rpe":"8"},"7":{"rpe":"8"}},"full":{"0":{"reps":"4","rpe":"7"},"1":{"rpe":"7"},"2":{"ws":2,"reps":"8, 5","perSetReps":[8,5],"rpe":"7"},"3":{"rpe":"7"},"4":{"ws":2,"rpe":"7"},"5":{"rpe":"7"}}}}};
 
@@ -288,7 +389,9 @@ function repDisplay(ex,si){
 }
 function muscName(k){return P.muscleLabels[k]||k;}
 function fmtTime(s){return`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;}
-function todayStr(){return new Date().toISOString().slice(0,10);}
+function dkey(y,m,d){return`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
+function todayStr(){const d=new Date();return dkey(d.getFullYear(),d.getMonth(),d.getDate());}
+function daysBetween(a,b){return Math.round((new Date(b+'T12:00:00')-new Date(a+'T12:00:00'))/86400000);}
 function fmtDate(d){if(!d)return'';return new Date(d+'T12:00:00').toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'numeric'});}
 function progression(lastSets,ex){
   if(!lastSets||!lastSets.length)return null;
@@ -342,8 +445,29 @@ function renderTimer(){
   if(!TIMER.on){el.style.display='none';return;}
   el.style.display='flex';
   const pct=TIMER.rem/TIMER.total;
-  const c=pct>.5?'var(--grn)':pct>.25?'var(--yel)':'var(--red)';
-  el.innerHTML=`<div class="tpill"><div><div class="ttim" style="color:${c}">${fmtTime(TIMER.rem)}</div><div class="tlbl">พัก${TIMER.lbl?': '+TIMER.lbl:''}</div></div><button class="tskp" onclick="stopTimer()">ข้าม</button></div>`;
+  const c=pct>.5?'#22c55e':pct>.25?'#eab308':'#ef4444';
+  const circ=301.6,offset=circ*(1-pct);
+  const fg=el.querySelector('.tring-fg');
+  if(fg){fg.style.strokeDashoffset=offset;fg.style.stroke=c;const t=el.querySelector('.ttim');if(t){t.textContent=fmtTime(TIMER.rem);t.style.color=c;}return;}
+  el.innerHTML=`<div class="tring-wrap"><svg class="tring-svg" viewBox="0 0 110 110"><circle cx="55" cy="55" r="48" class="tring-bg"/><circle cx="55" cy="55" r="48" class="tring-fg" style="stroke:${c};stroke-dashoffset:${offset}"/></svg><div class="tring-center"><div class="ttim" style="color:${c}">${fmtTime(TIMER.rem)}</div><div class="tlbl">${TIMER.lbl||'พัก'}</div></div></div><button class="tskp" onclick="stopTimer()">ข้ามพัก</button>`;
+}
+// ─── WARMUP INIT ─────────────────────────────────────────────
+function initWarmupSets(ex,workingW){
+  const wuStr=String(ex.wu||'0');
+  if(wuStr==='0')return[];
+  const n=parseInt(wuStr.split('-')[0]);
+  if(!n||isNaN(n))return[];
+  const rule=P.warmupCalc.rules.find(r=>r.warmupSets===n)||P.warmupCalc.rules.find(r=>r.warmupSets===Math.max(1,Math.min(n,4)));
+  if(!rule)return[];
+  return rule.steps.map((step,i)=>({weight:workingW>0?Math.round(workingW*step.pct/100/2.5)*2.5:0,reps:null,done:false,isWarmup:true,pct:step.pct,repsHint:step.reps,label:'W'+(i+1)}));
+}
+// ─── CONFETTI ────────────────────────────────────────────────
+function launchConfetti(){
+  const canvas=document.getElementById('confetti-canvas');if(!canvas)return;
+  canvas.style.display='block';canvas.width=innerWidth;canvas.height=innerHeight;
+  const ctx=canvas.getContext('2d');
+  const ps=Array.from({length:90},()=>({x:Math.random()*canvas.width,y:-10-Math.random()*80,vx:(Math.random()-.5)*4,vy:Math.random()*4+2,r:Math.random()*6+3,color:['#f97316','#22c55e','#3b82f6','#a855f7','#fbbf24','#ef4444','#fff'][Math.floor(Math.random()*7)],rot:Math.random()*360,rv:(Math.random()-.5)*8,life:1}));
+  let fr;const draw=()=>{ctx.clearRect(0,0,canvas.width,canvas.height);let alive=false;ps.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.08;p.rot+=p.rv;p.life-=.006;if(p.life<=0||p.y>canvas.height)return;alive=true;ctx.save();ctx.globalAlpha=Math.max(0,p.life);ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);ctx.fillStyle=p.color;ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r);ctx.restore();});if(alive)fr=requestAnimationFrame(draw);else{canvas.style.display='none';}};cancelAnimationFrame(fr);draw();
 }
 
 // ─── HOLD TIMER ──────────────────────────────────────────────
@@ -398,7 +522,8 @@ function startSession(dayId){
       baseIdx:idx,
       name:subName(dayId,idx),
       suggested:(prog!==null&&lastW>0&&prog!==lastW)?prog:null,
-      sets
+      sets,
+      warmupSets:initWarmupSets(ex,sugW)
     };
   });
   SESS={date:todayStr(),dayId,week:CFG.week,exercises,completed:false};
@@ -409,6 +534,9 @@ function finishSession(){
   if(!SESS)return;
   SESS.completed=true;
   pushToHistory(SESS);
+  launchConfetti();
+  beep(880,.08);setTimeout(()=>beep(1100,.08),150);setTimeout(()=>beep(1320,.4),300);
+  vibrate([100,50,100,50,300]);
   SESS=null;saveSess();stopTimer();render();
 }
 function cancelSession(){
@@ -428,6 +556,7 @@ function goNav(s){
 function render(){
   const m=document.getElementById('main');
   if(SCR==='today')m.innerHTML=SESS?renderWorkout():renderDayPicker();
+  else if(SCR==='plan')m.innerHTML=renderPlan();
   else if(SCR==='history')m.innerHTML=renderHistory();
   else if(SCR==='tools')m.innerHTML=renderTools();
   else if(SCR==='guide')m.innerHTML=renderGuide();
@@ -471,7 +600,7 @@ function renderWorkout(){
   const pct=total?Math.round(done/total*100):0;
   const isLeg=s.dayId==='legs'||s.dayId==='full';
   const wuItems=P.generalWarmup.items.filter(i=>!i.legDayOnly||isLeg)
-    .map(i=>`<div style="display:flex;gap:6px"><span style="color:var(--acc);font-size:11px;margin-top:2px">•</span><span style="font-size:13px;color:var(--tx2)">${i.name} <span style="color:var(--tx3)">(${i.repsTime})</span></span></div>`).join('');
+    .map(i=>{const vid=WU_VIDEOS[i.name];const vl=vid?` · <a class="wu-video-link" href="${vid}" target="_blank">▶ วิดีโอ</a>`:'';return`<div class="wu-item"><span class="wu-dot">•</span><div><div class="wu-name">${i.name}${i.optional?' <span style="font-size:10px;color:var(--tx3)">(ทางเลือก)</span>':''}</div><div class="wu-meta">${i.repsTime}${vl}</div></div></div>`;}).join('');
   const deload=P.weeks[String(s.week)]?.deload;
   const cards=s.exercises.map((_,i)=>buildCard(i)).join('');
   return`<div class="seh">
@@ -480,14 +609,15 @@ function renderWorkout(){
     <button class="fbtn" onclick="finishSession()">จบ ✓</button>
   </div>
   <div class="pbar"><div class="pbf" style="width:${pct}%"></div></div>
-  <div style="padding:5px 14px;display:flex;gap:8px;align-items:center">
-    <span style="font-size:12px;color:var(--tx2)">${done}/${total} เซ็ต</span>
-    <span style="font-size:12px;color:var(--acc);font-weight:600">${pct}%</span>
+  <div class="prog-row">
+    <span class="prog-sets">${done}/${total} เซ็ต</span>
+    <span class="prog-pct">${pct}%</span>
+    <span class="prog-vol" id="sess-vol">— kg</span>
   </div>
   ${deload?`<div class="dlnote" style="margin-top:0">⚠️ Deload — ลดน้ำหนัก ห้ามดันถึงหมดแรง</div>`:''}
   <details style="margin:4px 12px 4px;background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r)">
     <summary style="padding:8px 12px;font-size:12px;color:var(--tx2);cursor:pointer;list-style:none;user-select:none">▸ วอร์มอัพทั่วไป</summary>
-    <div style="padding:6px 12px 10px;display:flex;flex-direction:column;gap:4px">${wuItems}</div>
+    <div style="padding:6px 12px 10px">${wuItems}</div>
   </details>
   ${cards}
   <div style="padding:14px 12px 4px">
@@ -505,12 +635,28 @@ function buildCard(ei){
   const isSSfirst=ex.superset&&!el.name.includes('A2')&&el.name.includes('A1');
   const isSSsecond=ex.superset&&el.name.includes('A2');
   const cls='exc'+(isSSfirst?' ss1':isSSsecond?' ss2':'');
-  const wuHtml=ex.wu!=='0'?`<div class="wubar"><strong>วอร์ม</strong> ${ex.wu} เซ็ต · RPE ${ex.rpe}</div>`:'';
   const boHtml=ex.backoffPct?`<div class="bon">↓ Back-off: ${ex.backoffPct}% ของ top set (${ex.th})</div>`:'';
   const mdHtml=ex.type==='mechdrop'?`<div style="font-size:11px;color:var(--blu);padding:3px 12px 4px;border-bottom:1px solid var(--bdr)">${ex.th}</div>`:'';
   const sugHtml=el.suggested?`<div class="sug">↑ เพิ่มเป็น ${el.suggested}kg จากสัปดาห์ก่อน</div>`:'';
   const subBtn=ex.sub.length>0?`<button class="sub-btn" title="เปลี่ยนท่า" onclick="openSub(${ei})"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></button>`:'' ;
   const ssBadge=ex.superset?`<span class="bdg bs">${ex.superset}</span>`:'';
+
+  // PR detection
+  const lastSess=lastSession(SESS.dayId);
+  const lastEx=lastSess?.exercises?.find(e=>e.baseIdx===el.baseIdx||e.name===el.name);
+  const lastTopW=lastEx?.sets?.filter(s=>s.done).reduce((m,s)=>Math.max(m,s.weight||0),0)||0;
+
+  // Warmup rows
+  let wuRowsHtml='';
+  if(el.warmupSets&&el.warmupSets.length){
+    const wuRows=el.warmupSets.map((ws,wsi)=>`<tr class="wuset${ws.done?' wudone':''}" id="wurow_${ei}_${wsi}">
+      <td class="wusn">${ws.label}</td>
+      <td><div class="wc"><button class="ab" onclick="adjWuW(${ei},${wsi},-2.5)">−</button><input class="wi" type="number" id="wuw_${ei}_${wsi}" value="${ws.weight||0}" step="2.5" min="0" inputmode="decimal" oninput="setWuWeight(${ei},${wsi},this.value)" style="font-size:13px"><button class="ab" onclick="adjWuW(${ei},${wsi},2.5)">+</button></div></td>
+      <td><span style="font-size:12px;color:var(--tx3)">${ws.repsHint||'—'}</span><div style="font-size:10px;color:var(--tx3);margin-top:1px">${ws.pct}%</div></td>
+      <td class="sd"><button class="db${ws.done?' done':''}" onclick="markWuDone(${ei},${wsi})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></button></td>
+    </tr>`).join('');
+    wuRowsHtml=`<tr class="wu-sep"><td colspan="4">วอร์มอัพ ${el.warmupSets.length} เซ็ต</td></tr>${wuRows}<tr class="wu-sep"><td colspan="4">เซ็ตจริง</td></tr>`;
+  }
 
   let tableHtml='';
   if(ex.type==='hold'){
@@ -519,37 +665,21 @@ function buildCard(ei){
       let hcon=hd?.done?'<span style="color:var(--grn);font-weight:600">✓ เสร็จ</span>':hd?.running?`<span class="htick">${hd.rem}s</span>`:`<button class="hbtn" onclick="startHold(${ei},${si})">▶ 30s</button>`;
       return`<tr class="${set.done?'dc':''}"><td class="sn">${si+1}</td><td colspan="2" id="hld_${k}" style="padding:7px 12px">${hcon}</td><td class="sd">${doneBtn(ei,si,set.done)}</td></tr>`;
     }).join('');
-    tableHtml=`<table class="st"><thead><tr><th>#</th><th colspan="2">เป้าหมาย</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
+    tableHtml=`<table class="st"><thead><tr><th>#</th><th colspan="2">เป้าหมาย</th><th></th></tr></thead><tbody>${wuRowsHtml}${rows}</tbody></table>`;
   } else if(ex.type==='dropset'){
-    const set=el.sets[0],rt=repDisplay(ex,0),dw=set.dropWeight??0;
-    tableHtml=`<table class="st">
-      <thead><tr><th>#</th><th>น้ำหนัก (kg)</th><th>ครั้ง</th><th></th></tr></thead>
-      <tbody>
-        <tr class="${set.done?'dc':''}">
-          <td class="sn">1</td>
-          <td>${weightCell(ei,0,set.weight,false)}</td>
-          <td><input class="ri" type="number" value="${set.reps??''}" placeholder="${rt}" min="0" inputmode="numeric" oninput="setReps(${ei},0,this.value)"><div class="rt">เป้า ${rt}</div></td>
-          <td class="sd">${doneBtn(ei,0,set.done)}</td>
-        </tr>
-        <tr style="background:rgba(248,81,73,.05)">
-          <td class="sn" style="color:var(--red)">↓</td>
-          <td>${weightCell(ei,0,dw,true)}</td>
-          <td><input class="ri" type="number" value="${set.dropReps??''}" placeholder="+5" min="0" inputmode="numeric" oninput="SESS.exercises[${ei}].sets[0].dropReps=parseInt(this.value)||0;saveSess()"><div class="rt">Drop +5</div></td>
-          <td></td>
-        </tr>
-      </tbody></table>`;
+    const set=el.sets[0],rt=repDisplay(ex,0),dw=set.dropWeight??0,isPR=lastTopW>0&&set.weight>lastTopW&&set.done;
+    tableHtml=`<table class="st"><thead><tr><th>#</th><th>น้ำหนัก (kg)</th><th>ครั้ง</th><th></th></tr></thead><tbody>${wuRowsHtml}
+      <tr class="${set.done?'dc':''}" id="srow_${ei}_0"><td class="sn">1${isPR?'<span class="pr-badge" style="display:block;margin-top:1px">PR</span>':''}</td><td>${weightCell(ei,0,set.weight,false)}</td><td><input class="ri" type="number" value="${set.reps??''}" placeholder="${rt}" min="0" inputmode="numeric" oninput="setReps(${ei},0,this.value)"><div class="rt">เป้า ${rt}</div></td><td class="sd">${doneBtn(ei,0,set.done)}</td></tr>
+      <tr style="background:rgba(248,81,73,.05)"><td class="sn" style="color:var(--red)">↓</td><td>${weightCell(ei,0,dw,true)}</td><td><input class="ri" type="number" value="${set.dropReps??''}" placeholder="+5" min="0" inputmode="numeric" oninput="SESS.exercises[${ei}].sets[0].dropReps=parseInt(this.value)||0;saveSess()"><div class="rt">Drop +5</div></td><td></td></tr>
+    </tbody></table>`;
   } else {
     const rows=el.sets.map((set,si)=>{
       const rt=repDisplay(ex,si);
       const frpe=ex.type==='feeder'&&ex.feederRPE?`<span class="frpe">RPE ${ex.feederRPE[si]}</span>`:`<span style="font-size:10px;color:var(--tx3)">RPE ${ex.rpe}</span>`;
-      return`<tr class="${set.done?'dc':''}">
-        <td class="sn">${si+1}</td>
-        <td>${weightCell(ei,si,set.weight,false)}</td>
-        <td><input class="ri" type="number" value="${set.reps??''}" placeholder="${rt}" min="0" inputmode="numeric" oninput="setReps(${ei},${si},this.value)"><div class="rt">เป้า ${rt}</div>${frpe}</td>
-        <td class="sd">${doneBtn(ei,si,set.done)}</td>
-      </tr>`;
+      const isPR=lastTopW>0&&set.weight>lastTopW&&set.done;
+      return`<tr class="${set.done?'dc':''}" id="srow_${ei}_${si}"><td class="sn">${si+1}${isPR?'<span class="pr-badge" style="display:block;margin-top:1px">PR</span>':''}</td><td>${weightCell(ei,si,set.weight,false)}</td><td><input class="ri" type="number" value="${set.reps??''}" placeholder="${rt}" min="0" inputmode="numeric" oninput="setReps(${ei},${si},this.value)"><div class="rt">เป้า ${rt}</div>${frpe}</td><td class="sd">${doneBtn(ei,si,set.done)}</td></tr>`;
     }).join('');
-    tableHtml=`<table class="st"><thead><tr><th>#</th><th>น้ำหนัก (kg)</th><th>ครั้ง / RPE</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
+    tableHtml=`<table class="st"><thead><tr><th>#</th><th>น้ำหนัก (kg)</th><th>ครั้ง / RPE</th><th></th></tr></thead><tbody>${wuRowsHtml}${rows}</tbody></table>`;
   }
 
   return`<div class="${cls}" id="exc_${ei}">
@@ -561,26 +691,23 @@ function buildCard(ei){
       </div>
       <div style="display:flex;gap:6px;align-items:center;flex-shrink:0">${subBtn}</div>
     </div>
-    ${wuHtml}${boHtml}${mdHtml}${sugHtml}${tableHtml}
+    ${boHtml}${mdHtml}${sugHtml}${tableHtml}
   </div>`;
 }
 
 function weightCell(ei,si,val,isDrop){
   const id=(isDrop?'dw':'w')+'_'+ei+'_'+si;
-  const oc=isDrop
-    ?`SESS.exercises[${ei}].sets[${si}].dropWeight=Math.max(0,parseFloat(this.value)||0);saveSess()`
-    :`setWeight(${ei},${si},this.value)`;
-  return`<div class="wc">
-    <button class="ab" onclick="adjW(${ei},${si},-2.5,${isDrop})">−</button>
-    <input class="wi" type="number" id="${id}" value="${val||0}" step="2.5" min="0" inputmode="decimal" oninput="${oc}">
-    <button class="ab" onclick="adjW(${ei},${si},2.5,${isDrop})">+</button>
-  </div>`;
+  const oc=isDrop?`SESS.exercises[${ei}].sets[${si}].dropWeight=Math.max(0,parseFloat(this.value)||0);saveSess()`:`setWeight(${ei},${si},this.value)`;
+  return`<div class="wc"><button class="ab" onclick="adjW(${ei},${si},-2.5,${isDrop})">−</button><input class="wi" type="number" id="${id}" value="${val||0}" step="2.5" min="0" inputmode="decimal" oninput="${oc}"><button class="ab" onclick="adjW(${ei},${si},2.5,${isDrop})">+</button></div>`;
 }
 function doneBtn(ei,si,done){
   return`<button class="db${done?' done':''}" onclick="markDone(${ei},${si})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></button>`;
 }
 
 // ─── SET ACTIONS ─────────────────────────────────────────────
+function setWuWeight(ei,wsi,v){if(!SESS||!SESS.exercises[ei].warmupSets)return;SESS.exercises[ei].warmupSets[wsi].weight=Math.max(0,parseFloat(v)||0);saveSess();}
+function adjWuW(ei,wsi,d){if(!SESS||!SESS.exercises[ei].warmupSets)return;const ws=SESS.exercises[ei].warmupSets[wsi];ws.weight=Math.max(0,Math.round(((ws.weight||0)+d)/2.5)*2.5);const el=document.getElementById('wuw_'+ei+'_'+wsi);if(el)el.value=ws.weight;saveSess();}
+function markWuDone(ei,wsi){if(!SESS||!SESS.exercises[ei].warmupSets)return;const ws=SESS.exercises[ei].warmupSets[wsi];ws.done=!ws.done;saveSess();vibrate(ws.done?[30]:[15]);const card=document.getElementById('exc_'+ei);if(card){const n=document.createElement('div');n.innerHTML=buildCard(ei);card.replaceWith(n.firstChild);}}
 function setWeight(ei,si,v){if(!SESS)return;SESS.exercises[ei].sets[si].weight=Math.max(0,parseFloat(v)||0);saveSess();}
 function adjW(ei,si,d,isDrop){
   if(!SESS)return;
@@ -602,20 +729,36 @@ function markDone(ei,si){
   const set=SESS.exercises[ei].sets[si];
   set.done=!set.done;
   saveSess();
+  vibrate(set.done?[40,20,80]:[20]);
   if(set.done){
+    beep(660,.06,.12);
     const ex=effEx(SESS.dayId,SESS.exercises[ei].baseIdx,SESS.week);
     if(ex.rest>0)startRest(ex.rest,SESS.exercises[ei].name);
   }
-  // re-render just this card
   const card=document.getElementById('exc_'+ei);
-  if(card){const tmp=document.createElement('div');tmp.innerHTML=buildCard(ei);card.replaceWith(tmp.firstChild);}
-  // update progress bar inline
+  if(card){
+    const n=document.createElement('div');n.innerHTML=buildCard(ei);
+    const nc=n.firstChild;card.replaceWith(nc);
+    if(set.done){const row=nc.querySelector('#srow_'+ei+'_'+si);if(row)row.classList.add('row-flash');}
+  }
   const total=SESS.exercises.reduce((a,e)=>a+e.sets.length,0);
   const done=SESS.exercises.reduce((a,e)=>a+e.sets.filter(x=>x.done).length,0);
   const pct=total?Math.round(done/total*100):0;
   const pb=document.querySelector('.pbf');if(pb)pb.style.width=pct+'%';
-  const ps=document.querySelector('.seh+.pbar+div span:first-child');if(ps)ps.textContent=done+'/'+total+' เซ็ต';
-  const pp=document.querySelector('.seh+.pbar+div span:last-child');if(pp)pp.textContent=pct+'%';
+  const ps=document.querySelector('.prog-sets');if(ps)ps.textContent=done+'/'+total+' เซ็ต';
+  const pp=document.querySelector('.prog-pct');if(pp)pp.textContent=pct+'%';
+  const vol=SESS.exercises.reduce((a,e)=>a+(e.sets?.reduce((b,x)=>b+(x.done?(x.weight||0)*(x.reps||1):0),0)||0),0);
+  const vv=document.getElementById('sess-vol');if(vv)vv.textContent=vol>0?vol.toFixed(0)+' kg vol':'— kg';
+  if(set.done){
+    setTimeout(()=>{
+      let found=null;
+      for(let e=ei;e<SESS.exercises.length&&!found;e++){
+        const ex2=SESS.exercises[e];
+        for(let s=(e===ei?si+1:0);s<ex2.sets.length;s++){if(!ex2.sets[s].done){found='srow_'+e+'_'+s;break;}}
+      }
+      if(found){const el=document.getElementById(found);el?.scrollIntoView({behavior:'smooth',block:'center'});}
+    },350);
+  }
 }
 
 // ─── SUB PICKER ──────────────────────────────────────────────
@@ -642,6 +785,104 @@ function setSub(ei,name){
   saveSubs();saveSess();render();
 }
 function closeModal(){document.getElementById('modal').innerHTML='';}
+
+// ─── PLAN ────────────────────────────────────────────────────
+const DAYC={legs:'var(--dl)',push:'var(--dp)',pull:'var(--du)',full:'var(--df)'};
+const DAYS_SHORT={legs:'ขา',push:'ดัน',pull:'ดึง',full:'เต็มตัว'};
+const CYCLE=[{d:'legs'},{d:'push'},{d:'pull'},{r:1},{d:'full'},{r:1},{r:2}];
+function gapAfter(dayId){return(dayId==='pull'||dayId==='full')?2:1;}
+
+function nextUp(){
+  const order=P.schedule.order;
+  const hist=allSessions().filter(s=>s.completed).sort((a,b)=>b.date.localeCompare(a.date));
+  if(!hist.length)return{dayId:order[0],last:null,since:null,gap:0,ready:true,week:CFG.week};
+  const last=hist[0];
+  const li=order.indexOf(last.dayId);
+  const dayId=order[(li+1)%order.length];
+  const week=li===order.length-1?Math.min(6,(last.week||1)+1):(last.week||1);
+  const since=daysBetween(last.date,todayStr());
+  const gap=gapAfter(last.dayId);
+  return{dayId,last,since,gap,ready:since>=gap,week};
+}
+
+function renderPlan(){
+  const nx=nextUp(),order=P.schedule.order;
+  const day=P.days[nx.dayId];
+  const hist=allSessions().filter(s=>s.completed);
+  if(!CALM){const d=new Date();CALM={y:d.getFullYear(),m:d.getMonth()};}
+
+  let statusHtml;
+  if(!nx.last){
+    statusHtml=`<button class="nxt-btn" onclick="planStart('${nx.dayId}',${nx.week})">เริ่มซ้อมวันแรก</button>`;
+  }else if(nx.since===0){
+    statusHtml=`<div class="nxt-rest">✓ ซ้อม ${P.days[nx.last.dayId].name} ไปแล้ววันนี้ — พักได้เลย<br>ถัดไป: <strong>${day.name}</strong></div><button class="nxt-btn ghost" onclick="planStart('${nx.dayId}',${nx.week})">ซ้อม ${day.name} เลย</button>`;
+  }else if(!nx.ready){
+    const left=nx.gap-nx.since;
+    statusHtml=`<div class="nxt-rest">😴 <strong>วันนี้พัก</strong> — เหลืออีก ${left} วัน (${nx.since}/${nx.gap})</div><button class="nxt-btn ghost" onclick="planStart('${nx.dayId}',${nx.week})">ข้ามพัก ซ้อมเลย</button>`;
+  }else{
+    const late=nx.since>nx.gap+2?`<div style="font-size:12px;color:var(--yel);margin-bottom:7px">ห่างจากครั้งล่าสุด ${nx.since} วันแล้ว</div>`:'';
+    statusHtml=`${late}<button class="nxt-btn" onclick="planStart('${nx.dayId}',${nx.week})">เริ่มซ้อม ${day.name}</button>`;
+  }
+  const nxCard=`<div class="nxt"><div class="nxt-top"><div class="nxt-dot" style="background:${DAYC[nx.dayId]}">${DAYS_SHORT[nx.dayId]}</div><div style="flex:1;min-width:0"><div class="nxt-lbl">${nx.ready||!nx.last?'ถัดไป':'พักอยู่'}</div><div class="nxt-nm">${day.name}</div><div class="nxt-sub">${day.th} · สัปดาห์ ${nx.week}${nx.last?' · ล่าสุด '+fmtDate(nx.last.date):''}</div></div></div><div class="nxt-act">${statusHtml}</div></div>`;
+
+  const curIdx=(()=>{if(!nx.last)return 0;const li=CYCLE.findIndex(c=>c.d===nx.last.dayId);if(nx.ready)return CYCLE.findIndex(c=>c.d===nx.dayId);return Math.min(li+nx.since,CYCLE.length-1);})();
+  const cycHtml=CYCLE.map((c,i)=>{const on=i===curIdx?' now':'';if(c.r)return`<div class="cyc-i rest${on}"><div class="cyc-b" style="background:var(--bdr)"></div><div class="cyc-t">พัก</div></div>`;return`<div class="cyc-i${on}"><div class="cyc-b" style="background:${DAYC[c.d]}"></div><div class="cyc-t">${DAYS_SHORT[c.d]}</div></div>`;}).join('');
+
+  const doneMap={};hist.forEach(s=>{doneMap[(s.week||1)+'_'+s.dayId]=s;});
+  let pgHtml=`<div class="pg-h"></div>`+order.map(id=>`<div class="pg-h" style="color:${DAYC[id]}">${DAYS_SHORT[id]}</div>`).join('');
+  for(let w=1;w<=6;w++){
+    pgHtml+=`<div class="pg-w">W${w}</div>`;
+    order.forEach(id=>{const s=doneMap[w+'_'+id];const cur=(w===nx.week&&id===nx.dayId&&nx.ready)?' cur':'';pgHtml+=s?`<div class="pg-c on${cur}" style="background:${DAYC[id]}" onclick="showSessDetail('${s.date}','${id}')" title="${fmtDate(s.date)}">✓</div>`:`<div class="pg-c${cur}" onclick="planStart('${id}',${w})">${w===6?'☾':'·'}</div>`;});
+  }
+
+  const doneCount=hist.length;
+  const streak=(()=>{const dates=[...new Set(hist.map(s=>s.date))].sort().reverse();if(!dates.length)return 0;let n=1;for(let i=1;i<dates.length;i++){if(daysBetween(dates[i],dates[i-1])<=3)n++;else break;}return n;})();
+
+  return`<div class="ph"><h1>แผนการซ้อม</h1><p>Phase 1 · Base Hypertrophy · 6 สัปดาห์</p></div>
+  ${nxCard}
+  <div class="slbl">รอบการซ้อม</div>
+  <div class="cyc">${cycHtml}</div>
+  <div style="padding:4px 14px 0;font-size:11px;color:var(--tx3);line-height:1.5">${P.schedule.restRule_th}</div>
+  <div class="slbl">ความคืบหน้า Phase 1</div>
+  <div class="stats">
+    <div class="stat"><div class="stat-n" style="color:var(--acc)">${doneCount}<span style="font-size:13px;color:var(--tx3)">/24</span></div><div class="stat-l">ซ้อมแล้ว</div></div>
+    <div class="stat"><div class="stat-n">${Math.round(doneCount/24*100)}%</div><div class="stat-l">ของ Phase</div></div>
+    <div class="stat"><div class="stat-n" style="color:${streak>1?'var(--grn)':'var(--tx)'}">${streak}</div><div class="stat-l">ต่อเนื่อง</div></div>
+  </div>
+  <div class="pg" style="margin-top:9px">${pgHtml}</div>
+  <div style="padding:4px 14px 0;font-size:11px;color:var(--tx3)">กดช่องว่างเพื่อเริ่มซ้อมวันนั้น · ☾ = deload</div>
+  <div class="slbl">ปฏิทิน</div>
+  ${renderCal()}
+  <div class="lg">${order.map(id=>`<div class="lg-i"><div class="lg-d" style="background:${DAYC[id]}"></div>${P.days[id].name}</div>`).join('')}</div>
+  <div style="height:20px"></div>`;
+}
+
+function renderCal(){
+  const {y,m}=CALM;
+  const byDate={};
+  allSessions().filter(s=>s.completed).forEach(s=>{(byDate[s.date]=byDate[s.date]||[]).push(s);});
+  const first=new Date(y,m,1);
+  const startDow=(first.getDay()+6)%7;
+  const dim=new Date(y,m+1,0).getDate();
+  const today=todayStr();
+  const mLabel=first.toLocaleDateString('th-TH',{month:'long',year:'numeric'});
+  let cells=['จ','อ','พ','พฤ','ศ','ส','อา'].map(d=>`<div class="cal-dow">${d}</div>`).join('');
+  for(let i=0;i<startDow;i++)cells+=`<div class="cal-d pad"></div>`;
+  for(let d=1;d<=dim;d++){
+    const key=dkey(y,m,d);const ss=byDate[key]||[];
+    const dots=ss.map(s=>`<div class="cal-dot" style="background:${DAYC[s.dayId]||'var(--tx3)'}"></div>`).join('');
+    const cls=`cal-d${ss.length?' has':''}${key===today?' today':''}`;
+    const click=ss.length?` onclick="showSessDetail('${ss[0].date}','${ss[0].dayId}')"`:'';
+    cells+=`<div class="${cls}"${click}><span>${d}</span><div class="cal-dots">${dots}</div></div>`;
+  }
+  return`<div class="cal-h"><button class="cal-nav" onclick="calMove(-1)">‹</button><div class="cal-m">${mLabel}</div><button class="cal-nav" onclick="calMove(1)">›</button></div><div class="cal">${cells}</div>`;
+}
+function calMove(d){const nm=CALM.m+d;CALM={y:CALM.y+Math.floor(nm/12),m:((nm%12)+12)%12};render();}
+function planStart(dayId,week){
+  if(SESS&&!confirm('มีการซ้อมค้างอยู่ — เริ่มใหม่จะทับของเดิม?'))return;
+  if(week){CFG.week=week;saveCfg();}
+  goNav('today');startSession(dayId);
+}
 
 // ─── HISTORY ─────────────────────────────────────────────────
 function renderHistory(){
@@ -694,34 +935,40 @@ function handleImport(e){
 }
 
 // ─── TOOLS ───────────────────────────────────────────────────
+function anatomySVG(volMap){
+  const maxV=Math.max(1,...Object.values(volMap).filter(v=>v>0));
+  function f(m){const v=volMap[m]||0;if(!v)return'rgba(255,255,255,0.05)';const p=v/maxV;return p>.65?'rgba(34,197,94,0.68)':p>.35?'rgba(249,115,22,0.65)':'rgba(234,179,8,0.55)';}
+  function s(m){const v=volMap[m]||0;if(!v)return'rgba(255,255,255,0.1)';const p=v/maxV;return p>.65?'#22c55e':p>.35?'#f97316':'#eab308';}
+  const bf='rgba(255,255,255,0.04)',bs='rgba(255,255,255,0.12)';
+  const body=`<g fill="${bf}" stroke="${bs}" stroke-width="1.2"><ellipse cx="60" cy="17" rx="14" ry="16"/><rect x="54" y="33" width="12" height="10" rx="3"/><path d="M26,44 C26,42 30,41 35,41 L85,41 C90,41 94,42 94,44 L97,64 C99,72 99,82 97,90 L95,122 C95,130 91,137 89,143 L87,158 L33,158 L31,143 C29,137 25,130 25,122 L23,90 C21,82 21,72 23,64 Z"/><path d="M26,44 L16,50 C12,53 10,59 10,65 L8,102 C8,108 11,111 15,111 L23,108 L26,65 Z"/><path d="M94,44 L104,50 C108,53 110,59 110,65 L112,102 C112,108 109,111 105,111 L97,108 L94,65 Z"/><path d="M15,111 L21,108 L23,150 L19,154 C15,155 13,153 13,150 Z"/><path d="M105,111 L99,108 L97,150 L101,154 C105,155 107,153 107,150 Z"/><path d="M33,158 L29,222 C29,231 31,242 33,253 L39,273 C41,279 45,283 49,283 L52,283 C55,283 56,279 56,276 L58,253 L58,158 Z"/><path d="M87,158 L91,222 C91,231 89,242 87,253 L81,273 C79,279 75,283 71,283 L68,283 C65,283 64,279 64,276 L62,253 L62,158 Z"/></g>`;
+  const front=`<svg viewBox="0 0 120 300" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">${body}<ellipse cx="60" cy="72" rx="21" ry="14" fill="${f('chest')}" stroke="${s('chest')}" stroke-width="1.2"/><ellipse cx="30" cy="55" rx="10" ry="11" fill="${f('frontDelts')}" stroke="${s('frontDelts')}" stroke-width="1"/><ellipse cx="90" cy="55" rx="10" ry="11" fill="${f('frontDelts')}" stroke="${s('frontDelts')}" stroke-width="1"/><ellipse cx="19" cy="63" rx="7" ry="10" fill="${f('sideDelts')}" stroke="${s('sideDelts')}" stroke-width="1"/><ellipse cx="101" cy="63" rx="7" ry="10" fill="${f('sideDelts')}" stroke="${s('sideDelts')}" stroke-width="1"/><ellipse cx="16" cy="80" rx="6" ry="14" fill="${f('biceps')}" stroke="${s('biceps')}" stroke-width="1"/><ellipse cx="104" cy="80" rx="6" ry="14" fill="${f('biceps')}" stroke="${s('biceps')}" stroke-width="1"/><ellipse cx="53" cy="100" rx="7" ry="5" fill="${f('abs')}" stroke="${s('abs')}" stroke-width=".9"/><ellipse cx="67" cy="100" rx="7" ry="5" fill="${f('abs')}" stroke="${s('abs')}" stroke-width=".9"/><ellipse cx="53" cy="116" rx="7" ry="5" fill="${f('abs')}" stroke="${s('abs')}" stroke-width=".9"/><ellipse cx="67" cy="116" rx="7" ry="5" fill="${f('abs')}" stroke="${s('abs')}" stroke-width=".9"/><ellipse cx="53" cy="131" rx="6" ry="5" fill="${f('abs')}" stroke="${s('abs')}" stroke-width=".9"/><ellipse cx="67" cy="131" rx="6" ry="5" fill="${f('abs')}" stroke="${s('abs')}" stroke-width=".9"/><ellipse cx="47" cy="196" rx="13" ry="28" fill="${f('quads')}" stroke="${s('quads')}" stroke-width="1.1"/><ellipse cx="73" cy="196" rx="13" ry="28" fill="${f('quads')}" stroke="${s('quads')}" stroke-width="1.1"/><ellipse cx="45" cy="258" rx="9" ry="17" fill="${f('calves')}" stroke="${s('calves')}" stroke-width="1"/><ellipse cx="75" cy="258" rx="9" ry="17" fill="${f('calves')}" stroke="${s('calves')}" stroke-width="1"/><text x="60" y="296" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.3)" font-family="Barlow Condensed,sans-serif" letter-spacing="1">FRONT</text></svg>`;
+  const back=`<svg viewBox="0 0 120 300" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">${body}<ellipse cx="60" cy="63" rx="25" ry="14" fill="${f('upperBack')}" stroke="${s('upperBack')}" stroke-width="1.2"/><path d="M32,72 C27,78 25,92 27,108 L35,122 L52,115 L52,72 C44,70 37,70 32,72 Z" fill="${f('lats')}" stroke="${s('lats')}" stroke-width="1"/><path d="M88,72 C93,78 95,92 93,108 L85,122 L68,115 L68,72 C76,70 83,70 88,72 Z" fill="${f('lats')}" stroke="${s('lats')}" stroke-width="1"/><ellipse cx="27" cy="51" rx="9" ry="10" fill="${f('rearDelts')}" stroke="${s('rearDelts')}" stroke-width="1"/><ellipse cx="93" cy="51" rx="9" ry="10" fill="${f('rearDelts')}" stroke="${s('rearDelts')}" stroke-width="1"/><ellipse cx="16" cy="80" rx="6" ry="15" fill="${f('triceps')}" stroke="${s('triceps')}" stroke-width="1"/><ellipse cx="104" cy="80" rx="6" ry="15" fill="${f('triceps')}" stroke="${s('triceps')}" stroke-width="1"/><ellipse cx="46" cy="162" rx="15" ry="12" fill="${f('glutes')}" stroke="${s('glutes')}" stroke-width="1.2"/><ellipse cx="74" cy="162" rx="15" ry="12" fill="${f('glutes')}" stroke="${s('glutes')}" stroke-width="1.2"/><ellipse cx="46" cy="202" rx="12" ry="27" fill="${f('hamstrings')}" stroke="${s('hamstrings')}" stroke-width="1"/><ellipse cx="74" cy="202" rx="12" ry="27" fill="${f('hamstrings')}" stroke="${s('hamstrings')}" stroke-width="1"/><ellipse cx="45" cy="258" rx="9" ry="17" fill="${f('calves')}" stroke="${s('calves')}" stroke-width="1"/><ellipse cx="75" cy="258" rx="9" ry="17" fill="${f('calves')}" stroke="${s('calves')}" stroke-width="1"/><text x="60" y="296" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.3)" font-family="Barlow Condensed,sans-serif" letter-spacing="1">BACK</text></svg>`;
+  return{front,back};
+}
+
 function renderTools(){
-  // weekly volume
-  const now=new Date();const dow=now.getDay();
-  const diff=now.getDate()-dow+(dow===0?-6:1);
-  const wkStart=new Date(now.setDate(diff)).toISOString().slice(0,10);
+  const now=new Date();
+  const ws=new Date(now.getFullYear(),now.getMonth(),now.getDate()-((now.getDay()+6)%7));
+  const wkStart=dkey(ws.getFullYear(),ws.getMonth(),ws.getDate());
   const wkSess=allSessions().filter(s=>s.completed&&s.date>=wkStart);
   const volMap={};
   wkSess.forEach(s=>{
     s.exercises?.forEach((ex,xi)=>{
       const dayEx=P.days[s.dayId]?.ex[ex.baseIdx!==undefined?ex.baseIdx:xi];
-      (dayEx?.m||[]).forEach(m=>{
-        volMap[m]=(volMap[m]||0)+(ex.sets?.filter(x=>x.done).length||0);
-      });
+      (dayEx?.m||[]).forEach(m=>{volMap[m]=(volMap[m]||0)+(ex.sets?.filter(x=>x.done).length||0);});
     });
   });
-  const maxVol=Math.max(...Object.values(volMap),1,8);
-  const volHtml=Object.entries(P.muscleLabels).map(([k,lbl])=>{
-    const v=volMap[k]||0;
-    const pct=v/maxVol*100;
-    const c=v===0?'var(--bdr)':v>=10?'var(--grn)':v>=6?'var(--acc)':'var(--yel)';
-    return`<div class="vrow"><div class="vn">${lbl}</div><div class="vbw"><div class="vb" style="width:${pct}%;background:${c}"></div></div><div class="vnum">${v}</div></div>`;
-  }).join('');
+  const {front,back}=anatomySVG(volMap);
+  const legend=[{c:'#22c55e',l:'มาก (>65%)'},{c:'#f97316',l:'ปานกลาง'},{c:'#eab308',l:'น้อย'},{c:'rgba(255,255,255,0.08)',l:'0 เซ็ต'}].map(i=>`<div class="vol-li"><div class="vol-dot" style="background:${i.c}"></div>${i.l}</div>`).join('');
+  const maxBar=Math.max(...Object.values(volMap),1,8);
+  const barHtml=Object.entries(P.muscleLabels).map(([k,lbl])=>{const v=volMap[k]||0;const pct=v/maxBar*100;const c=v===0?'var(--bdr)':v>=10?'var(--grn)':v>=6?'var(--acc)':'var(--yel)';return`<div class="vrow"><div class="vn">${lbl}</div><div class="vbw"><div class="vb" style="width:${pct}%;background:${c}"></div></div><div class="vnum">${v}</div></div>`;}).join('');
 
   return`<div class="ph"><h1>เครื่องมือ</h1></div>
   <div style="padding:10px 12px 4px">
-    <h2 style="font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:700;margin-bottom:8px">Volume สัปดาห์นี้ (เซ็ต)</h2>
-    ${volHtml}
-    <div style="margin-top:4px;font-size:11px;color:var(--tx3)">สีเขียว ≥10 เซ็ต · สีส้ม 6-9 · สีเหลือง 1-5 · ขาว = 0</div>
+    <h2 style="font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:700;margin-bottom:6px">Volume สัปดาห์นี้</h2>
+    <div class="anatomy-wrap"><div class="anatomy-fig">${front}<div class="anatomy-lbl">ด้านหน้า</div></div><div class="anatomy-fig">${back}<div class="anatomy-lbl">ด้านหลัง</div></div></div>
+    <div class="vol-legend">${legend}</div>
+    <details style="margin-top:6px"><summary style="font-size:12px;color:var(--tx3);cursor:pointer;padding:4px 0">▸ ตัวเลข (เซ็ต)</summary><div style="margin-top:8px">${barHtml}</div></details>
   </div>
 
   <div style="margin:0 12px;border-top:1px solid var(--bdr);padding-top:12px">
