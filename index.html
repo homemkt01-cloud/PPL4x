@@ -860,29 +860,19 @@ function ytParse(url){
 function showVideo(url,name,desc){
   const yt=ytParse(url);
   if(!yt){if(url)window.open(url,'_blank','noopener');return;}
-  const mid=document.getElementById('modal');
-  mid.innerHTML=`<div class="modal-wrap">
+  document.getElementById('modal').innerHTML=`<div class="modal-wrap">
     <div class="modal-bd" onclick="closeModal()"></div>
     <div class="modal-sh" style="padding-bottom:calc(24px + env(safe-area-inset-bottom))">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:10px">
         <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;line-height:1.1">${name}</div>
         <button onclick="closeModal()" style="background:none;border:none;color:var(--tx3);font-size:22px;cursor:pointer;flex-shrink:0;padding:0;line-height:1">✕</button>
       </div>
-      <div id="yt-wrap" style="position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;background:#000;cursor:pointer" onclick="loadYT('${yt.embed}')">
-        <img src="${yt.thumb}" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover" loading="lazy">
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
-          <svg width="64" height="44" viewBox="0 0 64 44"><rect width="64" height="44" rx="10" fill="rgba(0,0,0,0.75)"/><polygon points="26,12 26,32 46,22" fill="white"/></svg>
-        </div>
+      <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;background:#111">
+        <iframe src="${yt.embed}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
       </div>
       ${desc?`<div style="font-size:13px;color:var(--tx2);line-height:1.6;margin-top:12px">${desc}</div>`:''}
     </div>
   </div>`;
-}
-function loadYT(embed){
-  const w=document.getElementById('yt-wrap');
-  if(!w)return;
-  w.onclick=null;w.style.cursor='default';
-  w.innerHTML=`<iframe src="${embed}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>`;
 }
 function confirmCancel(){
   document.getElementById('modal').innerHTML=`<div class="modal-wrap">
