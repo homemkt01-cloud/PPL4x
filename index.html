@@ -284,11 +284,12 @@ tr.wu-sep td{padding:5px 14px;font-size:9px;text-transform:uppercase;letter-spac
 .wu-meta{font-size:11px;color:var(--tx3);margin-top:2px}
 .wu-video-link{color:var(--acc);text-decoration:none;font-size:11px;background:none;border:none;padding:0;cursor:pointer;font-family:inherit;font-weight:500}
 /* ══ ANATOMY ══════════════════════════════════════════════════ */
-.anatomy-wrap{display:flex;justify-content:center;gap:14px;padding:6px 8px 10px}
-.anatomy-fig{flex:1;max-width:150px}
-.anatomy-lbl{font-size:9px;text-align:center;color:var(--tx3);margin-top:4px;text-transform:uppercase;letter-spacing:.07em;font-weight:600}
-.vol-legend{display:grid;grid-template-columns:1fr 1fr;gap:5px 14px;padding:6px 16px 10px}
-.vol-li{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--tx2)}
+.anatomy-wrap{display:flex;justify-content:center;gap:14px;padding:6px 8px 4px}
+.anatomy-fig{flex:1;max-width:140px;min-width:0;overflow:hidden}
+.anatomy-fig svg{display:block;width:100%;height:auto}
+.anatomy-lbl{font-size:9px;text-align:center;color:var(--tx3);margin-top:3px;text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+.vol-legend{display:flex;flex-wrap:wrap;gap:6px 16px;padding:4px 16px 10px}
+.vol-li{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--tx2);white-space:nowrap}
 .vol-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -404,6 +405,13 @@ function progression(lastSets,ex){
   return null;
 }
 
+// ─── REST MIN ────────────────────────────────────────────────
+function minRest(sec){
+  if(sec>=210)return 120; // compounds 3-3.5min → 2min
+  if(sec>=150)return 90;  // moderate → 1.5min
+  if(sec>=90) return 60;  // isolation → 1min
+  return sec;
+}
 // ─── AUDIO / HAPTIC ─────────────────────────────────────────
 let AC=null;
 function beep(f,d,v){
@@ -633,6 +641,10 @@ function renderWorkout(){
   const total=s.exercises.reduce((a,e)=>a+e.sets.length,0);
   const done=s.exercises.reduce((a,e)=>a+e.sets.filter(x=>x.done).length,0);
   const pct=total?Math.round(done/total*100):0;
+  const totalEx=s.exercises.length;
+  const doneEx=s.exercises.filter(e=>e.sets.every(x=>x.done)&&e.sets.length>0).length;
+  const curEx=s.exercises.findIndex(e=>e.sets.some(x=>!x.done));
+  const curExNum=curEx===-1?totalEx:curEx+1;
   const isLeg=s.dayId==='legs'||s.dayId==='full';
   const wuItems=P.generalWarmup.items.filter(i=>!i.legDayOnly||isLeg)
     .map(i=>{const vid=WU_VIDEOS[i.name];const vl=vid?` · <button class="wu-video-link" onclick="window.open('${vid}','_blank','noopener')">▶ วิดีโอ</button>`:'';return`<div class="wu-item"><span class="wu-dot">•</span><div><div class="wu-name">${i.name}${i.optional?' <span style="font-size:10px;color:var(--tx3)">(ทางเลือก)</span>':''}</div><div class="wu-meta">${i.repsTime}${vl}</div></div></div>`;}).join('');
@@ -647,6 +659,7 @@ function renderWorkout(){
   <div class="prog-row">
     <span class="prog-sets">${done}/${total} เซ็ต</span>
     <span class="prog-pct">${pct}%</span>
+    <span style="font-size:12px;color:var(--tx3)">ท่า ${curExNum}/${totalEx}</span>
     <span class="prog-vol" id="sess-vol">— kg</span>
   </div>
   ${deload?`<div class="dlnote" style="margin-top:0">⚠️ Deload — ลดน้ำหนัก ห้ามดันถึงหมดแรง</div>`:''}
@@ -768,7 +781,7 @@ function markDone(ei,si){
   if(set.done){
     beep(660,.06,.12);
     const ex=effEx(SESS.dayId,SESS.exercises[ei].baseIdx,SESS.week);
-    if(ex.rest>0)startRest(ex.rest,SESS.exercises[ei].name);
+    if(ex.rest>0)startRest(minRest(ex.rest),SESS.exercises[ei].name);
   }
   const card=document.getElementById('exc_'+ei);
   if(card){
