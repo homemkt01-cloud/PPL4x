@@ -797,7 +797,7 @@ function markDone(ei,si){
   const totalEx=SESS.exercises.length;
   const doneExFull=SESS.exercises.filter(e=>e.sets.length>0&&e.sets.every(x=>x.done)).length;
   const curExNum=Math.min(doneExFull+1,totalEx);
-  const pe=document.querySelector('.prog-ex');if(pe)pe.textContent='ท่า '+curExNum+'/'+totalEx;
+  const pe=document.querySelector('.prog-ex');if(pe)pe.textContent='ท่าที่ '+curExNum+'/'+totalEx;
   const vol=SESS.exercises.reduce((a,e)=>a+(e.sets?.reduce((b,x)=>b+(x.done?(x.weight||0)*(x.reps||1):0),0)||0),0);
   const vv=document.getElementById('sess-vol');if(vv)vv.textContent=vol>0?vol.toFixed(0)+' kg vol':'— kg';
   if(set.done){
