@@ -283,7 +283,7 @@ tr.wu-sep td{padding:4px 12px;font-size:9px;text-transform:uppercase;letter-spac
 .wu-dot{color:var(--acc);font-size:11px;flex-shrink:0;margin-top:2px}
 .wu-name{font-size:13px;color:var(--tx)}
 .wu-meta{font-size:11px;color:var(--tx3);margin-top:1px}
-.wu-video-link{color:var(--acc);text-decoration:none;font-size:11px}
+.wu-video-link{color:var(--acc);text-decoration:none;font-size:11px;background:none;border:none;padding:0;cursor:pointer;font-family:inherit}
 /* ── Anatomy ── */
 .anatomy-wrap{display:flex;justify-content:center;gap:12px;padding:4px 8px 8px}
 .anatomy-fig{flex:1;max-width:148px}
@@ -601,7 +601,7 @@ function renderWorkout(){
   const pct=total?Math.round(done/total*100):0;
   const isLeg=s.dayId==='legs'||s.dayId==='full';
   const wuItems=P.generalWarmup.items.filter(i=>!i.legDayOnly||isLeg)
-    .map(i=>{const vid=WU_VIDEOS[i.name];const vl=vid?` · <a class="wu-video-link" href="${vid}" target="_blank">▶ วิดีโอ</a>`:'';return`<div class="wu-item"><span class="wu-dot">•</span><div><div class="wu-name">${i.name}${i.optional?' <span style="font-size:10px;color:var(--tx3)">(ทางเลือก)</span>':''}</div><div class="wu-meta">${i.repsTime}${vl}</div></div></div>`;}).join('');
+    .map(i=>{const vid=WU_VIDEOS[i.name];const vl=vid?` · <button class="wu-video-link" onclick="window.open('${vid}','_blank','noopener')">▶ วิดีโอ</button>`:'';return`<div class="wu-item"><span class="wu-dot">•</span><div><div class="wu-name">${i.name}${i.optional?' <span style="font-size:10px;color:var(--tx3)">(ทางเลือก)</span>':''}</div><div class="wu-meta">${i.repsTime}${vl}</div></div></div>`;}).join('');
   const deload=P.weeks[String(s.week)]?.deload;
   const cards=s.exercises.map((_,i)=>buildCard(i)).join('');
   return`<div class="seh">
