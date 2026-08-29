@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>PPL 4x</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800&family=DM+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap">
 <style>
 /* ══ TOKENS ══════════════════════════════════════════════════ */
 :root{
@@ -18,7 +18,7 @@
   --grn:#22c55e;--grn-d:rgba(34,197,94,.12);
   --red:#ef4444;--yel:#f59e0b;--blu:#3b82f6;
   --nav:64px;--r:14px;
-  --dl:#f97316;--dp:#3b82f6;--du:#22c55e;--df:#a855f7;
+  --dl:#e8480a;--dp:#0ea5e9;--du:#10b981;--df:#c026d3;
 }
 @media(prefers-color-scheme:light){:root:not([data-theme=dark]){
   --bg:#f4f4f6;--bg2:#ffffff;--surf:#ffffff;--surf2:#ebebef;
@@ -27,7 +27,7 @@
   --tx:#131316;--tx2:#63637a;--tx3:#9999b0;
   --grn:#16a34a;--grn-d:rgba(22,163,74,.1);
   --red:#dc2626;--yel:#d97706;--blu:#2563eb;
-  --dl:#ea580c;--dp:#2563eb;--du:#16a34a;--df:#7c3aed;
+  --dl:#d43d08;--dp:#0284c7;--du:#059669;--df:#a21caf;
 }}
 :root[data-theme=dark]{
   --bg:#0c0c0e;--bg2:#111114;--surf:#18181c;--surf2:#222228;
@@ -36,7 +36,7 @@
   --tx:#f2f2f4;--tx2:#8f8fa0;--tx3:#50505e;
   --grn:#22c55e;--grn-d:rgba(34,197,94,.12);
   --red:#ef4444;--yel:#f59e0b;--blu:#3b82f6;
-  --dl:#f97316;--dp:#3b82f6;--du:#22c55e;--df:#a855f7;
+  --dl:#e8480a;--dp:#0ea5e9;--du:#10b981;--df:#c026d3;
 }
 :root[data-theme=light]{
   --bg:#f4f4f6;--bg2:#ffffff;--surf:#ffffff;--surf2:#ebebef;
@@ -45,11 +45,11 @@
   --tx:#131316;--tx2:#63637a;--tx3:#9999b0;
   --grn:#16a34a;--grn-d:rgba(22,163,74,.1);
   --red:#dc2626;--yel:#d97706;--blu:#2563eb;
-  --dl:#ea580c;--dp:#2563eb;--du:#16a34a;--df:#7c3aed;
+  --dl:#d43d08;--dp:#0284c7;--du:#059669;--df:#a21caf;
 }
 /* ══ RESET ═══════════════════════════════════════════════════ */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'DM Sans',system-ui,sans-serif;font-size:15px;line-height:1.5}
+html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'IBM Plex Sans Thai','DM Sans',system-ui,sans-serif;font-size:15px;line-height:1.5}
 body{overflow:hidden}
 /* ══ SHELL ═══════════════════════════════════════════════════ */
 #app{height:100dvh;display:flex;flex-direction:column}
@@ -95,13 +95,13 @@ body{overflow:hidden}
 .sd{width:38px;text-align:center}
 /* ══ WEIGHT INPUT ═════════════════════════════════════════════ */
 .wc{display:flex;align-items:center;gap:4px}
-.wi{width:70px;background:var(--surf2);border:1.5px solid var(--bdr-s);color:var(--tx);font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;font-variant-numeric:tabular-nums;text-align:center;padding:6px 3px;border-radius:9px;-moz-appearance:textfield;transition:border-color .15s,background .15s}
+.wi{width:70px;background:var(--surf2);border:1.5px solid var(--bdr-s);color:var(--tx);font-family:'IBM Plex Sans Thai','DM Sans',sans-serif;font-size:16px;font-weight:600;font-variant-numeric:tabular-nums;text-align:center;padding:6px 3px;border-radius:9px;-moz-appearance:textfield;transition:border-color .15s,background .15s}
 .wi::-webkit-outer-spin-button,.wi::-webkit-inner-spin-button{-webkit-appearance:none}
 .wi:focus{outline:none;border-color:var(--acc);background:var(--surf)}
 .ab{width:30px;height:34px;border:1.5px solid var(--bdr-s);background:var(--surf2);color:var(--tx2);cursor:pointer;font-size:17px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .12s}
 .ab:active{background:var(--acc-d);border-color:var(--acc);color:var(--acc)}
 /* ══ REPS INPUT ═══════════════════════════════════════════════ */
-.ri{width:52px;background:var(--surf2);border:1.5px solid var(--bdr-s);color:var(--tx);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;text-align:center;padding:6px 3px;border-radius:9px;-moz-appearance:textfield;transition:border-color .15s}
+.ri{width:52px;background:var(--surf2);border:1.5px solid var(--bdr-s);color:var(--tx);font-family:'IBM Plex Sans Thai','DM Sans',sans-serif;font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;text-align:center;padding:6px 3px;border-radius:9px;-moz-appearance:textfield;transition:border-color .15s}
 .ri::-webkit-outer-spin-button,.ri::-webkit-inner-spin-button{-webkit-appearance:none}
 .ri:focus{outline:none;border-color:var(--acc)}
 .rt{font-size:10px;color:var(--tx3);margin-top:1px}
@@ -134,9 +134,9 @@ tr.dc td{opacity:.5}
 /* ══ DAY PICKER ═══════════════════════════════════════════════ */
 .dgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 14px}
 .dbtn{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:16px 14px;text-align:left;cursor:pointer;transition:all .18s;width:100%;position:relative;overflow:hidden}
-.dbtn::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--acc);transform:scaleX(0);transform-origin:left;transition:transform .2s}
-.dbtn:active::after{transform:scaleX(1)}
-.dbtn:active{border-color:var(--acc);background:var(--acc-g)}
+.dbtn::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--day-c,var(--acc))}
+.dbtn:active{border-color:var(--day-c,var(--acc));background:rgba(255,255,255,0.04);transform:scale(.98)}
+.dbtn{transition:transform .12s,background .12s,border-color .12s}
 .dbtn .dn{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--tx);display:block;line-height:1.1;letter-spacing:-.01em}
 .dbtn .dt{font-size:11px;color:var(--tx2);margin-top:3px;text-transform:uppercase;letter-spacing:.04em}
 .mpills{display:flex;flex-wrap:wrap;gap:3px;margin-top:7px}
@@ -533,11 +533,45 @@ function startSession(dayId){
 function finishSession(){
   if(!SESS)return;
   SESS.completed=true;
-  pushToHistory(SESS);
+  const snap=SESS;
+  pushToHistory(snap);
   launchConfetti();
   beep(880,.08);setTimeout(()=>beep(1100,.08),150);setTimeout(()=>beep(1320,.4),300);
   vibrate([100,50,100,50,300]);
-  SESS=null;saveSess();stopTimer();render();
+  SESS=null;saveSess();stopTimer();
+  renderCelebration(snap);
+}
+function renderCelebration(snap){
+  const day=P.days[snap.dayId];
+  const totalSets=snap.exercises.reduce((a,e)=>a+e.sets.filter(s=>s.done).length,0);
+  const totalVol=snap.exercises.reduce((a,e)=>a+e.sets.filter(s=>s.done&&s.weight>0&&s.reps>0).reduce((b,s)=>b+s.weight*s.reps,0),0);
+  const dayColor={legs:'var(--dl)',push:'var(--dp)',pull:'var(--du)',full:'var(--df)'};
+  const dc=dayColor[snap.dayId]||'var(--acc)';
+  const m=document.getElementById('main');
+  m.innerHTML=`
+    <div style="min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;text-align:center;gap:24px">
+      <div style="width:88px;height:88px;border-radius:50%;background:${dc};display:flex;align-items:center;justify-content:center;font-size:40px;box-shadow:0 0 0 16px rgba(255,255,255,0.05),0 0 48px rgba(255,255,255,0.08)">✓</div>
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:38px;font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:4px">ซ้อมเสร็จแล้ว!</div>
+        <div style="font-size:14px;color:var(--tx2)">${day.name} · ${day.th} · W${snap.week}</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%">
+        <div style="background:var(--surf);border:1px solid var(--bdr);border-radius:14px;padding:14px 8px">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:800;color:${dc};line-height:1">${totalSets}</div>
+          <div style="font-size:11px;color:var(--tx3);margin-top:4px;text-transform:uppercase;letter-spacing:.06em">เซ็ต</div>
+        </div>
+        <div style="background:var(--surf);border:1px solid var(--bdr);border-radius:14px;padding:14px 8px">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:800;color:${dc};line-height:1">${snap.exercises.filter(e=>e.sets.some(s=>s.done)).length}</div>
+          <div style="font-size:11px;color:var(--tx3);margin-top:4px;text-transform:uppercase;letter-spacing:.06em">ท่า</div>
+        </div>
+        <div style="background:var(--surf);border:1px solid var(--bdr);border-radius:14px;padding:14px 8px">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:${totalVol>=1000?22:28}px;font-weight:800;color:${dc};line-height:1">${totalVol>0?(totalVol>=1000?(totalVol/1000).toFixed(1)+'t':totalVol+'kg'):'—'}</div>
+          <div style="font-size:11px;color:var(--tx3);margin-top:4px;text-transform:uppercase;letter-spacing:.06em">ปริมาณ</div>
+        </div>
+      </div>
+      <button onclick="goNav('today')" style="width:100%;padding:15px;border:none;border-radius:14px;background:${dc};color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;cursor:pointer;letter-spacing:.02em">กลับหน้าหลัก</button>
+      <button onclick="goNav('history')" style="background:none;border:none;color:var(--tx3);font-size:13px;cursor:pointer;font-family:inherit">ดูประวัติทั้งหมด →</button>
+    </div>`;
 }
 function cancelSession(){
   if(!confirm('ยกเลิกการซ้อมวันนี้?\n(ข้อมูลที่บันทึกไว้แล้วจะหายไป)'))return;
@@ -567,12 +601,13 @@ function render(){
 function renderDayPicker(){
   const wk=P.weeks[String(CFG.week)];
   const wBtns=[1,2,3,4,5,6].map(w=>`<button class="wbtn${CFG.week===w?' on':''}" onclick="setWeek(${w})">W${w}${w===6?'★':''}</button>`).join('');
+  const dayColor={legs:'var(--dl)',push:'var(--dp)',pull:'var(--du)',full:'var(--df)'};
   const dayCards=P.schedule.order.map(id=>{
     const d=P.days[id];
     const ls=lastSession(id);
     const muscles=[...new Set(d.ex.flatMap(e=>e.m))];
     const pills=muscles.slice(0,5).map(m=>`<span class="mp">${muscName(m)}</span>`).join('');
-    return`<button class="dbtn" onclick="startSession('${id}')">
+    return`<button class="dbtn" style="--day-c:${dayColor[id]||'var(--acc)'}" onclick="startSession('${id}')">
       <span class="dn">${d.name}</span>
       <span class="dt">${d.th}</span>
       <div class="mpills">${pills}</div>
