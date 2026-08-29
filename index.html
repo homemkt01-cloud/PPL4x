@@ -855,7 +855,7 @@ function ytParse(url){
   if(!id)return null;
   const ts=url.match(/[?&]t=(\d+)/);
   if(ts)start=parseInt(ts[1]);
-  return{id,start,embed:`https://www.youtube.com/embed/${id}?start=${start}&rel=0&modestbranding=1&autoplay=1`,thumb:`https://i.ytimg.com/vi/${id}/hqdefault.jpg`};
+  return{id,start,embed:`https://www.youtube.com/embed/${id}?start=${start}&rel=0&modestbranding=1&autoplay=1&mute=1&playsinline=1`,thumb:`https://i.ytimg.com/vi/${id}/hqdefault.jpg`};
 }
 function showVideo(url,name,desc){
   const yt=ytParse(url);
