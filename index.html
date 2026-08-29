@@ -581,10 +581,7 @@ function renderCelebration(snap){
       <button onclick="goNav('history')" style="background:none;border:none;color:var(--tx3);font-size:13px;cursor:pointer;font-family:inherit">ดูประวัติทั้งหมด →</button>
     </div>`;
 }
-function cancelSession(){
-  if(!confirm('ยกเลิกการซ้อมวันนี้?\n(ข้อมูลที่บันทึกไว้แล้วจะหายไป)'))return;
-  SESS=null;saveSess();stopTimer();render();
-}
+function cancelSession(){SESS=null;saveSess();stopTimer();render();}
 
 // ─── NAV ─────────────────────────────────────────────────────
 function goNav(s){
@@ -646,11 +643,11 @@ function renderWorkout(){
   const curExNum=Math.min(doneExFull+1,totalEx);
   const isLeg=s.dayId==='legs'||s.dayId==='full';
   const wuItems=P.generalWarmup.items.filter(i=>!i.legDayOnly||isLeg)
-    .map(i=>{const vid=WU_VIDEOS[i.name];const vl=vid?` · <button class="wu-video-link" onclick="window.open('${vid}','_blank','noopener')">▶ วิดีโอ</button>`:'';return`<div class="wu-item"><span class="wu-dot">•</span><div><div class="wu-name">${i.name}${i.optional?' <span style="font-size:10px;color:var(--tx3)">(ทางเลือก)</span>':''}</div><div class="wu-meta">${i.repsTime}${vl}</div></div></div>`;}).join('');
+    .map(i=>{const vid=WU_VIDEOS[i.name];const vl=vid?` · <button class="wu-video-link" onclick="showVideo('${vid}','${i.name}','${i.th||''}')">▶ ดูวิดีโอ</button>`:'';return`<div class="wu-item"><span class="wu-dot">•</span><div><div class="wu-name">${i.name}${i.optional?' <span style="font-size:10px;color:var(--tx3)">(ทางเลือก)</span>':''}</div><div class="wu-meta">${i.repsTime}${vl}</div></div></div>`;}).join('');
   const deload=P.weeks[String(s.week)]?.deload;
   const cards=s.exercises.map((_,i)=>buildCard(i)).join('');
   return`<div class="seh">
-    <button class="bbtn" onclick="cancelSession()">✕</button>
+    <button class="bbtn" onclick="confirmCancel()">✕</button>
     <div><div class="set">${day.name} · ${day.th}</div><div class="sew">W${s.week} · ${fmtDate(s.date)}</div></div>
     <button class="fbtn" onclick="finishSession()">จบ ✓</button>
   </div>
@@ -733,8 +730,8 @@ function buildCard(ei){
     <div class="exh">
       <div class="exn">
         <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:4px">${ssBadge}<span class="bdg ${bc}">${bl}</span></div>
-        <a class="exnm" href="${vid||'#'}" target="_blank" ${!vid?'onclick="return false"':''}>${el.name}</a>
-        ${!ex.backoffPct&&ex.type!=='mechdrop'?`<div class="exmeta">${ex.th}</div>`:''}
+        <button class="exnm" style="background:none;border:none;padding:0;text-align:left;width:100%;cursor:${vid?'pointer':'default'}" onclick="${vid?`showVideo('${vid.replace(/'/g,"\\'")}','${el.name.replace(/'/g,"\\'")}','${(ex.th||'').replace(/'/g,"\\'")}')`:'void(0)'}"><span style="display:flex;align-items:center;gap:6px">${el.name}${vid?`<span style="font-size:11px;font-weight:500;color:var(--acc);background:var(--acc-d);border-radius:6px;padding:1px 6px;font-family:'IBM Plex Sans Thai',sans-serif;flex-shrink:0">▶ ดูท่า</span>`:''}</span></button>
+        <div class="exmeta">${ex.th||''}</div>
       </div>
       <div style="display:flex;gap:6px;align-items:center;flex-shrink:0">${subBtn}</div>
     </div>
@@ -837,6 +834,57 @@ function setSub(ei,name){
 }
 function closeModal(){document.getElementById('modal').innerHTML='';}
 
+function confirmStartNew(dayId){
+  document.getElementById('modal').innerHTML=`<div class="modal-wrap">
+    <div class="modal-bd" onclick="closeModal()"></div>
+    <div class="modal-sh" style="padding-bottom:calc(24px + env(safe-area-inset-bottom))">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;margin-bottom:6px">มีการซ้อมค้างอยู่</div>
+      <div style="font-size:13px;color:var(--tx2);margin-bottom:20px;line-height:1.5">เริ่มใหม่จะลบข้อมูลซ้อมที่ค้างไว้ทั้งหมด</div>
+      <button onclick="window.__forceStart=true;closeModal();startSession('${dayId}')" style="width:100%;padding:13px;border:none;border-radius:11px;background:var(--acc);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:700;cursor:pointer;margin-bottom:8px">เริ่มใหม่</button>
+      <button onclick="closeModal()" style="width:100%;padding:11px;border:1.5px solid var(--bdr-s);border-radius:11px;background:var(--surf2);color:var(--tx2);font-size:14px;cursor:pointer;font-family:inherit">ซ้อมต่อ (${P.days[SESS.dayId]?.name||''})</button>
+    </div>
+  </div>`;
+}
+// ─── YOUTUBE EMBED ────────────────────────────────────────────
+function ytEmbed(url){
+  if(!url)return null;
+  let id='',start=0;
+  const m1=url.match(/youtu\.be\/([^?&#/]+)/);
+  const m2=url.match(/[?&]v=([^?&#]+)/);
+  if(m1)id=m1[1];else if(m2)id=m2[1];
+  const ts=url.match(/[?&]t=(\d+)/);
+  if(ts)start=parseInt(ts[1]);
+  return id?`https://www.youtube.com/embed/${id}?start=${start}&rel=0&modestbranding=1`:null;
+}
+function showVideo(url,name,desc){
+  const embed=ytEmbed(url);
+  if(!embed){if(url)window.open(url,'_blank','noopener');return;}
+  document.getElementById('modal').innerHTML=`<div class="modal-wrap">
+    <div class="modal-bd" onclick="closeModal()"></div>
+    <div class="modal-sh" style="padding-bottom:calc(24px + env(safe-area-inset-bottom))">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:10px">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;line-height:1.1">${name}</div>
+        <button onclick="closeModal()" style="background:none;border:none;color:var(--tx3);font-size:22px;cursor:pointer;flex-shrink:0;padding:0;line-height:1">✕</button>
+      </div>
+      <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;background:#000;margin-bottom:${desc?'12px':'0'}">
+        <iframe src="${embed}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      </div>
+      ${desc?`<div style="font-size:13px;color:var(--tx2);line-height:1.6;padding:2px 0">${desc}</div>`:''}
+    </div>
+  </div>`;
+}
+function confirmCancel(){
+  document.getElementById('modal').innerHTML=`<div class="modal-wrap">
+    <div class="modal-bd" onclick="closeModal()"></div>
+    <div class="modal-sh" style="padding-bottom:calc(24px + env(safe-area-inset-bottom))">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;margin-bottom:6px">ยกเลิกการซ้อม?</div>
+      <div style="font-size:13px;color:var(--tx2);margin-bottom:20px;line-height:1.5">ข้อมูลที่กรอกไว้จะหายไปทั้งหมด</div>
+      <button onclick="SESS=null;saveSess();stopTimer();closeModal();render()" style="width:100%;padding:13px;border:none;border-radius:11px;background:var(--red);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:700;cursor:pointer;margin-bottom:8px">ยกเลิกการซ้อม</button>
+      <button onclick="closeModal()" style="width:100%;padding:11px;border:1.5px solid var(--bdr-s);border-radius:11px;background:var(--surf2);color:var(--tx2);font-size:14px;cursor:pointer;font-family:inherit">ซ้อมต่อ</button>
+    </div>
+  </div>`;
+}
+
 // ─── PLAN ────────────────────────────────────────────────────
 const DAYC={legs:'var(--dl)',push:'var(--dp)',pull:'var(--du)',full:'var(--df)'};
 const DAYS_SHORT={legs:'Legs',push:'Push',pull:'Pull',full:'Full'};
@@ -930,7 +978,8 @@ function renderCal(){
 }
 function calMove(d){const nm=CALM.m+d;CALM={y:CALM.y+Math.floor(nm/12),m:((nm%12)+12)%12};render();}
 function planStart(dayId,week){
-  if(SESS&&!confirm('มีการซ้อมค้างอยู่ — เริ่มใหม่จะทับของเดิม?'))return;
+  if(SESS){if(!window.__forceStart)return confirmStartNew(dayId);window.__forceStart=false;}
+
   if(week){CFG.week=week;saveCfg();}
   goNav('today');startSession(dayId);
 }
