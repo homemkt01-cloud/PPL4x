@@ -326,6 +326,22 @@ tr.wu-sep td{padding:5px 14px;font-size:9px;text-transform:uppercase;letter-spac
 .vol-li{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--tx2);white-space:nowrap}
 .vol-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+/* ══ MUSCLE CHIPS ═════════════════════════════════════════════ */
+.mchips{display:flex;flex-wrap:wrap;gap:4px;padding:4px 16px 6px}
+.mchip{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;letter-spacing:.03em}
+.mchip.pri{background:var(--acc-g);color:var(--acc);border:1px solid rgba(198,255,0,.25)}
+.mchip.sec{background:var(--surf2);color:var(--tx3)}
+.mchip.uni{background:rgba(0,199,255,.1);color:var(--cyn);border:1px solid rgba(0,199,255,.2)}
+/* ══ QUICK CALC ═══════════════════════════════════════════════ */
+.qcalc{margin:6px 12px 2px;background:var(--surf2);border-radius:12px;padding:10px 12px}
+.qcalc-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.qcalc label{font-size:11px;color:var(--tx3);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+/* ══ HISTORY EDIT ═════════════════════════════════════════════ */
+.hedit-row{display:flex;align-items:center;gap:6px;padding:6px 14px;border-bottom:1px solid var(--bdr)}
+.hedit-inp{width:60px;background:var(--surf2);border:none;color:var(--tx);font-size:14px;font-weight:600;text-align:center;padding:5px 3px;border-radius:8px;font-family:inherit}
+.hedit-inp:focus{outline:none;background:var(--surf3)}
+/* ══ NICK GREETING ════════════════════════════════════════════ */
+.nick-greet{font-size:12px;color:var(--acc);font-weight:600;text-align:center;padding:3px 0 0}
 </style>
 </head>
 <body>
@@ -356,6 +372,9 @@ tr.wu-sep td{padding:5px 14px;font-size:9px;text-transform:uppercase;letter-spac
 <div id="modal"></div>
 
 <script>
+// ─── UNILATERAL EXERCISES ───────────────────────────────────
+const UNI_NAMES=new Set(['Walking Lunge','DB Bulgarian Split Squat','Cross-Body Cable Y-Raise (Side Delt)','DB Lateral Raise','Machine Lateral Raise','N1-Style Cross-Body Triceps Extension','Single-Arm Tricep Pressdown','Single-Arm Cable Tricep Kickback','Kroc Row','Single-Arm DB Row','Meadows Row','Bottom-Half Preacher Curl','Bottom-Half Spider Curl','Bottom-Half Bayesian Curl','A1. Press-Around','DB Flye','Cable External Rotation']);
+function isUni(name){return UNI_NAMES.has(name);}
 // ─── WARMUP VIDEOS ───────────────────────────────────────────
 const WU_VIDEOS={'Low Intensity Cardio':'','Front/Back Leg Swing':'https://www.youtube.com/watch?v=difYoBtZi2s','Side/Side Leg Swing':'https://www.youtube.com/watch?v=korxBhGzzJE','Arm Swings':'https://www.youtube.com/watch?v=VlPmrlYZco8','Cable External Rotation':'https://www.youtube.com/watch?v=vjUE_9BsPUU','Foam Rolling':'https://www.youtube.com/watch?v=Fy9sMmsRHPI'};
 // ─── PROGRAM DATA ───────────────────────────────────────────
@@ -364,9 +383,10 @@ const P = {"meta":{"title":"Ultimate PPL System 4x/week","author":"Jeff Nippard"
 // ─── STATE ──────────────────────────────────────────────────
 let SCR = 'today';
 let SESS = null;   // active session
-let CFG  = {week:1, repFloor4:false};
+let CFG  = {week:1, repFloor4:false, nickname:''};
 let SUBS = {};     // "dayId_exIdx" -> name
-let TIMER = {on:false, rem:0, total:0, lbl:'', tid:null};
+let CUSTOM_SUBS = {}; // "dayId_exIdx" -> [name, ...]  user-added substitutes
+let TIMER = {on:false, rem:0, total:0, lbl:'', tid:null, endAt:0};
 let HOLDS = {};    // "exIdx_si" -> {rem, done, tid}
 let CALM  = null;  // calendar month state for plan screen
 
@@ -374,10 +394,12 @@ let CALM  = null;  // calendar month state for plan screen
 function loadStorage(){
   try{CFG={...CFG,...JSON.parse(localStorage.getItem('ppl_cfg')||'{}')};}catch(e){}
   try{SUBS=JSON.parse(localStorage.getItem('ppl_subs')||'{}');}catch(e){}
+  try{CUSTOM_SUBS=JSON.parse(localStorage.getItem('ppl_custom')||'{}');}catch(e){}
   try{const s=localStorage.getItem('ppl_sess');if(s)SESS=JSON.parse(s);}catch(e){}
 }
 function saveCfg(){localStorage.setItem('ppl_cfg',JSON.stringify(CFG));}
 function saveSubs(){localStorage.setItem('ppl_subs',JSON.stringify(SUBS));}
+function saveCustomSubs(){localStorage.setItem('ppl_custom',JSON.stringify(CUSTOM_SUBS));}
 function saveSess(){
   if(SESS)localStorage.setItem('ppl_sess',JSON.stringify(SESS));
   else localStorage.removeItem('ppl_sess');
@@ -462,23 +484,39 @@ function vibrate(p){try{navigator.vibrate?.(p);}catch(e){}}
 function startRest(sec,lbl){
   if(sec<=0)return;
   stopTimer();
-  TIMER={on:true,rem:sec,total:sec,lbl:lbl||'',tid:null};
+  const endAt=Date.now()+sec*1000;
+  TIMER={on:true,rem:sec,total:sec,lbl:lbl||'',tid:null,endAt};
   TIMER.tid=setInterval(()=>{
-    TIMER.rem--;
-    if(TIMER.rem<=0){
-      TIMER.rem=0;stopTimer();
-      beep(880,.1);setTimeout(()=>beep(880,.1),200);setTimeout(()=>beep(1100,.4),420);
-      vibrate([200,100,200]);
-    }else if(TIMER.rem<=3)beep(660,.08,.1);
+    const rem=Math.max(0,Math.round((TIMER.endAt-Date.now())/1000));
+    if(rem!==TIMER.rem){
+      TIMER.rem=rem;
+      if(rem<=0){
+        stopTimer();
+        beep(880,.1);setTimeout(()=>beep(880,.1),200);setTimeout(()=>beep(1100,.4),420);
+        vibrate([200,100,200]);
+        return;
+      }else if(rem<=3)beep(660,.08,.1);
+    }
     renderTimer();
-  },1000);
+  },250);
   renderTimer();
 }
 function stopTimer(){
   if(TIMER.tid)clearInterval(TIMER.tid);
-  TIMER={on:false,rem:0,total:0,lbl:'',tid:null};
+  TIMER={on:false,rem:0,total:0,lbl:'',tid:null,endAt:0};
   renderTimer();
 }
+// ─── BACKGROUND TIMER SYNC ───────────────────────────────────
+document.addEventListener('visibilitychange',()=>{
+  if(!document.hidden&&TIMER.on){
+    TIMER.rem=Math.max(0,Math.round((TIMER.endAt-Date.now())/1000));
+    if(TIMER.rem<=0){
+      stopTimer();
+      beep(880,.1);setTimeout(()=>beep(880,.1),200);setTimeout(()=>beep(1100,.4),420);
+      vibrate([200,100,200]);
+    }else renderTimer();
+  }
+});
 function renderTimer(){
   const el=document.getElementById('tov');
   if(!TIMER.on){el.style.display='none';return;}
@@ -565,13 +603,24 @@ function startSession(dayId){
       warmupSets:initWarmupSets(ex,sugW)
     };
   });
-  SESS={date:todayStr(),dayId,week:CFG.week,exercises,completed:false};
+  SESS={date:todayStr(),dayId,week:CFG.week,exercises,completed:false,startTime:Date.now()};
   HOLDS={};
   saveSess();render();
+}
+function isLastWorkingSet(ei,si){
+  if(!SESS)return false;
+  for(let e=ei;e<SESS.exercises.length;e++){
+    const ex2=SESS.exercises[e];
+    for(let s=(e===ei?si+1:0);s<ex2.sets.length;s++){
+      if(!ex2.sets[s].done)return false;
+    }
+  }
+  return true;
 }
 function finishSession(){
   if(!SESS)return;
   SESS.completed=true;
+  SESS.endTime=Date.now();
   const snap=SESS;
   pushToHistory(snap);
   launchConfetti();
@@ -588,31 +637,52 @@ function renderCelebration(snap){
   const dc=dayColor[snap.dayId]||'var(--acc)';
   const m=document.getElementById('main');
   const volStr=totalVol>0?(totalVol>=1000?(totalVol/1000).toFixed(1)+'T':Math.round(totalVol)+'KG'):'—';
+  // Duration
+  const durSec=snap.endTime&&snap.startTime?Math.round((snap.endTime-snap.startTime)/1000):0;
+  const durStr=durSec>0?`${Math.floor(durSec/3600)>0?Math.floor(durSec/3600)+'ชม. ':''}${Math.floor((durSec%3600)/60)} นาที`:'—';
+  // New PRs this session
+  const prevHist=allSessions().filter(s=>s.completed&&s.date!==snap.date);
+  const prMap={};
+  prevHist.forEach(s=>s.exercises?.forEach(ex=>ex.sets?.filter(x=>x.done&&x.weight>0&&x.reps>0).forEach(x=>{const cur=prMap[ex.name];if(!cur||x.weight>cur.weight)prMap[ex.name]={weight:x.weight,reps:x.reps};})));
+  const newPRs=[];
+  snap.exercises.forEach(ex=>ex.sets?.filter(x=>x.done&&x.weight>0&&x.reps>0).forEach(x=>{const prev=prMap[ex.name];if(!prev||x.weight>prev.weight)newPRs.push({name:ex.name,weight:x.weight,reps:x.reps});}));
+  const prHtml=newPRs.length?`<div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:14px;padding:12px 16px;text-align:left;margin-bottom:12px"><div style="font-size:12px;color:#fbbf24;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">🏆 PR ใหม่!</div>${newPRs.map(p=>`<div style="font-size:14px;color:var(--tx);padding:3px 0;font-variant-numeric:tabular-nums">${p.name} — <span style="color:#fbbf24;font-weight:700">${p.weight}kg × ${p.reps}</span></div>`).join('')}</div>`:'';
+  // Top sets
+  const topSets=snap.exercises.map(ex=>{const done=ex.sets.filter(s=>s.done&&s.weight>0&&s.reps>0);if(!done.length)return null;const top=done.reduce((a,b)=>b.weight>a.weight?b:a,done[0]);return{name:ex.name,w:top.weight,r:top.reps};}).filter(Boolean);
+  const topHtml=topSets.length?`<div style="background:var(--surf);border-radius:14px;overflow:hidden;margin-bottom:12px;text-align:left"><div style="font-size:12px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:10px 14px 6px">Top Sets</div>${topSets.map(t=>`<div style="display:flex;justify-content:space-between;padding:6px 14px;border-top:1px solid var(--bdr);font-size:13px"><span style="color:var(--tx2);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-right:8px">${t.name}</span><span style="color:var(--tx);font-weight:600;font-variant-numeric:tabular-nums;flex-shrink:0">${t.w}kg × ${t.r}</span></div>`).join('')}</div>`:'';
+  const nick=CFG.nickname?CFG.nickname:'';
+  const msgs=['ทำได้ดีมาก!','แน่มาก!','ยอดเยี่ยม!','โปรแน่!','ดีมาก!','เก่งมาก!'];
+  const msg=msgs[Math.floor(Math.random()*msgs.length)];
   m.innerHTML=`
-    <div style="min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:env(safe-area-inset-top,40px) 20px calc(env(safe-area-inset-bottom,16px)+80px);text-align:center;gap:0;background:var(--bg)">
-      <div style="margin-top:48px;margin-bottom:28px">
-        <div style="width:80px;height:80px;border-radius:50%;background:${dc};display:flex;align-items:center;justify-content:center;font-size:38px;margin:0 auto 16px;box-shadow:0 0 0 14px rgba(255,255,255,0.06),0 0 40px rgba(255,255,255,0.12)">✓</div>
-        <div style="font-size:34px;font-weight:700;letter-spacing:-.3px;line-height:1;margin-bottom:6px">Workout Complete</div>
+    <div style="min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:env(safe-area-inset-top,40px) 20px calc(env(safe-area-inset-bottom,16px)+80px);gap:0;background:var(--bg)">
+      <div style="margin-top:40px;margin-bottom:20px;text-align:center;width:100%">
+        <div style="font-size:64px;margin-bottom:8px;animation:prIn .4s ease">🎉</div>
+        <div style="font-size:30px;font-weight:700;letter-spacing:-.3px;line-height:1.1;margin-bottom:4px">${nick?nick+' '+msg:msg}</div>
         <div style="font-size:15px;color:var(--tx2)">${day.name} · W${snap.week}</div>
       </div>
       <div style="width:100%;background:var(--surf);border-radius:20px;overflow:hidden;margin-bottom:12px">
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0">
-          <div style="padding:20px 8px;border-right:0.5px solid rgba(84,84,88,.5)">
-            <div style="font-size:34px;font-weight:700;color:${dc};line-height:1;font-variant-numeric:tabular-nums">${totalSets}</div>
-            <div style="font-size:11px;color:var(--tx3);margin-top:6px;text-transform:uppercase;letter-spacing:.06em;font-weight:600">Sets</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0">
+          <div style="padding:16px 4px;border-right:0.5px solid rgba(84,84,88,.5);text-align:center">
+            <div style="font-size:26px;font-weight:700;color:${dc};line-height:1;font-variant-numeric:tabular-nums">${totalSets}</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:5px;text-transform:uppercase;letter-spacing:.05em;font-weight:600">Sets</div>
           </div>
-          <div style="padding:20px 8px;border-right:0.5px solid rgba(84,84,88,.5)">
-            <div style="font-size:34px;font-weight:700;color:${dc};line-height:1">${snap.exercises.filter(e=>e.sets.some(s=>s.done)).length}</div>
-            <div style="font-size:11px;color:var(--tx3);margin-top:6px;text-transform:uppercase;letter-spacing:.06em;font-weight:600">Exercises</div>
+          <div style="padding:16px 4px;border-right:0.5px solid rgba(84,84,88,.5);text-align:center">
+            <div style="font-size:26px;font-weight:700;color:${dc};line-height:1">${snap.exercises.filter(e=>e.sets.some(s=>s.done)).length}</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:5px;text-transform:uppercase;letter-spacing:.05em;font-weight:600">Exs</div>
           </div>
-          <div style="padding:20px 8px">
-            <div style="font-size:${totalVol>=10000?24:34}px;font-weight:700;color:${dc};line-height:1;font-variant-numeric:tabular-nums">${volStr}</div>
-            <div style="font-size:11px;color:var(--tx3);margin-top:6px;text-transform:uppercase;letter-spacing:.06em;font-weight:600">Volume</div>
+          <div style="padding:16px 4px;border-right:0.5px solid rgba(84,84,88,.5);text-align:center">
+            <div style="font-size:${totalVol>=10000?18:26}px;font-weight:700;color:${dc};line-height:1;font-variant-numeric:tabular-nums">${volStr}</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:5px;text-transform:uppercase;letter-spacing:.05em;font-weight:600">Vol</div>
+          </div>
+          <div style="padding:16px 4px;text-align:center">
+            <div style="font-size:20px;font-weight:700;color:${dc};line-height:1">${durStr.split(' ')[0]}</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:5px;text-transform:uppercase;letter-spacing:.05em;font-weight:600">${durSec>0?durStr.includes('ชม')?'เวลา':'นาที':'เวลา'}</div>
           </div>
         </div>
       </div>
-      <button onclick="goNav('today')" style="width:100%;padding:16px;border:none;border-radius:14px;background:var(--acc);color:#000;font-size:17px;font-weight:700;cursor:pointer;letter-spacing:-.1px;margin-bottom:10px">Done</button>
-      <button onclick="goNav('history')" style="background:none;border:none;color:var(--tx3);font-size:14px;cursor:pointer;font-family:inherit">View History →</button>
+      ${prHtml}${topHtml}
+      <button onclick="goNav('today')" style="width:100%;padding:16px;border:none;border-radius:14px;background:var(--acc);color:#000;font-size:17px;font-weight:700;cursor:pointer;letter-spacing:-.1px;margin-bottom:10px">เสร็จแล้ว</button>
+      <button onclick="goNav('history')" style="background:none;border:none;color:var(--tx3);font-size:14px;cursor:pointer;font-family:inherit">ดูประวัติ →</button>
     </div>`;
 }
 function cancelSession(){SESS=null;saveSess();stopTimer();render();}
@@ -682,9 +752,10 @@ function renderWorkout(){
     .map(i=>{const vid=WU_VIDEOS[i.name];const vl=vid?` · <button class="wu-video-link" onclick="showVideo('${vid}','${i.name}','${i.th||''}')">▶ ดูวิดีโอ</button>`:'';return`<div class="wu-item"><span class="wu-dot">•</span><div><div class="wu-name">${i.name}${i.optional?' <span style="font-size:10px;color:var(--tx3)">(ทางเลือก)</span>':''}</div><div class="wu-meta">${i.repsTime}${vl}</div></div></div>`;}).join('');
   const deload=P.weeks[String(s.week)]?.deload;
   const cards=s.exercises.map((_,i)=>buildCard(i)).join('');
+  const nickLine=CFG.nickname?`<div class="nick-greet">มาแล้ว ${CFG.nickname}! 💪</div>`:'';
   return`<div class="seh">
     <button class="bbtn" onclick="confirmCancel()">✕</button>
-    <div style="flex:1;text-align:center"><div class="set">${day.name}</div><div class="sew">W${s.week} · ${day.th}</div></div>
+    <div style="flex:1;text-align:center"><div class="set">${day.name}</div><div class="sew">W${s.week} · ${day.th}</div>${nickLine}</div>
     <button class="fbtn" onclick="finishSession()">Finish</button>
   </div>
   <div class="pbar"><div class="pbf" style="width:${pct}%"></div></div>
@@ -696,8 +767,26 @@ function renderWorkout(){
   </div>
   ${deload?`<div class="dlnote" style="margin-top:0">⚠️ Deload — ลดน้ำหนัก ห้ามดันถึงหมดแรง</div>`:''}
   <details style="margin:4px 12px 4px;background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r)">
-    <summary style="padding:8px 12px;font-size:12px;color:var(--tx2);cursor:pointer;list-style:none;user-select:none">▸ วอร์มอัพทั่วไป</summary>
+    <summary style="padding:8px 12px;font-size:12px;color:var(--tx2);cursor:pointer;list-style:none;user-select:none">▸ วอร์มอัพทั่วไป & เครื่องมือ</summary>
     <div style="padding:6px 12px 10px">${wuItems}</div>
+    <div style="border-top:1px solid var(--bdr);padding:8px 12px 10px">
+      <div style="font-size:11px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">เครื่องคิดวอร์ม</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+        <input class="inp" type="number" id="wu-quick-w" placeholder="น้ำหนักจริง (kg)" style="width:160px;font-size:14px" inputmode="decimal" oninput="calcWarmupQuick()">
+        <select class="inp" id="wu-quick-n" style="width:110px;font-size:13px" onchange="calcWarmupQuick()">
+          <option value="1">1 เซ็ต</option>
+          <option value="2">2 เซ็ต</option>
+          <option value="3" selected>3 เซ็ต</option>
+          <option value="4">4 เซ็ต</option>
+        </select>
+      </div>
+      <div id="wu-quick-res" style="margin-top:6px"></div>
+    </div>
+    <div style="border-top:1px solid var(--bdr);padding:8px 12px 10px">
+      <div style="font-size:11px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">เครื่องคิดแผ่น (บาร์ 20kg)</div>
+      <input class="inp" type="number" id="wu-plate-w" placeholder="น้ำหนักเป้า (kg)" style="width:180px;font-size:14px" inputmode="decimal" oninput="calcPlatesQuick()">
+      <div id="wu-plate-res" class="prow" style="min-height:32px;margin-top:6px"></div>
+    </div>
   </details>
   ${cards}
   <div style="padding:16px 16px 6px">
@@ -775,6 +864,12 @@ function buildCard(ei){
   const minSets=1;
   const setActionsHtml=`<div class="set-actions"><button class="set-rm-btn" onclick="removeSet(${ei})" title="ลบเซ็ตสุดท้าย">− เซ็ต</button><button class="set-add-btn" onclick="addSet(${ei})">+ เพิ่มเซ็ต</button></div>`;
 
+  // Muscle chips
+  const mArr=ex.m||[];
+  const uniFlag=isUni(el.name);
+  const muscChips=mArr.map((k,i)=>`<span class="mchip ${i===0?'pri':'sec'}">${muscName(k)}</span>`).join('');
+  const uniChip=uniFlag?`<span class="mchip uni">🔄 ทีละข้าง</span>`:'';
+  const mchipsHtml=(mArr.length||uniFlag)?`<div class="mchips">${muscChips}${uniChip}</div>`:'';
   const badgeRow=(bc!=='bn'||ex.superset)?`<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:5px">${ssBadge}${bc!=='bn'?`<span class="bdg ${bc}">${bl}</span>`:''}</div>`:'';
   return`<div class="${cls}" id="exc_${ei}">
     <div class="exh">
@@ -785,7 +880,7 @@ function buildCard(ei){
       </div>
       <div style="display:flex;gap:6px;align-items:center;flex-shrink:0">${subBtn}</div>
     </div>
-    ${lastHintHtml}${boHtml}${mdHtml}${sugHtml}${tableHtml}${ex.type!=='hold'?setActionsHtml:''}
+    ${mchipsHtml}${lastHintHtml}${boHtml}${mdHtml}${sugHtml}${tableHtml}${ex.type!=='hold'?setActionsHtml:''}
   </div>`;
 }
 
@@ -827,7 +922,7 @@ function markDone(ei,si){
   if(set.done){
     beep(660,.06,.12);
     const ex=effEx(SESS.dayId,SESS.exercises[ei].baseIdx,SESS.week);
-    if(ex.rest>0)startRest(minRest(ex.rest),SESS.exercises[ei].name);
+    if(ex.rest>0&&!isLastWorkingSet(ei,si))startRest(minRest(ex.rest),SESS.exercises[ei].name);
   }
   const card=document.getElementById('exc_'+ei);
   if(card){
@@ -882,17 +977,47 @@ function removeSet(ei){
 function openSub(ei){
   const s=SESS;
   const ex=P.days[s.dayId].ex[s.exercises[ei].baseIdx];
-  const opts=[ex.n,...ex.sub];
+  const k=s.dayId+'_'+s.exercises[ei].baseIdx;
+  const customOpts=CUSTOM_SUBS[k]||[];
+  const opts=[ex.n,...ex.sub,...customOpts.filter(n=>!ex.sub.includes(n)&&n!==ex.n)];
   const cur=s.exercises[ei].name;
-  const items=opts.map(n=>`<button class="sopt${n===cur?' on':''}" onclick="setSub(${ei},'${n.replace(/'/g,"\\'").replace(/\\/g,'\\\\')}');closeModal()">${n===cur?'✓ ':''}${n}</button>`).join('');
+  const items=opts.map(n=>{
+    const isCustom=customOpts.includes(n)&&!ex.sub.includes(n)&&n!==ex.n;
+    const safe=n.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    const delBtn=isCustom?`<button onclick="event.stopPropagation();removeCustomSub('${k}','${safe}',${ei})" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer;padding:0 0 0 8px;line-height:1;flex-shrink:0">×</button>`:'';
+    return`<div style="display:flex;align-items:center"><button class="sopt${n===cur?' on':''}" style="flex:1" onclick="setSub(${ei},'${safe}');closeModal()">${n===cur?'✓ ':''}${n}${isCustom?' <span style="font-size:10px;color:var(--tx3)">(custom)</span>':''}</button>${delBtn}</div>`;
+  }).join('');
   document.getElementById('modal').innerHTML=`<div class="modal-wrap">
     <div class="modal-bd" onclick="closeModal()"></div>
     <div class="modal-sh">
       <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--tx3);font-weight:600;margin-bottom:12px">เปลี่ยนท่า — ${ex.n}</div>
       ${items}
-      <button class="sopt" style="color:var(--tx3);margin-top:4px" onclick="closeModal()">ยกเลิก</button>
+      <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--bdr)">
+        <div style="font-size:12px;color:var(--tx3);margin-bottom:6px;font-weight:500">➕ เพิ่มท่าเอง</div>
+        <div style="display:flex;gap:6px">
+          <input class="inp" id="custom-sub-inp" placeholder="ชื่อท่า..." style="flex:1;font-size:14px" onkeydown="if(event.key==='Enter')addCustomSubAndSet('${k}',${ei})">
+          <button class="btn btnp" style="padding:9px 14px;font-size:13px;white-space:nowrap" onclick="addCustomSubAndSet('${k}',${ei})">เพิ่ม</button>
+        </div>
+      </div>
+      <button class="sopt" style="color:var(--tx3);margin-top:8px" onclick="closeModal()">ยกเลิก</button>
     </div>
   </div>`;
+}
+function addCustomSubAndSet(k,ei){
+  const inp=document.getElementById('custom-sub-inp');
+  const name=(inp?.value||'').trim();
+  if(!name)return;
+  if(!CUSTOM_SUBS[k])CUSTOM_SUBS[k]=[];
+  if(!CUSTOM_SUBS[k].includes(name))CUSTOM_SUBS[k].push(name);
+  saveCustomSubs();
+  setSub(ei,name);
+  closeModal();
+}
+function removeCustomSub(k,name,ei){
+  if(!CUSTOM_SUBS[k])return;
+  CUSTOM_SUBS[k]=CUSTOM_SUBS[k].filter(n=>n!==name);
+  saveCustomSubs();
+  openSub(ei);
 }
 function setSub(ei,name){
   if(!SESS)return;
@@ -1098,18 +1223,61 @@ function showSessDetail(date,dayId){
   const s=allSessions().find(x=>x.date===date&&x.dayId===dayId);
   if(!s)return;
   const day=P.days[dayId];
-  const rows=s.exercises?.map(ex=>{
-    const sets=ex.sets?.filter(x=>x.done).map(x=>`${x.weight}×${x.reps||'?'}`).join(', ')||'—';
-    return`<div style="padding:8px 14px;border-bottom:1px solid var(--bdr)"><div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700">${ex.name}</div><div style="font-size:12px;color:var(--tx2)">${sets}</div></div>`;
+  const durSec=s.endTime&&s.startTime?Math.round((s.endTime-s.startTime)/1000):0;
+  const durStr=durSec>0?`${Math.floor(durSec/3600)>0?Math.floor(durSec/3600)+'ชม. ':''}${Math.floor((durSec%3600)/60)} นาที`:'';
+  const rows=s.exercises?.map((ex,ei)=>{
+    const doneSets=ex.sets?.filter(x=>x.done)||[];
+    if(!doneSets.length)return'';
+    const setRows=doneSets.map((x,si)=>`
+      <div class="hedit-row">
+        <span style="font-size:12px;color:var(--tx3);width:22px">${si+1}</span>
+        <input class="hedit-inp" type="number" value="${x.weight||0}" step="2.5" inputmode="decimal" onchange="editHistSet('${date}','${dayId}',${ei},${si},'weight',this.value)"> <span style="font-size:12px;color:var(--tx3)">kg ×</span>
+        <input class="hedit-inp" type="number" value="${x.reps||0}" inputmode="numeric" onchange="editHistSet('${date}','${dayId}',${ei},${si},'reps',this.value)"> <span style="font-size:12px;color:var(--tx3)">ครั้ง</span>
+      </div>`).join('');
+    return`<div style="border-bottom:1px solid var(--bdr)"><div style="padding:8px 14px 2px;font-size:15px;font-weight:600">${ex.name}</div>${setRows}</div>`;
   }).join('')||'';
   document.getElementById('modal').innerHTML=`<div class="modal-wrap">
     <div class="modal-bd" onclick="closeModal()"></div>
-    <div class="modal-sh" style="max-height:80dvh;overflow-y:auto">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;margin-bottom:10px">${day?.name} · ${fmtDate(date)}</div>
+    <div class="modal-sh" style="max-height:85dvh;overflow-y:auto">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+        <div>
+          <div style="font-size:18px;font-weight:700">${day?.name||dayId}</div>
+          <div style="font-size:13px;color:var(--tx3)">${fmtDate(date)}${durStr?' · '+durStr:''} · W${s.week}</div>
+        </div>
+        <button onclick="closeModal()" style="background:none;border:none;color:var(--tx3);font-size:22px;cursor:pointer;padding:0;line-height:1">✕</button>
+      </div>
+      <div style="font-size:11px;color:var(--acc);margin-bottom:10px">กดตัวเลขเพื่อแก้ไข</div>
       ${rows}
-      <button class="sopt" style="color:var(--tx3);margin-top:8px" onclick="closeModal()">ปิด</button>
+      <button onclick="confirmDeleteSession('${date}','${dayId}')" style="width:100%;margin-top:14px;padding:11px;border:1px solid var(--red);border-radius:11px;background:none;color:var(--red);font-size:14px;cursor:pointer;font-family:inherit">ลบ Session นี้</button>
+      <button class="sopt" style="color:var(--tx3);margin-top:4px;text-align:center" onclick="closeModal()">ปิด</button>
     </div>
   </div>`;
+}
+function editHistSet(date,dayId,ei,si,field,val){
+  const hs=allSessions();
+  const s=hs.find(x=>x.date===date&&x.dayId===dayId);
+  if(!s)return;
+  const doneSets=s.exercises?.[ei]?.sets?.filter(x=>x.done)||[];
+  const set=doneSets[si];
+  if(!set)return;
+  set[field]=field==='weight'?(Math.max(0,parseFloat(val)||0)):(Math.max(0,parseInt(val)||0));
+  localStorage.setItem('ppl_hist',JSON.stringify(hs));
+}
+function confirmDeleteSession(date,dayId){
+  document.getElementById('modal').innerHTML=`<div class="modal-wrap">
+    <div class="modal-bd" onclick="closeModal()"></div>
+    <div class="modal-sh" style="padding-bottom:calc(24px + env(safe-area-inset-bottom))">
+      <div style="font-size:18px;font-weight:700;margin-bottom:6px">ลบ Session?</div>
+      <div style="font-size:13px;color:var(--tx2);margin-bottom:20px">ข้อมูลจะหายถาวร ไม่สามารถกู้คืนได้</div>
+      <button onclick="deleteSession('${date}','${dayId}')" style="width:100%;padding:13px;border:none;border-radius:11px;background:var(--red);color:#fff;font-size:17px;font-weight:700;cursor:pointer;margin-bottom:8px">ลบ</button>
+      <button onclick="closeModal()" style="width:100%;padding:11px;border:1.5px solid var(--bdr-s);border-radius:11px;background:var(--surf2);color:var(--tx2);font-size:14px;cursor:pointer;font-family:inherit">ยกเลิก</button>
+    </div>
+  </div>`;
+}
+function deleteSession(date,dayId){
+  const hs=allSessions().filter(s=>!(s.date===date&&s.dayId===dayId));
+  localStorage.setItem('ppl_hist',JSON.stringify(hs));
+  closeModal();render();
 }
 function exportData(){
   const data={sessions:allSessions(),cfg:CFG,subs:SUBS};
@@ -1260,6 +1428,13 @@ function renderGuideContent(){
 function renderSettingsTab(){
   return`<div class="slbl">การตั้งค่า</div>
   <div style="padding:0 14px">
+    <div style="padding:12px 0;border-bottom:1px solid var(--bdr)">
+      <div style="font-size:14px;font-weight:500;margin-bottom:6px">ชื่อเล่น</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input class="inp" id="nickname-inp" value="${CFG.nickname||''}" placeholder="ใส่ชื่อเล่นที่ต้องการ..." style="flex:1;font-size:15px" maxlength="20" oninput="CFG.nickname=this.value.trim();saveCfg()">
+      </div>
+      <div style="font-size:11px;color:var(--tx3);margin-top:4px">แสดงในหน้าซ้อมและหน้า finish</div>
+    </div>
     <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:12px 0;border-bottom:1px solid var(--bdr)">
       <input type="checkbox" ${CFG.repFloor4?'checked':''} onchange="CFG.repFloor4=this.checked;saveCfg()" style="width:18px;height:18px;accent-color:var(--acc)">
       <div>
@@ -1354,6 +1529,25 @@ function renderTools(){
   <div style="height:20px"></div>`;
 }
 
+function calcWarmupQuick(){
+  const w=parseFloat(document.getElementById('wu-quick-w')?.value)||0;
+  const n=parseInt(document.getElementById('wu-quick-n')?.value)||3;
+  const res=document.getElementById('wu-quick-res');if(!res)return;
+  if(w<=0){res.innerHTML='';return;}
+  const rule=P.warmupCalc.rules.find(r=>r.warmupSets===n);if(!rule)return;
+  const rows=rule.steps.map((step,i)=>{const wkg=Math.round(w*step.pct/100/2.5)*2.5;return`<tr><td style="padding:4px 8px 4px 0;color:var(--tx2);font-size:13px">เซ็ต ${i+1}</td><td style="padding:4px 8px;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--acc)">${wkg} kg</td><td style="padding:4px 0;font-size:11px;color:var(--tx3)">${step.pct}%</td></tr>`;}).join('');
+  res.innerHTML=`<table style="border-collapse:collapse">${rows}</table>`;
+}
+function calcPlatesQuick(){
+  const t=parseFloat(document.getElementById('wu-plate-w')?.value)||0;
+  const res=document.getElementById('wu-plate-res');if(!res)return;
+  if(t<=20){res.innerHTML='<span style="color:var(--tx3);font-size:13px">ใส่แค่บาร์ (20 kg)</span>';return;}
+  const per=(t-20)/2;const sizes=[20,15,10,5,2.5,1.25];const cls={20:'pl p20',15:'pl p15',10:'pl p10',5:'pl p5',2.5:'pl p25',1.25:'pl p125'};
+  let rem=per,html='';sizes.forEach(p=>{const n=Math.floor(rem/p+0.001);if(n>0){rem=Math.round((rem-n*p)*1000)/1000;for(let i=0;i<n;i++)html+=`<div class="${cls[p]}">${p}</div>`;}});
+  if(rem>0.01)html+=`<span style="color:var(--red);font-size:12px">ไม่ลงตัว</span>`;
+  html+=`<span style="font-size:11px;color:var(--tx3);align-self:center;margin-left:4px">ต่อด้าน</span>`;
+  res.innerHTML=html;
+}
 function calcPlates(){
   const t=parseFloat(document.getElementById('pt')?.value)||0;
   const res=document.getElementById('pr');if(!res)return;
