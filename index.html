@@ -349,13 +349,8 @@ tr.wu-sep td{padding:5px 14px;font-size:9px;text-transform:uppercase;letter-spac
   <main id="main"></main>
   <nav id="nav">
     <button class="nb on" id="nb-today" onclick="goNav('today')">
-      <!-- dumbbell / barbell icon -->
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5h11M6.5 17.5h11"/><rect x="2" y="5" width="3" height="14" rx="1.5"/><rect x="19" y="5" width="3" height="14" rx="1.5"/><rect x="5" y="8" width="2" height="8" rx="1"/><rect x="17" y="8" width="2" height="8" rx="1"/></svg>
       ซ้อม
-    </button>
-    <button class="nb" id="nb-plan" onclick="goNav('plan')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
-      แผน
     </button>
     <button class="nb" id="nb-history" onclick="goNav('history')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-6"/></svg>
@@ -780,15 +775,57 @@ function goNav(s){
 // ─── RENDER ──────────────────────────────────────────────────
 function render(){
   const m=document.getElementById('main');
-  if(SCR==='today')m.innerHTML=SESS?renderWorkout():renderDayPicker();
-  else if(SCR==='plan')m.innerHTML=renderPlan();
+  if(SCR==='today')m.innerHTML=SESS?renderWorkout():renderHome();
   else if(SCR==='history')m.innerHTML=renderHistory();
   else if(SCR==='profile')m.innerHTML=renderProfile();
   renderTimer();
 }
 
-// ─── TODAY: DAY PICKER ───────────────────────────────────────
-function renderDayPicker(){
+// ─── HOME (รวม plan + day picker) ────────────────────────────
+function renderHome(){
+  const todayLabel=new Date().toLocaleDateString('th-TH',{weekday:'long',day:'numeric',month:'long'});
+  const greetHour=new Date().getHours();
+  const greetWord=greetHour<12?'อรุณสวัสดิ์':greetHour<17?'สวัสดีตอนบ่าย':'สวัสดีตอนเย็น';
+  const nick2=CFG.nickname;
+  const greetMsgs=['พร้อมซ้อมแล้วหรือยัง?','วันนี้เป็นวันดีในการซ้อม 💪','มาทำให้ร่างกายแข็งแกร่งขึ้นกัน 💪','อย่าลืม progressive overload นะ 💪','มา crush it วันนี้ด้วยกัน 💪'];
+  const greetSub=greetMsgs[new Date().getDay()%greetMsgs.length];
+  const greetLine=nick2
+    ?`<div style="font-size:28px;font-weight:700;letter-spacing:-.3px">${greetWord}, ${nick2}!</div><div style="font-size:14px;color:var(--tx2);margin-top:3px">${greetSub}</div>`
+    :`<div style="font-size:26px;font-weight:700;letter-spacing:-.3px">มาซ้อมกันเลย 💪</div><div style="font-size:13px;color:var(--tx2);margin-top:3px">${greetSub}</div>`;
+  const hist2=allSessions().filter(s=>s.completed);
+  const streak2=(()=>{const dates=[...new Set(hist2.map(s=>s.date))].sort().reverse();if(!dates.length)return 0;let n=1;for(let i=1;i<dates.length;i++){if(daysBetween(dates[i],dates[i-1])<=3)n++;else break;}return n;})();
+  const streakHtml=streak2>0?`<div style="display:inline-flex;align-items:center;gap:4px;background:var(--surf2);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--tx2);margin-top:8px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> ${streak2} session ต่อเนื่อง</div>`:'';
+
+  // ── Next workout card ────────────────────────────────────────
+  const nx=nextUp();
+  const day=P.days[nx.dayId];
+  let statusHtml;
+  if(!nx.last){
+    statusHtml=`<button class="nxt-btn" onclick="planStart('${nx.dayId}',${nx.week})">เริ่มซ้อมวันแรก</button>`;
+  }else if(nx.since===0){
+    statusHtml=`<div class="nxt-rest">ซ้อม ${P.days[nx.last.dayId].name} ไปแล้ววันนี้ — พักได้เลย<br>ถัดไป: <strong>${day.name}</strong></div><button class="nxt-btn ghost" onclick="planStart('${nx.dayId}',${nx.week})">ซ้อม ${day.name} เลย</button>`;
+  }else if(!nx.ready){
+    const left=nx.gap-nx.since;
+    statusHtml=`<div class="nxt-rest"><strong>วันนี้พัก</strong> — เหลืออีก ${left} วัน (${nx.since}/${nx.gap})</div><button class="nxt-btn ghost" onclick="planStart('${nx.dayId}',${nx.week})">ข้ามพัก ซ้อมเลย</button>`;
+  }else{
+    const late=nx.since>nx.gap+2?`<div style="font-size:12px;color:var(--yel);margin-bottom:7px">ห่างจากครั้งล่าสุด ${nx.since} วันแล้ว</div>`:'';
+    statusHtml=`${late}<button class="nxt-btn" onclick="planStart('${nx.dayId}',${nx.week})">เริ่มซ้อม ${day.name}</button>`;
+  }
+  const nxCard=`<div class="nxt"><div class="nxt-top"><div class="nxt-dot" style="background:${DAYC[nx.dayId]}">${DAYS_SHORT[nx.dayId]}</div><div style="flex:1;min-width:0"><div class="nxt-lbl">${nx.ready||!nx.last?'ถัดไป':'พักอยู่'}</div><div class="nxt-nm">${day.name}</div><div class="nxt-sub">${day.th} · สัปดาห์ ${nx.week}${nx.last?' · ล่าสุด '+fmtDate(nx.last.date):''}</div></div></div><div class="nxt-act">${statusHtml}</div></div>`;
+
+  // ── Cycle strip ──────────────────────────────────────────────
+  const curIdx=(()=>{if(!nx.last)return 0;const li=CYCLE.findIndex(c=>c.d===nx.last.dayId);if(nx.ready)return CYCLE.findIndex(c=>c.d===nx.dayId);return Math.min(li+nx.since,CYCLE.length-1);})();
+  const cycHtml=CYCLE.map((c,i)=>{const on=i===curIdx?' now':'';if(c.r)return`<div class="cyc-i rest${on}"><div class="cyc-b" style="background:var(--bdr)"></div><div class="cyc-t">Rest</div></div>`;return`<div class="cyc-i${on}"><div class="cyc-b" style="background:${DAYC[c.d]}"></div><div class="cyc-t">${DAYS_SHORT[c.d]}</div></div>`;}).join('');
+
+  // ── Stats row ────────────────────────────────────────────────
+  const doneCount=hist2.length;
+  const statsHtml=`<div class="stats" style="margin:0 16px 0">
+    <div class="stat"><div class="stat-n" style="color:var(--acc)">${doneCount}<span style="font-size:13px;color:var(--tx3)">/24</span></div><div class="stat-l">ซ้อมแล้ว</div></div>
+    <div class="stat"><div class="stat-n">${Math.round(doneCount/24*100)}%</div><div class="stat-l">Phase 1</div></div>
+    <div class="stat"><div class="stat-n" style="color:${streak2>1?'var(--grn)':'var(--tx)'}">${streak2}</div><div class="stat-l">ต่อเนื่อง</div></div>
+  </div>`;
+
+  // ── Day cards (week selector) ────────────────────────────────
   const wk=P.weeks[String(CFG.week)];
   const wBtns=[1,2,3,4,5,6].map(w=>`<button class="wbtn${CFG.week===w?' on':''}" onclick="setWeek(${w})">W${w}${w===6?'★':''}</button>`).join('');
   const dayColor={legs:'var(--dl)',push:'var(--dp)',pull:'var(--du)',full:'var(--df)'};
@@ -809,26 +846,36 @@ function renderDayPicker(){
       <div class="d-play"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="5,3 19,12 5,21"/></svg></div>
     </button>`;
   }).join('');
-  const todayLabel=new Date().toLocaleDateString('th-TH',{weekday:'long',day:'numeric',month:'long'});
-  const nx2=nextUp();
-  const greetHour=new Date().getHours();
-  const greetWord=greetHour<12?'อรุณสวัสดิ์':greetHour<17?'สวัสดีตอนบ่าย':'สวัสดีตอนเย็น';
-  const nick2=CFG.nickname;
-  const greetMsgs=['พร้อมซ้อมแล้วหรือยัง?','วันนี้เป็นวันดีในการซ้อม 💪','มาทำให้ร่างกายแข็งแกร่งขึ้นกัน 💪','อย่าลืม progressive overload นะ 💪','มา crush it วันนี้ด้วยกัน 💪'];
-  const greetSub=greetMsgs[new Date().getDay()%greetMsgs.length];
-  const greetLine=nick2
-    ?`<div style="font-size:28px;font-weight:700;letter-spacing:-.3px">${greetWord}, ${nick2}!</div><div style="font-size:14px;color:var(--tx2);margin-top:3px">${greetSub}</div>`
-    :`<div style="font-size:26px;font-weight:700;letter-spacing:-.3px">มาซ้อมกันเลย 💪</div><div style="font-size:13px;color:var(--tx2);margin-top:3px">${greetSub}</div>`;
-  const hist2=allSessions().filter(s=>s.completed);
-  const streak2=(()=>{const dates=[...new Set(hist2.map(s=>s.date))].sort().reverse();if(!dates.length)return 0;let n=1;for(let i=1;i<dates.length;i++){if(daysBetween(dates[i],dates[i-1])<=3)n++;else break;}return n;})();
-  const streakHtml=streak2>0?`<div style="display:inline-flex;align-items:center;gap:4px;background:var(--surf2);border-radius:20px;padding:3px 10px;font-size:12px;color:var(--tx2);margin-top:6px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> ${streak2} session ต่อเนื่อง</div>`:'';
+
+  // ── Progress grid ────────────────────────────────────────────
+  const order=P.schedule.order;
+  const doneMap={};hist2.forEach(s=>{doneMap[(s.week||1)+'_'+s.dayId]=s;});
+  let pgHtml=`<div class="pg-h"></div>`+order.map(id=>`<div class="pg-h" style="color:${DAYC[id]}">${DAYS_SHORT[id]}</div>`).join('');
+  for(let w=1;w<=6;w++){
+    pgHtml+=`<div class="pg-w">W${w}</div>`;
+    order.forEach(id=>{const s=doneMap[w+'_'+id];const cur=(w===nx.week&&id===nx.dayId&&nx.ready)?' cur':'';pgHtml+=s?`<div class="pg-c on${cur}" style="background:${DAYC[id]}" onclick="showSessDetail('${s.date}','${id}')" title="${fmtDate(s.date)}">✓</div>`:`<div class="pg-c${cur}" onclick="planStart('${id}',${w})">${w===6?'☾':'·'}</div>`;});
+  }
+
+  // ── Calendar ─────────────────────────────────────────────────
+  if(!CALM){const d=new Date();CALM={y:d.getFullYear(),m:d.getMonth()};}
+
   return`<div class="ph"><h1>ซ้อม</h1><p>${todayLabel}</p></div>
-    <div style="padding:20px 20px 12px">${greetLine}${streakHtml}</div>
+    <div style="padding:20px 20px 4px">${greetLine}${streakHtml}</div>
+    ${nxCard}
+    <div style="padding:2px 14px 0;font-size:11px;color:var(--tx3);line-height:1.5">${P.schedule.restRule_th}</div>
+    <div class="cyc" style="margin-top:10px">${cycHtml}</div>
+    <div class="slbl" style="padding-top:18px">ความคืบหน้า</div>
+    ${statsHtml}
+    <div class="pg" style="margin-top:10px">${pgHtml}</div>
+    <div style="padding:4px 14px 0;font-size:11px;color:var(--tx3)">กดช่องว่างเพื่อเริ่มซ้อมวันนั้น · ☾ = deload</div>
+    <div class="slbl" style="padding-top:18px">เลือกวันซ้อม</div>
     <div class="wsel">${wBtns}</div>
     ${wk?.deload?`<div class="dlnote">! Deload — ${wk.deloadNote_th||'ลดน้ำหนัก ห้ามดันถึงหมดแรง'}</div>`:''}
-    <div style="padding:6px 18px 0;font-size:22px;font-weight:700;letter-spacing:-.3px">เลือกวันซ้อม</div>
     <div class="dgrid">${dayCards}</div>
-    <div style="padding:4px 18px 14px;font-size:12px;color:var(--tx3);line-height:1.5">${P.schedule.restRule_th}</div>`;
+    <div class="slbl" style="padding-top:18px">ปฏิทิน</div>
+    ${renderCal()}
+    <div class="lg">${order.map(id=>`<div class="lg-i"><div class="lg-d" style="background:${DAYC[id]}"></div>${P.days[id].name}</div>`).join('')}</div>
+    <div style="height:20px"></div>`;
 }
 function setWeek(w){CFG.week=w;saveCfg();render();}
 
