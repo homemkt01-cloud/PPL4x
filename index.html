@@ -132,19 +132,19 @@ tr.dc td{opacity:.5}
 .tskp{background:rgba(0,0,0,.72);border:1px solid var(--bdr-s);color:var(--tx2);padding:7px 22px;border-radius:24px;font-size:12px;cursor:pointer;pointer-events:all;font-family:inherit;backdrop-filter:blur(8px);transition:all .15s}
 .tskp:active{color:var(--acc);border-color:var(--acc)}
 /* ══ DAY PICKER ═══════════════════════════════════════════════ */
-.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 14px}
-.dbtn{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:16px 14px;text-align:left;cursor:pointer;transition:all .18s;width:100%;position:relative;overflow:hidden}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 14px 6px}
+.dbtn{background:var(--surf);border:1px solid var(--bdr);border-radius:14px;padding:14px 13px 13px;text-align:left;cursor:pointer;width:100%;position:relative;overflow:hidden;transition:transform .12s,background .12s,border-color .12s;display:flex;flex-direction:column}
 .dbtn::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--day-c,var(--acc))}
-.dbtn:active{border-color:var(--day-c,var(--acc));background:rgba(255,255,255,0.04);transform:scale(.98)}
-.dbtn{transition:transform .12s,background .12s,border-color .12s}
-.dbtn .dn{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--tx);display:block;line-height:1.1;letter-spacing:-.01em}
-.dbtn .dt{font-size:11px;color:var(--tx2);margin-top:3px;text-transform:uppercase;letter-spacing:.04em}
-.mpills{display:flex;flex-wrap:wrap;gap:3px;margin-top:7px}
-.mp{font-size:10px;background:var(--surf2);border:1px solid var(--bdr);border-radius:20px;padding:2px 7px;color:var(--tx3)}
+.dbtn:active{border-color:var(--day-c,var(--acc));background:rgba(255,255,255,0.04);transform:scale(.97)}
+.dbtn .dn{font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:700;color:var(--tx);display:block;line-height:1.05;letter-spacing:-.01em}
+.dbtn .dt{font-size:10px;color:var(--tx3);margin-top:2px;letter-spacing:.02em}
+.d-musc{font-size:10px;color:var(--tx3);margin-top:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.4}
+.d-last{font-size:10px;color:var(--tx3);margin-top:2px;opacity:.7}
+.d-cnt{position:absolute;top:14px;right:12px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--day-c,var(--acc));letter-spacing:.01em}
 /* ══ WEEK SELECTOR ════════════════════════════════════════════ */
-.wsel{display:flex;gap:6px;padding:10px 14px 8px;overflow-x:auto;scrollbar-width:none}
+.wsel{display:flex;gap:5px;padding:12px 14px 10px;overflow-x:auto;scrollbar-width:none}
 .wsel::-webkit-scrollbar{display:none}
-.wbtn{flex-shrink:0;padding:5px 14px;border-radius:24px;border:1.5px solid var(--bdr-s);background:var(--surf);color:var(--tx2);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:all .15s}
+.wbtn{flex-shrink:0;padding:4px 13px;border-radius:8px;border:1.5px solid var(--bdr-s);background:var(--surf);color:var(--tx2);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .15s;letter-spacing:.02em}
 .wbtn.on{background:var(--acc);border-color:var(--acc);color:#fff}
 .dlnote{margin:0 14px 8px;padding:9px 12px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:10px;font-size:12px;color:var(--yel);line-height:1.45}
 /* ══ SESSION HEADER ═══════════════════════════════════════════ */
@@ -610,24 +610,21 @@ function renderDayPicker(){
   const dayCards=P.schedule.order.map(id=>{
     const d=P.days[id];
     const ls=lastSession(id);
-    const muscles=[...new Set(d.ex.flatMap(e=>e.m))];
-    const pills=muscles.slice(0,5).map(m=>`<span class="mp">${muscName(m)}</span>`).join('');
+    const muscles=[...new Set(d.ex.flatMap(e=>e.m))].map(m=>muscName(m)).join(' · ');
+    const lastTxt=ls?fmtDate(ls.date):'ยังไม่เคย';
     return`<button class="dbtn" style="--day-c:${dayColor[id]||'var(--acc)'}" onclick="startSession('${id}')">
+      <span class="d-cnt">${d.ex.length} ท่า</span>
       <span class="dn">${d.name}</span>
       <span class="dt">${d.th}</span>
-      <div class="mpills">${pills}</div>
-      <div style="margin-top:5px;font-size:11px;color:var(--tx3)">${d.ex.length} ท่า · ${ls?'ล่าสุด '+fmtDate(ls.date):'ยังไม่เคยซ้อม'}</div>
+      <div class="d-musc">${muscles}</div>
+      <div class="d-last">${lastTxt}</div>
     </button>`;
   }).join('');
   return`<div class="ph"><h1>PPL 4x</h1><p>Ultimate System · Jeff Nippard · Phase 1</p></div>
-    <div style="padding:8px 12px 4px">
-      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--tx3);font-weight:600;margin-bottom:5px">สัปดาห์</div>
-      <div class="wsel">${wBtns}</div>
-    </div>
+    <div class="wsel">${wBtns}</div>
     ${wk?.deload?`<div class="dlnote">⚠️ ${wk.deloadNote_th||'Deload — ลดน้ำหนัก ห้ามดันถึงหมดแรง'}</div>`:''}
-    <div style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--tx3);font-weight:600;padding:6px 14px 2px">เลือกวันซ้อม</div>
     <div class="dgrid">${dayCards}</div>
-    <div style="padding:8px 14px 16px;font-size:12px;color:var(--tx3);line-height:1.5">${P.schedule.restRule_th}</div>`;
+    <div style="padding:4px 16px 14px;font-size:11px;color:var(--tx3);line-height:1.5">${P.schedule.restRule_th}</div>`;
 }
 function setWeek(w){CFG.week=w;saveCfg();render();}
 
@@ -726,11 +723,12 @@ function buildCard(ei){
     tableHtml=`<table class="st"><thead><tr><th>#</th><th>น้ำหนัก (kg)</th><th>ครั้ง / RPE</th><th></th></tr></thead><tbody>${wuRowsHtml}${rows}</tbody></table>`;
   }
 
+  const badgeRow=(bc!=='bn'||ex.superset)?`<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:5px">${ssBadge}${bc!=='bn'?`<span class="bdg ${bc}">${bl}</span>`:''}</div>`:'';
   return`<div class="${cls}" id="exc_${ei}">
     <div class="exh">
       <div class="exn">
-        <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:4px">${ssBadge}<span class="bdg ${bc}">${bl}</span></div>
-        <button class="exnm" style="background:none;border:none;padding:0;text-align:left;width:100%;cursor:${vid?'pointer':'default'}" onclick="${vid?`showVideo('${vid.replace(/'/g,"\\'")}','${el.name.replace(/'/g,"\\'")}','${(ex.th||'').replace(/'/g,"\\'")}')`:'void(0)'}"><span style="display:flex;align-items:center;gap:6px">${el.name}${vid?`<span style="font-size:11px;font-weight:500;color:var(--acc);background:var(--acc-d);border-radius:6px;padding:1px 6px;font-family:'IBM Plex Sans Thai',sans-serif;flex-shrink:0">▶ ดูท่า</span>`:''}</span></button>
+        ${badgeRow}
+        <button class="exnm" style="background:none;border:none;padding:0;text-align:left;width:100%;cursor:${vid?'pointer':'default'}" onclick="${vid?`showVideo('${vid.replace(/'/g,"\\'")}','${el.name.replace(/'/g,"\\'")}','${(ex.th||'').replace(/'/g,"\\'")}')`:'void(0)'}"><span style="display:flex;align-items:center;gap:7px">${el.name}${vid?`<span style="font-size:10px;font-weight:600;color:var(--acc);background:var(--acc-d);border-radius:5px;padding:2px 6px;font-family:'IBM Plex Sans Thai',sans-serif;flex-shrink:0;letter-spacing:.02em">▶ ดูท่า</span>`:''}</span></button>
         <div class="exmeta">${ex.th||''}</div>
       </div>
       <div style="display:flex;gap:6px;align-items:center;flex-shrink:0">${subBtn}</div>
