@@ -845,16 +845,13 @@ const HERO_GRAD={
 function daysUntilReady(gap){if(gap<=1)return'พรุ่งนี้';if(gap===2)return'มะรืนนี้';return`อีก ${gap} วัน`;}
 function homeGreeting(nick,h,state,streak,since){
   // state: 'first'|'ready'|'done'|'rest'|'late'
-  if(state==='first')return'ก้าวแรกสำคัญที่สุด — let\'s go';
-  if(state==='done')return'ทำได้แล้ว — recovery เริ่มตอนนี้ 💪';
-  if(state==='late')return`ห่างไป ${since} วัน — ยังกลับมาได้เสมอ`;
-  if(streak>=5)return`🔥 ${streak}-day streak — อย่าหยุดตอนนี้`;
-  if(streak>=3)return`🔥 ${streak} วันติดกัน ไปต่อ`;
-  if(state==='rest')return'กล้ามสร้างตอนพัก ไม่ใช่ตอนยก';
-  if(h<12)return'ซ้อมก่อน แล้วค่อยว่ากันเรื่องอื่น';
-  if(h>=22)return'Late night gains ก็ยังนับ';
-  if(h>=17)return'จบงานแล้ว ได้เวลาของตัวเอง';
-  return'มาแล้วก็มาเลย';
+  if(state==='first')return'ก้าวแรกสำคัญที่สุด — let\'s go 🏋🏻‍♂️';
+  if(state==='done')return'ทำได้แล้ว — recovery ก่อนนะ 💤';
+  if(state==='late')return`ห่างไป ${since} วัน — ยังกลับมาได้เสมอ 🥹`;
+  if(streak>=5)return`${streak}-day streak — อย่าหยุดตอนนี้ 🔥`;
+  if(streak>=3)return`${streak} วันติดกัน ไปต่อ 🔥`;
+  if(state==='rest')return'กล้ามสร้างตอนพัก ไม่ใช่ตอนยก 🔋';
+  return'มาแล้วก็ลุยเลย 👊🏻';
 }
 function renderHome(){
   const now=new Date();
