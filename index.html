@@ -1017,7 +1017,7 @@ function renderHome(){
   }).join('');
 
   return`<div class="ph" style="padding:12px 20px 10px">
-    <h1 style="font-size:34px;font-weight:800;letter-spacing:-.5px">${nick?'สวัสดี, '+nick:'ซ้อม'}</h1>
+    <h1 style="font-size:34px;font-weight:800;letter-spacing:-.5px">${nick?(h<5?'คืนนี้':h<12?'เช้านี้':h<17?'บ่ายนี้':'เย็นนี้')+', '+nick:'ซ้อม'}</h1>
     <p style="font-size:13px;color:var(--tx2);margin-top:2px;line-height:1.4">${greetLine}</p>
   </div>
   ${heroCard}
