@@ -846,12 +846,12 @@ function daysUntilReady(gap){if(gap<=1)return'พรุ่งนี้';if(gap==
 function homeGreeting(nick,h,state,streak,since){
   // state: 'first'|'ready'|'done'|'rest'|'late'
   if(state==='first')return'let\'s go 🏋🏻‍♂️';
-  if(state==='done')return'recovery ก่อนนะ 😴';
-  if(state==='late')return`ห่างไป ${since}วัน 🥹`;
-  if(streak>=5)return`${streak}-day streak 🔥`;
-  if(streak>=3)return`${streak} วันติดกัน 🔥`;
-  if(state==='rest')return'rest day 🔋';
-  return'let\'s go 👊🏻';
+  if(state==='done')return'นอนพักก่อนนะ 😴';
+  if(state==='late')return`หายไป ${since} วันแล้วนาา 🥹`;
+  if(streak>=5)return`${streak} วันติด โคตรเอาา 🔥`;
+  if(streak>=3)return`${streak} วันติดแล้วเว้ยย 🔥`;
+  if(state==='rest')return'ชาร์จแบตซะหน่อย 🔋';
+  return'เอาหน่อยเว้ยย 👊🏻';
 }
 function renderHome(){
   const now=new Date();
@@ -1014,7 +1014,7 @@ function renderHome(){
   }).join('');
 
   return`<div class="ph" style="padding:12px 20px 10px">
-    <h1 style="font-size:26px;font-weight:800;letter-spacing:-.4px;line-height:1.2">${nick?(h<5?'🌙':h<12?'☀️':h<17?'💪':'🌆')+' '+(h<5?'Late night':h<12?'Morning':h<17?'Afternoon':'Evening')+', '+nick+' — '+greetLine:'ซ้อม'}</h1>
+    ${nick?`<div style="line-height:1.35"><span style="font-size:28px;font-weight:800;letter-spacing:-.4px">${h<5?'🌙':h<12?'☀️':h<17?'💪':'🌆'} ${h<5?'Late night':h<12?'Morning':h<17?'Afternoon':'Evening'}, ${nick}</span><span style="font-size:15px;font-weight:500;color:var(--tx2);margin-left:6px">— ${greetLine}</span></div>`:`<h1 style="font-size:34px;font-weight:800;letter-spacing:-.5px">ซ้อม</h1>`}
   </div>
   ${heroCard}
   <div class="af-row-label">วันซ้อมอื่นๆ</div>
