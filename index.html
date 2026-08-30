@@ -903,9 +903,9 @@ function renderHome(){
           <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
             <div>
               <div style="font-size:24px;font-weight:800;color:#fff;letter-spacing:-.4px">${nextDay.name}</div>
-              <div style="font-size:12px;color:rgba(255,255,255,.55);margin-top:3px">${nextMuscle}</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.55);margin-top:3px">${nextDay.ex.length} ex · ${nextMuscle}</div>
             </div>
-            <div style="width:44px;height:44px;border-radius:50%;background:${HERO_GRAD[nx.dayId]?.match(/#\w+/)?.[0]||'#666'};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <div style="width:44px;height:44px;border-radius:50%;background:${HERO_GRAD[nx.dayId]||HERO_GRAD.legs};display:flex;align-items:center;justify-content:center;flex-shrink:0">
               <div style="font-size:11px;font-weight:800;color:#fff;text-align:center;line-height:1.1">${DAYS_SHORT[nx.dayId]}</div>
             </div>
           </div>
@@ -943,7 +943,7 @@ function renderHome(){
       <div class="af-hero-inner">
         <div class="af-hero-eyebrow"><div class="af-hero-eyebrow-dot"></div>${isFirst?'วันแรก':isLate?`${nx.since} วันไม่ได้ซ้อม`:'ถัดไป'}</div>
         <div class="af-hero-title">${nextDay.name}</div>
-        <div class="af-hero-sub">${nextDay.th} · ${nextDay.ex.length} exercises · W${nx.week}</div>
+        <div class="af-hero-sub">${nextDay.ex.length} exercises · Week ${nx.week}</div>
         <div class="af-hero-pills">
           <div class="af-hero-pill">${muscPreview}</div>
           ${weekDone>0?`<div class="af-hero-pill">สัปดาห์นี้ ${weekDone}/${P.schedule.order.length}</div>`:''}
