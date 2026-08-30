@@ -326,60 +326,59 @@ tr.wu-sep td{padding:5px 14px;font-size:9px;text-transform:uppercase;letter-spac
 .vol-li{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--tx2);white-space:nowrap}
 .vol-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-/* ══ HOME REDESIGN ════════════════════════════════════════════ */
-.home-wrap{padding:0 0 8px}
-.home-top{padding:20px 20px 6px;display:flex;align-items:flex-end;justify-content:space-between}
-.home-greet{font-size:32px;font-weight:800;letter-spacing:-.6px;line-height:1.05}
-.home-date{font-size:13px;color:var(--tx3);font-weight:400;margin-top:3px}
-.home-streak{display:flex;align-items:center;gap:5px;background:var(--surf2);border-radius:20px;padding:6px 12px;font-size:12px;color:var(--tx2);font-weight:600;flex-shrink:0;align-self:flex-start;margin-top:4px}
-/* Hero card */
-.hero{margin:14px 16px 0;border-radius:26px;overflow:hidden;position:relative;display:flex;flex-direction:column;transition:transform .15s,opacity .15s;min-height:190px}
-.hero:active{transform:scale(.977);opacity:.93}
-.hero-glow{position:absolute;inset:0;pointer-events:none}
-.hero-body{position:relative;z-index:1;padding:22px 22px 20px;flex:1;display:flex;flex-direction:column}
-.hero-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;opacity:.85}
-.hero-title{font-size:34px;font-weight:800;letter-spacing:-.7px;line-height:1.05;color:#fff}
-.hero-sub{font-size:13px;margin-top:6px;opacity:.7;color:#fff;line-height:1.4}
-.hero-actions{margin-top:auto;padding-top:18px}
-.hero-go{width:100%;padding:14px;border:none;border-radius:16px;font-size:17px;font-weight:800;cursor:pointer;letter-spacing:-.2px;font-family:inherit;transition:opacity .15s}
-.hero-go:active{opacity:.8}
-.hero-go.ghost{background:rgba(255,255,255,.15);color:#fff;font-size:15px;font-weight:600;padding:12px;margin-top:8px}
-.hero-rest-box{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:12px 14px;font-size:13px;color:rgba(255,255,255,.85);line-height:1.5}
-/* Day chips */
-.dchips{display:flex;gap:8px;padding:14px 16px 4px;overflow-x:auto;scrollbar-width:none}
-.dchips::-webkit-scrollbar{display:none}
-.dchip{flex-shrink:0;display:flex;align-items:center;gap:7px;padding:9px 15px;border-radius:22px;border:1.5px solid var(--bdr);background:var(--surf);cursor:pointer;transition:all .15s;font-family:inherit;font-size:13px;font-weight:600;color:var(--tx2);white-space:nowrap}
-.dchip .dc-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-.dchip .dc-last{font-size:10px;color:var(--tx3);font-weight:400;margin-left:1px}
-.dchip:active{transform:scale(.94)}
-/* Stats */
-.sbar{display:flex;gap:8px;padding:14px 16px 0}
-.sbar-item{flex:1;background:var(--surf);border-radius:18px;padding:16px 10px 14px;text-align:center;overflow:hidden;cursor:default}
-.sbar-n{font-size:30px;font-weight:800;letter-spacing:-.5px;font-variant-numeric:tabular-nums;line-height:1}
-.sbar-l{font-size:10px;color:var(--tx3);margin-top:5px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
-.sbar-bar{height:3px;background:rgba(84,84,88,.4);border-radius:2px;margin:8px 0 0;overflow:hidden}
-.sbar-fill{height:100%;border-radius:2px;transition:width .6s cubic-bezier(.4,0,.2,1)}
-/* Section labels */
-.hslbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);padding:18px 18px 8px}
-/* Cycle row v2 */
-.cyc2{display:flex;gap:6px;padding:0 16px;overflow-x:auto;scrollbar-width:none}
-.cyc2::-webkit-scrollbar{display:none}
-.cyc2-item{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 10px 9px;border-radius:14px;background:var(--surf);min-width:52px;position:relative;transition:background .2s}
-.cyc2-item.now{background:var(--acc-g);outline:1.5px solid rgba(198,255,0,.3)}
-.cyc2-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.cyc2-lbl{font-size:10px;font-weight:700;color:var(--tx3);text-align:center;line-height:1.2}
-.cyc2-item.now .cyc2-lbl{color:var(--acc)}
-.cyc2-item.rest-item .cyc2-dot{background:var(--bdr)!important}
-.cyc2-item.rest-item .cyc2-lbl{font-weight:400}
-.cyc2-pip{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--acc)}
-/* Progress strip */
-.pg2{display:grid;grid-template-columns:20px repeat(4,1fr);gap:5px;padding:0 16px}
-.pg2-h{font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--tx3);font-weight:600;text-align:center;padding-bottom:3px}
-.pg2-w{font-size:10px;color:var(--tx3);display:flex;align-items:center;justify-content:flex-end;padding-right:3px;font-variant-numeric:tabular-nums;font-weight:600}
-.pg2-c{aspect-ratio:1.4;border-radius:9px;border:1px solid var(--bdr);background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--tx3);cursor:pointer;transition:transform .1s}
-.pg2-c:active{transform:scale(.88)}
-.pg2-c.on{border-color:transparent;color:#000}
-.pg2-c.cur{box-shadow:0 0 0 2px var(--acc)}
+/* ══ HOME — Apple Fitness exact ═══════════════════════════════ */
+/* Featured workout card — full-color gradient like AF */
+.af-hero{margin:12px 16px 0;border-radius:24px;overflow:hidden;cursor:pointer;transition:transform .15s,opacity .14s;-webkit-tap-highlight-color:transparent}
+.af-hero:active{transform:scale(.974);opacity:.9}
+.af-hero-inner{padding:22px 20px 20px;min-height:260px;display:flex;flex-direction:column;position:relative}
+.af-hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.af-hero-eyebrow-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.55)}
+.af-hero-title{font-size:38px;font-weight:800;letter-spacing:-.8px;line-height:1.02;color:#fff}
+.af-hero-sub{font-size:14px;color:rgba(255,255,255,.65);margin-top:7px;line-height:1.4}
+.af-hero-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.af-hero-pill{font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8);letter-spacing:.02em}
+.af-hero-cta{margin-top:auto;padding-top:22px}
+.af-start-btn{width:100%;padding:16px;border:none;border-radius:15px;background:#C6FF00;color:#000;font-size:18px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:-.2px;transition:opacity .13s}
+.af-start-btn:active{opacity:.82}
+.af-ghost-btn{display:block;width:100%;padding:13px;border:none;border-radius:13px;background:rgba(255,255,255,.14);color:rgba(255,255,255,.85);font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:8px;transition:opacity .13s;text-align:center}
+.af-ghost-btn:active{opacity:.75}
+.af-rest-badge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:13px;padding:13px 15px;font-size:13px;color:rgba(255,255,255,.8);line-height:1.5}
+/* Workout mini-cards scroll — "More Workouts" row */
+.af-row-label{font-size:20px;font-weight:700;letter-spacing:-.2px;color:var(--tx);padding:22px 18px 10px}
+.af-row-sub{font-size:13px;color:var(--tx3);margin-left:2px}
+.af-scroll{display:flex;gap:10px;padding:0 16px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.af-scroll::-webkit-scrollbar{display:none}
+.af-wcard{flex-shrink:0;width:150px;border-radius:20px;overflow:hidden;cursor:pointer;transition:transform .14s,opacity .14s;-webkit-tap-highlight-color:transparent}
+.af-wcard:active{transform:scale(.95);opacity:.88}
+.af-wcard-body{padding:14px 14px 12px;min-height:130px;display:flex;flex-direction:column}
+.af-wcard-title{font-size:18px;font-weight:700;letter-spacing:-.3px;color:#fff;line-height:1.15}
+.af-wcard-meta{font-size:11px;color:rgba(255,255,255,.6);margin-top:4px;line-height:1.3}
+.af-wcard-play{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;margin-top:auto}
+.af-wcard-play svg{width:12px;height:12px;fill:#fff;margin-left:2px}
+/* Activity summary strip */
+.af-summary{display:flex;gap:8px;padding:0 16px}
+.af-sum-card{flex:1;background:var(--surf);border-radius:18px;padding:15px 10px 13px;text-align:center;overflow:hidden}
+.af-sum-n{font-size:28px;font-weight:800;letter-spacing:-.4px;font-variant-numeric:tabular-nums;line-height:1}
+.af-sum-l{font-size:10px;color:var(--tx3);margin-top:4px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.af-sum-bar{height:2.5px;background:rgba(84,84,88,.4);border-radius:2px;margin:9px 0 0;overflow:hidden}
+.af-sum-fill{height:100%;border-radius:2px}
+/* Progress grid — compact */
+.af-grid{display:grid;grid-template-columns:18px repeat(4,1fr);gap:4px;padding:0 16px}
+.af-gh{font-size:9px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;text-align:center;padding-bottom:4px;color:var(--tx3)}
+.af-gw{font-size:10px;color:var(--tx3);display:flex;align-items:center;justify-content:flex-end;padding-right:2px;font-variant-numeric:tabular-nums;font-weight:600}
+.af-gc{aspect-ratio:1.3;border-radius:8px;border:1px solid var(--bdr);background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--tx3);cursor:pointer;transition:transform .1s}
+.af-gc:active{transform:scale(.86)}
+.af-gc.on{border-color:transparent;color:#000}
+.af-gc.cur{box-shadow:0 0 0 2px var(--acc)}
+/* Cycle strip */
+.af-cyc{display:flex;gap:5px;padding:0 16px;overflow-x:auto;scrollbar-width:none}
+.af-cyc::-webkit-scrollbar{display:none}
+.af-cyc-item{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:5px;padding:9px 10px 8px;border-radius:12px;background:var(--surf);min-width:48px;position:relative}
+.af-cyc-item.now{background:var(--acc-g);outline:1.5px solid rgba(198,255,0,.3)}
+.af-cyc-dot{width:9px;height:9px;border-radius:50%}
+.af-cyc-lbl{font-size:10px;font-weight:700;color:var(--tx3);text-align:center}
+.af-cyc-item.now .af-cyc-lbl{color:var(--acc)}
+.af-cyc-pip{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--acc)}
 /* ══ MUSCLE CHIPS ═════════════════════════════════════════════ */
 .mchips{display:flex;flex-wrap:wrap;gap:4px;padding:4px 16px 6px}
 .mchip{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;letter-spacing:.03em}
@@ -835,142 +834,139 @@ function render(){
   renderTimer();
 }
 
-// ─── HOME ─────────────────────────────────────────────────────
+// ─── HOME — Apple Fitness style ───────────────────────────────
+const HERO_GRAD={
+  legs:'linear-gradient(148deg,#FF375F 0%,#FF6080 45%,#C0142A 100%)',
+  push:'linear-gradient(148deg,#0A84FF 0%,#3FA0FF 45%,#005EC0 100%)',
+  pull:'linear-gradient(148deg,#30D158 0%,#5CE07A 45%,#1A9038 100%)',
+  full:'linear-gradient(148deg,#BF5AF2 0%,#D47FFF 45%,#8930C0 100%)',
+  rest:'linear-gradient(148deg,#2C2C2E 0%,#3A3A3C 45%,#1C1C1E 100%)',
+};
 function renderHome(){
   const now=new Date();
   const h=now.getHours();
   const nick=CFG.nickname;
-  const greetWord=h<5?'กลางคืนนี้':h<12?'อรุณสวัสดิ์':h<17?'สวัสดีตอนบ่าย':'สวัสดีตอนเย็น';
+  const greetWord=h<5?'กลางคืน':h<12?'อรุณสวัสดิ์':h<17?'สวัสดี':'สวัสดีตอนเย็น';
   const todayLabel=now.toLocaleDateString('th-TH',{weekday:'long',day:'numeric',month:'long'});
   const hist=allSessions().filter(s=>s.completed);
   const doneCount=hist.length;
   const streak=(()=>{const dates=[...new Set(hist.map(s=>s.date))].sort().reverse();if(!dates.length)return 0;let n=1;for(let i=1;i<dates.length;i++){if(daysBetween(dates[i],dates[i-1])<=3)n++;else break;}return n;})();
 
-  // ── Hero ─────────────────────────────────────────────────────
   const nx=nextUp();
   const day=P.days[nx.dayId];
-  const col=DAYC[nx.dayId];
-  const isRest=nx.last&&!nx.ready&&nx.since===0;
-  const isWaiting=nx.last&&!nx.ready&&nx.since>0;
-  const isLate=nx.ready&&nx.since>nx.gap+2;
-
-  // Hero background gradient
-  const heroBg=isRest||isWaiting
-    ?`background:linear-gradient(145deg,#1a1a2e 0%,#16213e 100%)`
-    :`background:linear-gradient(145deg,${col}22 0%,${col}08 60%,transparent 100%),var(--surf)`;
-
-  // Eyebrow text
-  const eyebrow=!nx.last?'เริ่มต้นกันเลย':isRest?'ซ้อมไปแล้ววันนี้':isWaiting?`พักอีก ${nx.gap-nx.since} วัน`:isLate?'นานแล้วนะ':'พร้อมซ้อม';
-  const eyeCol=isRest||isWaiting?'rgba(255,255,255,.6)':isLate?'var(--yel)':'var(--acc)';
-
-  // CTA
-  let heroActions;
-  if(isRest){
-    heroActions=`<div class="hero-rest-box">ถัดไป: <strong style="color:#fff">${day.name}</strong> · สัปดาห์ ${nx.week}</div>
-      <button class="hero-go ghost" style="width:100%;margin-top:8px;border-radius:16px;padding:12px;border:none;font-family:inherit;font-weight:600;font-size:15px;cursor:pointer;background:rgba(255,255,255,.12);color:#fff" onclick="planStart('${nx.dayId}',${nx.week})">ซ้อม ${day.name} เดี๋ยวนี้เลย</button>`;
-  }else if(isWaiting){
-    heroActions=`<div class="hero-rest-box">ถัดไป: <strong style="color:#fff">${day.name}</strong> · W${nx.week} · ${nx.since}/${nx.gap} วัน</div>
-      <button class="hero-go ghost" style="width:100%;margin-top:8px;border-radius:16px;padding:12px;border:none;font-family:inherit;font-weight:600;font-size:15px;cursor:pointer;background:rgba(255,255,255,.12);color:#fff" onclick="planStart('${nx.dayId}',${nx.week})">ข้ามพัก ซ้อมเลย</button>`;
-  }else{
-    heroActions=`<button class="hero-go" style="width:100%;padding:16px;border:none;border-radius:18px;font-size:18px;font-weight:800;cursor:pointer;letter-spacing:-.2px;font-family:inherit;background:${col};color:#fff;box-shadow:0 6px 24px ${col}44" onclick="planStart('${nx.dayId}',${nx.week})">${nx.last?'เริ่มซ้อม':'เริ่มซ้อมวันแรก'}</button>`;
-  }
-  const lastLine=nx.last&&!isRest?`<div class="hero-sub">W${nx.week} · ${day.th}${nx.last?' · ล่าสุด '+fmtDate(nx.last.date):''}</div>`:'';
-
-  // Week progress chip
+  const isRest=!!nx.last&&!nx.ready&&nx.since===0;
+  const isWaiting=!!nx.last&&!nx.ready&&nx.since>0;
+  const isLate=nx.ready&&!!nx.last&&nx.since>nx.gap+2;
+  const heroGrad=(isRest||isWaiting)?HERO_GRAD.rest:(HERO_GRAD[nx.dayId]||HERO_GRAD.legs);
   const weekDone=hist.filter(s=>(s.week||1)===nx.week).length;
-  const weekTotal=P.schedule.order.length;
 
-  const heroCard=`<div class="hero" style="${heroBg}">
-    <div class="hero-body">
-      <div class="hero-eyebrow" style="color:${eyeCol}">${eyebrow}</div>
-      <div class="hero-title" style="color:${isRest||isWaiting?'rgba(255,255,255,.85)':'var(--tx)'}">${day.name}</div>
-      ${lastLine}
-      <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
-        <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.08);border-radius:10px;padding:4px 10px;font-size:11px;font-weight:600;color:${isRest||isWaiting?'rgba(255,255,255,.6)':'var(--tx3)'}">
-          <div style="width:8px;height:8px;border-radius:50%;background:${col}"></div>
-          สัปดาห์ ${nx.week} · ${weekDone}/${weekTotal} วัน
-        </div>
-        ${isLate?`<div style="background:rgba(255,214,10,.12);border-radius:10px;padding:4px 10px;font-size:11px;font-weight:700;color:var(--yel)">${nx.since} วันไม่ได้ซ้อม</div>`:''}
+  // Eyebrow
+  const eyebrow=!nx.last?'วันแรก':isRest?'ซ้อมไปแล้ววันนี้':isWaiting?`วันพัก · ${nx.since}/${nx.gap}`:isLate?`${nx.since} วันไม่ได้ซ้อม`:'ถัดไป';
+
+  // Muscles preview
+  const exDay=P.days[nx.dayId];
+  const muscPreview=[...new Set(exDay.ex.flatMap(e=>e.m))].slice(0,3).map(m=>muscName(m)).join(' · ');
+
+  // CTA button area
+  let ctaHtml;
+  if(isRest){
+    ctaHtml=`<div class="af-rest-badge">ถัดไป: <strong style="color:#fff">${day.name}</strong> · W${nx.week}</div>
+      <button class="af-ghost-btn" onclick="planStart('${nx.dayId}',${nx.week})">ซ้อม ${day.name} เลย</button>`;
+  }else if(isWaiting){
+    const left=nx.gap-nx.since;
+    ctaHtml=`<div class="af-rest-badge">พักอีก <strong style="color:#fff">${left} วัน</strong> แล้วจะได้ซ้อม ${day.name}</div>
+      <button class="af-ghost-btn" onclick="planStart('${nx.dayId}',${nx.week})">ข้ามพัก ซ้อมเลย</button>`;
+  }else{
+    ctaHtml=`<button class="af-start-btn" onclick="planStart('${nx.dayId}',${nx.week})">${nx.last?`เริ่มซ้อม ${day.name}`:'เริ่มซ้อมวันแรก'}</button>`;
+  }
+
+  const heroCard=`<div class="af-hero" style="background:${heroGrad}">
+    <div class="af-hero-inner">
+      <div class="af-hero-eyebrow"><div class="af-hero-eyebrow-dot"></div>${eyebrow}</div>
+      <div class="af-hero-title">${day.name}</div>
+      <div class="af-hero-sub">${day.th} · ${exDay.ex.length} exercises · W${nx.week}</div>
+      <div class="af-hero-pills">
+        <div class="af-hero-pill">${muscPreview}</div>
+        ${nx.last?`<div class="af-hero-pill">ล่าสุด ${fmtDate(nx.last.date)}</div>`:''}
+        ${weekDone>0?`<div class="af-hero-pill">${weekDone}/${P.schedule.order.length} วันนี้สัปดาห์นี้</div>`:''}
       </div>
-      <div class="hero-actions">${heroActions}</div>
+      <div class="af-hero-cta">${ctaHtml}</div>
     </div>
   </div>`;
 
-  // ── Cycle row ────────────────────────────────────────────────
-  const curIdx=(()=>{if(!nx.last)return 0;const li=CYCLE.findIndex(c=>c.d===nx.last.dayId);if(nx.ready)return CYCLE.findIndex(c=>c.d===nx.dayId);return Math.min(li+nx.since,CYCLE.length-1);})();
-  const cycHtml=CYCLE.map((c,i)=>{
-    const isNow=i===curIdx;
-    if(c.r)return`<div class="cyc2-item rest-item${isNow?' now':''}"><div class="cyc2-dot" style="background:var(--bdr)"></div><div class="cyc2-lbl">Rest</div>${isNow?'<div class="cyc2-pip"></div>':''}</div>`;
-    return`<div class="cyc2-item${isNow?' now':''}"><div class="cyc2-dot" style="background:${DAYC[c.d]}"></div><div class="cyc2-lbl">${DAYS_SHORT[c.d]}</div>${isNow?'<div class="cyc2-pip"></div>':''}</div>`;
-  }).join('');
-
-  // ── Stats ────────────────────────────────────────────────────
-  const pct=Math.round(doneCount/24*100);
-  const statsHtml=`<div class="sbar">
-    <div class="sbar-item">
-      <div class="sbar-n" style="color:var(--acc)">${doneCount}<span style="font-size:14px;color:var(--tx3);font-weight:600">/24</span></div>
-      <div class="sbar-l">ซ้อมแล้ว</div>
-      <div class="sbar-bar"><div class="sbar-fill" style="width:${pct}%;background:var(--acc)"></div></div>
-    </div>
-    <div class="sbar-item">
-      <div class="sbar-n">${pct}%</div>
-      <div class="sbar-l">Phase 1</div>
-      <div class="sbar-bar"><div class="sbar-fill" style="width:${pct}%;background:var(--tx2)"></div></div>
-    </div>
-    <div class="sbar-item">
-      <div class="sbar-n" style="color:${streak>2?'var(--grn)':streak>0?'var(--tx)':'var(--tx3)'}">${streak}</div>
-      <div class="sbar-l">ต่อเนื่อง</div>
-      <div class="sbar-bar"><div class="sbar-fill" style="width:${Math.min(streak/7*100,100)}%;background:var(--grn)"></div></div>
-    </div>
-  </div>`;
-
-  // ── Day chips ────────────────────────────────────────────────
-  const chipsHtml=P.schedule.order.map(id=>{
+  // Mini workout cards (other days)
+  const otherCards=P.schedule.order.map(id=>{
+    const d=P.days[id];
     const ls=lastSession(id);
-    const lastTxt=ls?fmtDate(ls.date):'';
-    return`<button class="dchip" onclick="startSession('${id}')">
-      <div class="dc-dot" style="background:${DAYC[id]}"></div>
-      ${P.days[id].name}
-      ${lastTxt?`<span class="dc-last">${lastTxt}</span>`:''}
-    </button>`;
+    const grad=HERO_GRAD[id]||HERO_GRAD.legs;
+    return`<div class="af-wcard" style="background:${grad}" onclick="startSession('${id}')">
+      <div class="af-wcard-body">
+        <div class="af-wcard-title">${d.name}</div>
+        <div class="af-wcard-meta">${d.th}<br>${ls?'ล่าสุด '+fmtDate(ls.date):'ยังไม่เคยซ้อม'}</div>
+        <div class="af-wcard-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      </div>
+    </div>`;
   }).join('');
 
-  // ── Progress grid ────────────────────────────────────────────
+  // Summary stats
+  const pct=Math.round(doneCount/24*100);
+  const summaryHtml=`<div class="af-summary">
+    <div class="af-sum-card">
+      <div class="af-sum-n" style="color:var(--acc)">${doneCount}<span style="font-size:13px;color:var(--tx3);font-weight:600">/24</span></div>
+      <div class="af-sum-l">ซ้อมแล้ว</div>
+      <div class="af-sum-bar"><div class="af-sum-fill" style="width:${pct}%;background:var(--acc)"></div></div>
+    </div>
+    <div class="af-sum-card">
+      <div class="af-sum-n">${pct}<span style="font-size:13px;color:var(--tx3);font-weight:600">%</span></div>
+      <div class="af-sum-l">Phase 1</div>
+      <div class="af-sum-bar"><div class="af-sum-fill" style="width:${pct}%;background:var(--grn)"></div></div>
+    </div>
+    <div class="af-sum-card">
+      <div class="af-sum-n" style="color:${streak>2?'var(--grn)':streak>0?'var(--acc)':'var(--tx3)'}">${streak}</div>
+      <div class="af-sum-l">ต่อเนื่อง</div>
+      <div class="af-sum-bar"><div class="af-sum-fill" style="width:${Math.min(streak/6*100,100)}%;background:var(--grn)"></div></div>
+    </div>
+  </div>`;
+
+  // Progress grid
   const order=P.schedule.order;
   const doneMap={};hist.forEach(s=>{doneMap[(s.week||1)+'_'+s.dayId]=s;});
-  let pgHtml=`<div class="pg2-h"></div>`+order.map(id=>`<div class="pg2-h" style="color:${DAYC[id]}">${DAYS_SHORT[id]}</div>`).join('');
+  let pgHtml=`<div class="af-gh"></div>`+order.map(id=>`<div class="af-gh" style="color:${DAYC[id]}">${DAYS_SHORT[id]}</div>`).join('');
   for(let w=1;w<=6;w++){
-    pgHtml+=`<div class="pg2-w">W${w}</div>`;
+    pgHtml+=`<div class="af-gw">W${w}</div>`;
     order.forEach(id=>{
       const s=doneMap[w+'_'+id];
       const cur=(w===nx.week&&id===nx.dayId&&nx.ready)?' cur':'';
       pgHtml+=s
-        ?`<div class="pg2-c on${cur}" style="background:${DAYC[id]}" onclick="showSessDetail('${s.date}','${id}')">✓</div>`
-        :`<div class="pg2-c${cur}" onclick="planStart('${id}',${w})">${w===6?'☾':'·'}</div>`;
+        ?`<div class="af-gc on${cur}" style="background:${DAYC[id]}" onclick="showSessDetail('${s.date}','${id}')">✓</div>`
+        :`<div class="af-gc${cur}" onclick="planStart('${id}',${w})">${w===6?'☾':'·'}</div>`;
     });
   }
 
-  return`<div class="home-wrap">
-    <div class="home-top">
-      <div>
-        <div class="home-greet">${nick?greetWord+', '+nick+'!':greetWord}</div>
-        <div class="home-date">${todayLabel}</div>
-      </div>
-      ${streak>0?`<div class="home-streak"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2.5" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>${streak}</div>`:''}
-    </div>
-    ${heroCard}
-    <div class="hslbl">เลือกวันซ้อม</div>
-    <div class="dchips">${chipsHtml}</div>
-    <div class="hslbl">ความคืบหน้า</div>
-    ${statsHtml}
-    <div class="hslbl" style="padding-bottom:10px">รอบซ้อม</div>
-    <div class="cyc2">${cycHtml}</div>
-    <div style="padding:2px 16px 0;font-size:10px;color:var(--tx3);line-height:1.6">${P.schedule.restRule_th}</div>
-    <div class="hslbl">ตาราง</div>
-    <div class="pg2">${pgHtml}</div>
-    <div style="padding:6px 16px 0;font-size:10px;color:var(--tx3)">กดช่องว่างเพื่อซ้อมวันนั้น · ☾ = Deload</div>
-    <div style="height:24px"></div>
-  </div>`;
+  // Cycle strip
+  const curIdx=(()=>{if(!nx.last)return 0;const li=CYCLE.findIndex(c=>c.d===nx.last.dayId);if(nx.ready)return CYCLE.findIndex(c=>c.d===nx.dayId);return Math.min(li+nx.since,CYCLE.length-1);})();
+  const cycHtml=CYCLE.map((c,i)=>{
+    const isNow=i===curIdx;
+    if(c.r)return`<div class="af-cyc-item${isNow?' now':''}"><div class="af-cyc-dot" style="background:var(--bdr)"></div><div class="af-cyc-lbl" style="color:var(--tx3);font-weight:400">Rest</div>${isNow?'<div class="af-cyc-pip"></div>':''}</div>`;
+    return`<div class="af-cyc-item${isNow?' now':''}"><div class="af-cyc-dot" style="background:${DAYC[c.d]}"></div><div class="af-cyc-lbl">${DAYS_SHORT[c.d]}</div>${isNow?'<div class="af-cyc-pip"></div>':''}</div>`;
+  }).join('');
+
+  return`<div class="ph" style="padding:12px 20px 10px">
+    <h1 style="font-size:34px;font-weight:800;letter-spacing:-.5px">${nick?greetWord+', '+nick:'ซ้อม'}</h1>
+    <p style="font-size:13px;color:var(--tx3);margin-top:1px">${todayLabel}${streak>0?` · <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2.5" stroke-linecap="round" style="vertical-align:middle;margin-right:2px"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>${streak} ต่อเนื่อง`:''}</p>
+  </div>
+  ${heroCard}
+  <div class="af-row-label">วันซ้อมอื่นๆ</div>
+  <div class="af-scroll">${otherCards}</div>
+  <div class="af-row-label">ความคืบหน้า<span class="af-row-sub"> Phase 1</span></div>
+  ${summaryHtml}
+  <div class="af-row-label" style="padding-bottom:10px">รอบซ้อม</div>
+  <div class="af-cyc">${cycHtml}</div>
+  <div style="padding:4px 16px 0;font-size:10px;color:var(--tx3)">${P.schedule.restRule_th}</div>
+  <div class="af-row-label">ตาราง 6 สัปดาห์</div>
+  <div class="af-grid">${pgHtml}</div>
+  <div style="padding:6px 16px 2px;font-size:10px;color:var(--tx3)">กดเซลล์ว่างเพื่อเริ่มซ้อมวันนั้น · ☾ = Deload</div>
+  <div style="height:28px"></div>`;
 }
 function setWeek(w){CFG.week=w;saveCfg();render();}
 
