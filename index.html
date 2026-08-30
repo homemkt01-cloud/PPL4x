@@ -375,6 +375,87 @@ tr.wu-sep td{padding:5px 14px;font-size:9px;text-transform:uppercase;letter-spac
 // ─── UNILATERAL EXERCISES ───────────────────────────────────
 const UNI_NAMES=new Set(['Walking Lunge','DB Bulgarian Split Squat','Cross-Body Cable Y-Raise (Side Delt)','DB Lateral Raise','Machine Lateral Raise','N1-Style Cross-Body Triceps Extension','Single-Arm Tricep Pressdown','Single-Arm Cable Tricep Kickback','Kroc Row','Single-Arm DB Row','Meadows Row','Bottom-Half Preacher Curl','Bottom-Half Spider Curl','Bottom-Half Bayesian Curl','A1. Press-Around','DB Flye','Cable External Rotation']);
 function isUni(name){return UNI_NAMES.has(name);}
+
+// ─── DETAILED MUSCLE FOCUS ──────────────────────────────────
+const EX_MUSCLE_DETAIL={
+  'Squat':{pri:'ต้นขาหน้าทั้งมัด',sec:['ก้น']},
+  'Hack Squat':{pri:'ต้นขาหน้าทั้งมัด',sec:['ก้น']},
+  'Pause Squat (Back off)':{pri:'ต้นขาหน้าทั้งมัด — ช่วงล่าง',sec:['ก้น']},
+  'Pause Hack Squat':{pri:'ต้นขาหน้า — ช่วงล่าง',sec:['ก้น']},
+  'DB Bulgarian Split Squat':{pri:'ต้นขาหน้า + ก้น',sec:[]},
+  'Pause DB Bulgarian Split Squat':{pri:'ต้นขาหน้า + ก้น — ช่วงล่าง',sec:[]},
+  'Barbell RDL':{pri:'ต้นขาหลังทั้งมัด',sec:['ก้น']},
+  'DB RDL':{pri:'ต้นขาหลังทั้งมัด',sec:['ก้น']},
+  '45° Hyperextension':{pri:'ต้นขาหลัง + ก้น',sec:['หลังล่าง']},
+  'Walking Lunge':{pri:'ต้นขาหน้า (VMO)',sec:['ก้น']},
+  'DB Step-Up':{pri:'ต้นขาหน้า + ก้น',sec:[]},
+  'Goblet Squat':{pri:'ต้นขาหน้าทั้งมัด',sec:['ก้น']},
+  'Seated Leg Curl':{pri:'ต้นขาหลัง — ส่วนล่าง (ใกล้เข่า)',sec:[]},
+  'Lying Leg Curl':{pri:'ต้นขาหลัง — ส่วนกลาง',sec:[]},
+  'Nordic Ham Curl':{pri:'ต้นขาหลังทั้งมัด',sec:[]},
+  'Leg Press Toe Press':{pri:'น่อง (gastrocnemius)',sec:[]},
+  'Seated Calf Raise':{pri:'น่องในลึก (soleus)',sec:[]},
+  'Standing Calf Raise':{pri:'น่อง (gastrocnemius)',sec:[]},
+  'Decline Plate-Weighted Crunch':{pri:'หน้าท้องส่วนบน',sec:['หน้าท้องรวม']},
+  'Cable Crunch':{pri:'หน้าท้องส่วนบน',sec:[]},
+  'Machine Crunch':{pri:'หน้าท้องรวม',sec:[]},
+  'Bench Press':{pri:'อกกลาง',sec:['ไตรเซ็ปส์','ไหล่หน้า']},
+  'DB Bench Press':{pri:'อกกลาง',sec:['ไตรเซ็ปส์']},
+  'Machine Chest Press':{pri:'อกกลาง',sec:['ไตรเซ็ปส์']},
+  'Larsen Press':{pri:'อกกลาง — เน้น stretch',sec:['ไตรเซ็ปส์']},
+  'Standing Dumbbell Arnold Press':{pri:'ไหล่หน้า + ไหล่ข้าง',sec:['ไตรเซ็ปส์']},
+  'Seated DB Shoulder Press':{pri:'ไหล่หน้า',sec:['ไหล่ข้าง','ไตรเซ็ปส์']},
+  'Machine Shoulder Press':{pri:'ไหล่หน้า',sec:['ไหล่ข้าง']},
+  'A1. Press-Around':{pri:'อกล่าง/อกกลาง',sec:[]},
+  'DB Flye':{pri:'อกกลาง — stretch',sec:[]},
+  'Deficit Push Up':{pri:'อกกลาง',sec:['ไตรเซ็ปส์']},
+  'A2. Pec Static Stretch 30s':{pri:'ยืดอก (pec stretch)',sec:[]},
+  'Cross-Body Cable Y-Raise (Side Delt)':{pri:'ไหล่ข้าง (side delt)',sec:[]},
+  'DB Lateral Raise':{pri:'ไหล่ข้าง',sec:[]},
+  'Machine Lateral Raise':{pri:'ไหล่ข้าง',sec:[]},
+  'Triceps Pressdown + OH Extension':{pri:'ไตรเซ็ปส์ lateral + long head',sec:[]},
+  'Triceps Pressdown (12-15 reps)':{pri:'ไตรเซ็ปส์ lateral head',sec:[]},
+  'DB Skull Crusher (12-15 reps)':{pri:'ไตรเซ็ปส์ long head',sec:[]},
+  'N1-Style Cross-Body Triceps Extension':{pri:'ไตรเซ็ปส์ long head',sec:[]},
+  'Single-Arm Tricep Pressdown':{pri:'ไตรเซ็ปส์ lateral head',sec:[]},
+  'Single-Arm Cable Tricep Kickback':{pri:'ไตรเซ็ปส์ lateral head',sec:[]},
+  'Lat Pulldown (Feeder Sets)':{pri:'ปีก (lats)',sec:['ไบเซ็ปส์']},
+  'Machine Pulldown':{pri:'ปีก (lats)',sec:['ไบเซ็ปส์']},
+  'Pull-Up':{pri:'ปีก (lats)',sec:['ไบเซ็ปส์']},
+  'Lat Pulldown (Failure + Dropset)':{pri:'ปีก — ยืด+หด',sec:['ไบเซ็ปส์']},
+  'Omni-Grip Chest-Supported Row':{pri:'หลังบน (upper back)',sec:['ปีก','ไบเซ็ปส์']},
+  'Incline Chest-Supported DB Row':{pri:'หลังบน',sec:['ปีก','ไบเซ็ปส์']},
+  'Cable Seated Row':{pri:'หลังบน + ปีก',sec:['ไบเซ็ปส์']},
+  'A1. Bottom-Half DB Lat Pullover':{pri:'ปีก — ช่วงยืด',sec:[]},
+  'Cable Lat Pullover':{pri:'ปีก — ช่วงยืด',sec:[]},
+  '1-Arm Lat Pull-In':{pri:'ปีก',sec:[]},
+  'A2. Lat Static Stretch 30s':{pri:'ยืดปีก (lat stretch)',sec:[]},
+  'Omni-Direction Face Pull':{pri:'ไหล่หลัง (rear delt)',sec:['หลังบน (rhomboids)']},
+  'Reverse Cable Flye':{pri:'ไหล่หลัง',sec:[]},
+  'Bent-Over Reverse DB Flye':{pri:'ไหล่หลัง',sec:[]},
+  'EZ-Bar Curl':{pri:'ไบเซ็ปส์ — peak',sec:[]},
+  'DB Curl':{pri:'ไบเซ็ปส์',sec:[]},
+  'Cable Curl':{pri:'ไบเซ็ปส์ — ส่วนบน',sec:[]},
+  'Bottom-Half Preacher Curl':{pri:'ไบเซ็ปส์ — ช่วงยืด (ส่วนล่าง)',sec:[]},
+  'Bottom-Half Spider Curl':{pri:'ไบเซ็ปส์ — ช่วงยืด',sec:[]},
+  'Bottom-Half Bayesian Curl':{pri:'ไบเซ็ปส์ long head',sec:[]},
+  'Deadlift':{pri:'ต้นขาหลัง + ก้น',sec:['หลังบน (erectors)']},
+  'Trap Bar Deadlift':{pri:'ต้นขาหน้า + ต้นขาหลัง',sec:['ก้น']},
+  'Barbell Hip Thrust':{pri:'ก้น',sec:['ต้นขาหลัง']},
+  'Stiff-Leg Deadlift':{pri:'ต้นขาหลังทั้งมัด',sec:['ก้น']},
+  'Close-Grip Barbell Incline Press':{pri:'อกบน',sec:['ไตรเซ็ปส์','ไหล่หน้า']},
+  'Close-Grip DB Incline Press':{pri:'อกบน',sec:['ไตรเซ็ปส์']},
+  'Close-Grip Machine Press':{pri:'อกบน',sec:['ไตรเซ็ปส์']},
+  'Chin-Up':{pri:'ปีก + ไบเซ็ปส์',sec:[]},
+  'Underhand Lat Pulldown':{pri:'ปีก + ไบเซ็ปส์',sec:[]},
+  'Leg Press':{pri:'ต้นขาหน้า',sec:['ก้น']},
+  'Kroc Row':{pri:'ปีก + หลังบน',sec:['ไบเซ็ปส์']},
+  'Single-Arm DB Row':{pri:'ปีก + หลังบน',sec:['ไบเซ็ปส์']},
+  'Meadows Row':{pri:'ปีก + หลังบน',sec:['ไบเซ็ปส์']},
+  'Diamond Pushup':{pri:'ไตรเซ็ปส์',sec:['อกกลาง']},
+  'Close-Grip Push Up':{pri:'ไตรเซ็ปส์',sec:['อก']},
+  'Kneeling Modified Push Up':{pri:'ไตรเซ็ปส์',sec:['อก']},
+};
 // ─── WARMUP VIDEOS ───────────────────────────────────────────
 const WU_VIDEOS={'Low Intensity Cardio':'','Front/Back Leg Swing':'https://www.youtube.com/watch?v=difYoBtZi2s','Side/Side Leg Swing':'https://www.youtube.com/watch?v=korxBhGzzJE','Arm Swings':'https://www.youtube.com/watch?v=VlPmrlYZco8','Cable External Rotation':'https://www.youtube.com/watch?v=vjUE_9BsPUU','Foam Rolling':'https://www.youtube.com/watch?v=Fy9sMmsRHPI'};
 // ─── PROGRAM DATA ───────────────────────────────────────────
@@ -646,7 +727,8 @@ function renderCelebration(snap){
   prevHist.forEach(s=>s.exercises?.forEach(ex=>ex.sets?.filter(x=>x.done&&x.weight>0&&x.reps>0).forEach(x=>{const cur=prMap[ex.name];if(!cur||x.weight>cur.weight)prMap[ex.name]={weight:x.weight,reps:x.reps};})));
   const newPRs=[];
   snap.exercises.forEach(ex=>ex.sets?.filter(x=>x.done&&x.weight>0&&x.reps>0).forEach(x=>{const prev=prMap[ex.name];if(!prev||x.weight>prev.weight)newPRs.push({name:ex.name,weight:x.weight,reps:x.reps});}));
-  const prHtml=newPRs.length?`<div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:14px;padding:12px 16px;text-align:left;margin-bottom:12px"><div style="font-size:12px;color:#fbbf24;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">🏆 PR ใหม่!</div>${newPRs.map(p=>`<div style="font-size:14px;color:var(--tx);padding:3px 0;font-variant-numeric:tabular-nums">${p.name} — <span style="color:#fbbf24;font-weight:700">${p.weight}kg × ${p.reps}</span></div>`).join('')}</div>`:'';
+  const trophySvg=`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M6 9H4a2 2 0 0 1-2-2V5h4"/><path d="M18 9h2a2 2 0 0 0 2-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 2h12v11a6 6 0 0 1-12 0V2z"/></svg>`;
+  const prHtml=newPRs.length?`<div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:14px;padding:12px 16px;text-align:left;margin-bottom:12px"><div style="font-size:12px;color:#fbbf24;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;display:flex;align-items:center;gap:5px">${trophySvg} PR ใหม่</div>${newPRs.map(p=>`<div style="font-size:14px;color:var(--tx);padding:3px 0;font-variant-numeric:tabular-nums">${p.name} — <span style="color:#fbbf24;font-weight:700">${p.weight}kg × ${p.reps}</span></div>`).join('')}</div>`:'';
   // Top sets
   const topSets=snap.exercises.map(ex=>{const done=ex.sets.filter(s=>s.done&&s.weight>0&&s.reps>0);if(!done.length)return null;const top=done.reduce((a,b)=>b.weight>a.weight?b:a,done[0]);return{name:ex.name,w:top.weight,r:top.reps};}).filter(Boolean);
   const topHtml=topSets.length?`<div style="background:var(--surf);border-radius:14px;overflow:hidden;margin-bottom:12px;text-align:left"><div style="font-size:12px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:10px 14px 6px">Top Sets</div>${topSets.map(t=>`<div style="display:flex;justify-content:space-between;padding:6px 14px;border-top:1px solid var(--bdr);font-size:13px"><span style="color:var(--tx2);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-right:8px">${t.name}</span><span style="color:var(--tx);font-weight:600;font-variant-numeric:tabular-nums;flex-shrink:0">${t.w}kg × ${t.r}</span></div>`).join('')}</div>`:'';
@@ -656,7 +738,7 @@ function renderCelebration(snap){
   m.innerHTML=`
     <div style="min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:env(safe-area-inset-top,40px) 20px calc(env(safe-area-inset-bottom,16px)+80px);gap:0;background:var(--bg)">
       <div style="margin-top:40px;margin-bottom:20px;text-align:center;width:100%">
-        <div style="font-size:64px;margin-bottom:8px;animation:prIn .4s ease">🎉</div>
+        <div style="width:72px;height:72px;border-radius:50%;background:${dc};display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 0 0 12px rgba(255,255,255,0.06),0 0 40px rgba(255,255,255,0.1);animation:prIn .4s ease"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div style="font-size:30px;font-weight:700;letter-spacing:-.3px;line-height:1.1;margin-bottom:4px">${nick?nick+' '+msg:msg}</div>
         <div style="font-size:15px;color:var(--tx2)">${day.name} · W${snap.week}</div>
       </div>
@@ -728,9 +810,22 @@ function renderDayPicker(){
     </button>`;
   }).join('');
   const todayLabel=new Date().toLocaleDateString('th-TH',{weekday:'long',day:'numeric',month:'long'});
+  const nx2=nextUp();
+  const greetHour=new Date().getHours();
+  const greetWord=greetHour<12?'อรุณสวัสดิ์':greetHour<17?'สวัสดีตอนบ่าย':'สวัสดีตอนเย็น';
+  const nick2=CFG.nickname;
+  const greetMsgs=['พร้อมซ้อมแล้วหรือยัง?','วันนี้เป็นวันดีในการซ้อม 💪','มาทำให้ร่างกายแข็งแกร่งขึ้นกัน 💪','อย่าลืม progressive overload นะ 💪','มา crush it วันนี้ด้วยกัน 💪'];
+  const greetSub=greetMsgs[new Date().getDay()%greetMsgs.length];
+  const greetLine=nick2
+    ?`<div style="font-size:28px;font-weight:700;letter-spacing:-.3px">${greetWord}, ${nick2}!</div><div style="font-size:14px;color:var(--tx2);margin-top:3px">${greetSub}</div>`
+    :`<div style="font-size:26px;font-weight:700;letter-spacing:-.3px">มาซ้อมกันเลย 💪</div><div style="font-size:13px;color:var(--tx2);margin-top:3px">${greetSub}</div>`;
+  const hist2=allSessions().filter(s=>s.completed);
+  const streak2=(()=>{const dates=[...new Set(hist2.map(s=>s.date))].sort().reverse();if(!dates.length)return 0;let n=1;for(let i=1;i<dates.length;i++){if(daysBetween(dates[i],dates[i-1])<=3)n++;else break;}return n;})();
+  const streakHtml=streak2>0?`<div style="display:inline-flex;align-items:center;gap:4px;background:var(--surf2);border-radius:20px;padding:3px 10px;font-size:12px;color:var(--tx2);margin-top:6px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> ${streak2} session ต่อเนื่อง</div>`:'';
   return`<div class="ph"><h1>ซ้อม</h1><p>${todayLabel}</p></div>
+    <div style="padding:20px 20px 12px">${greetLine}${streakHtml}</div>
     <div class="wsel">${wBtns}</div>
-    ${wk?.deload?`<div class="dlnote">⚠️ ${wk.deloadNote_th||'Deload — ลดน้ำหนัก ห้ามดันถึงหมดแรง'}</div>`:''}
+    ${wk?.deload?`<div class="dlnote">! Deload — ${wk.deloadNote_th||'ลดน้ำหนัก ห้ามดันถึงหมดแรง'}</div>`:''}
     <div style="padding:6px 18px 0;font-size:22px;font-weight:700;letter-spacing:-.3px">เลือกวันซ้อม</div>
     <div class="dgrid">${dayCards}</div>
     <div style="padding:4px 18px 14px;font-size:12px;color:var(--tx3);line-height:1.5">${P.schedule.restRule_th}</div>`;
@@ -765,7 +860,7 @@ function renderWorkout(){
     <span class="prog-ex" style="font-size:12px;color:var(--tx3)">${curExNum}/${totalEx} exercises</span>
     <span class="prog-vol" id="sess-vol">— kg</span>
   </div>
-  ${deload?`<div class="dlnote" style="margin-top:0">⚠️ Deload — ลดน้ำหนัก ห้ามดันถึงหมดแรง</div>`:''}
+  ${deload?`<div class="dlnote" style="margin-top:0">! Deload — ลดน้ำหนัก ห้ามดันถึงหมดแรง</div>`:''}
   <details style="margin:4px 12px 4px;background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r)">
     <summary style="padding:8px 12px;font-size:12px;color:var(--tx2);cursor:pointer;list-style:none;user-select:none">▸ วอร์มอัพทั่วไป & เครื่องมือ</summary>
     <div style="padding:6px 12px 10px">${wuItems}</div>
@@ -864,12 +959,21 @@ function buildCard(ei){
   const minSets=1;
   const setActionsHtml=`<div class="set-actions"><button class="set-rm-btn" onclick="removeSet(${ei})" title="ลบเซ็ตสุดท้าย">− เซ็ต</button><button class="set-add-btn" onclick="addSet(${ei})">+ เพิ่มเซ็ต</button></div>`;
 
-  // Muscle chips
-  const mArr=ex.m||[];
+  // Muscle chips — use detailed data if available
   const uniFlag=isUni(el.name);
-  const muscChips=mArr.map((k,i)=>`<span class="mchip ${i===0?'pri':'sec'}">${muscName(k)}</span>`).join('');
-  const uniChip=uniFlag?`<span class="mchip uni">🔄 ทีละข้าง</span>`:'';
-  const mchipsHtml=(mArr.length||uniFlag)?`<div class="mchips">${muscChips}${uniChip}</div>`:'';
+  const uniSvg=`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>`;
+  const det=EX_MUSCLE_DETAIL[el.name];
+  let mchipsHtml='';
+  if(det){
+    const secChips=det.sec.map(s=>`<span class="mchip sec">${s}</span>`).join('');
+    const uniC=uniFlag?`<span class="mchip uni">${uniSvg} ทีละข้าง</span>`:'';
+    mchipsHtml=`<div class="mchips"><span class="mchip pri">${det.pri}</span>${secChips}${uniC}</div>`;
+  } else {
+    const mArr=ex.m||[];
+    const muscChips=mArr.map((k,i)=>`<span class="mchip ${i===0?'pri':'sec'}">${muscName(k)}</span>`).join('');
+    const uniC=uniFlag?`<span class="mchip uni">${uniSvg} ทีละข้าง</span>`:'';
+    if(mArr.length||uniFlag)mchipsHtml=`<div class="mchips">${muscChips}${uniC}</div>`;
+  }
   const badgeRow=(bc!=='bn'||ex.superset)?`<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:5px">${ssBadge}${bc!=='bn'?`<span class="bdg ${bc}">${bl}</span>`:''}</div>`:'';
   return`<div class="${cls}" id="exc_${ei}">
     <div class="exh">
@@ -1112,7 +1216,7 @@ function renderPlan(){
     statusHtml=`<div class="nxt-rest">✓ ซ้อม ${P.days[nx.last.dayId].name} ไปแล้ววันนี้ — พักได้เลย<br>ถัดไป: <strong>${day.name}</strong></div><button class="nxt-btn ghost" onclick="planStart('${nx.dayId}',${nx.week})">ซ้อม ${day.name} เลย</button>`;
   }else if(!nx.ready){
     const left=nx.gap-nx.since;
-    statusHtml=`<div class="nxt-rest">😴 <strong>วันนี้พัก</strong> — เหลืออีก ${left} วัน (${nx.since}/${nx.gap})</div><button class="nxt-btn ghost" onclick="planStart('${nx.dayId}',${nx.week})">ข้ามพัก ซ้อมเลย</button>`;
+    statusHtml=`<div class="nxt-rest"><strong>วันนี้พัก</strong> — เหลืออีก ${left} วัน (${nx.since}/${nx.gap})</div><button class="nxt-btn ghost" onclick="planStart('${nx.dayId}',${nx.week})">ข้ามพัก ซ้อมเลย</button>`;
   }else{
     const late=nx.since>nx.gap+2?`<div style="font-size:12px;color:var(--yel);margin-bottom:7px">ห่างจากครั้งล่าสุด ${nx.since} วันแล้ว</div>`:'';
     statusHtml=`${late}<button class="nxt-btn" onclick="planStart('${nx.dayId}',${nx.week})">เริ่มซ้อม ${day.name}</button>`;
@@ -1311,7 +1415,10 @@ function renderProfile(){
   else if(PROF_TAB==='calc') body=renderCalcTab();
   else if(PROF_TAB==='guide') body=renderGuideContent();
   else if(PROF_TAB==='settings') body=renderSettingsTab();
+  const nick3=CFG.nickname;
+  const profGreet=nick3?`<div style="padding:14px 20px 0;font-size:20px;font-weight:700">สวัสดี, ${nick3} 👋</div>`:'';
   return`<div class="ph"><h1>โปรไฟล์</h1><p>PPL 4x · Jeff Nippard</p></div>
+  ${profGreet}
   <div class="prof-seg" style="overflow-x:auto;scrollbar-width:none">${segHtml}</div>
   ${body}<div style="height:20px"></div>`;
 }
