@@ -840,59 +840,124 @@ const HERO_GRAD={
   push:'linear-gradient(148deg,#0A84FF 0%,#3FA0FF 45%,#005EC0 100%)',
   pull:'linear-gradient(148deg,#30D158 0%,#5CE07A 45%,#1A9038 100%)',
   full:'linear-gradient(148deg,#BF5AF2 0%,#D47FFF 45%,#8930C0 100%)',
-  rest:'linear-gradient(148deg,#2C2C2E 0%,#3A3A3C 45%,#1C1C1E 100%)',
+  dark:'linear-gradient(148deg,#1C1C1E 0%,#2C2C2E 45%,#141414 100%)',
 };
+function daysUntilReady(gap){if(gap<=1)return'พรุ่งนี้';if(gap===2)return'มะรืนนี้';return`อีก ${gap} วัน`;}
+function homeGreeting(nick,h,state,streak,since){
+  // state: 'first'|'ready'|'done'|'rest'|'late'
+  if(state==='first')return'ก้าวแรกสำคัญที่สุด — let\'s go';
+  if(state==='done')return'ทำได้แล้ว — recovery เริ่มตอนนี้ 💪';
+  if(state==='late')return`ห่างไป ${since} วัน — ยังกลับมาได้เสมอ`;
+  if(streak>=5)return`🔥 ${streak}-day streak — อย่าหยุดตอนนี้`;
+  if(streak>=3)return`🔥 ${streak} วันติดกัน ไปต่อ`;
+  if(state==='rest')return'กล้ามสร้างตอนพัก ไม่ใช่ตอนยก';
+  if(h<12)return'ซ้อมก่อน แล้วค่อยว่ากันเรื่องอื่น';
+  if(h>=22)return'Late night gains ก็ยังนับ';
+  if(h>=17)return'จบงานแล้ว ได้เวลาของตัวเอง';
+  return'มาแล้วก็มาเลย';
+}
 function renderHome(){
   const now=new Date();
   const h=now.getHours();
   const nick=CFG.nickname;
-  const greetWord=h<5?'กลางคืน':h<12?'อรุณสวัสดิ์':h<17?'สวัสดี':'สวัสดีตอนเย็น';
   const todayLabel=now.toLocaleDateString('th-TH',{weekday:'long',day:'numeric',month:'long'});
   const hist=allSessions().filter(s=>s.completed);
   const doneCount=hist.length;
   const streak=(()=>{const dates=[...new Set(hist.map(s=>s.date))].sort().reverse();if(!dates.length)return 0;let n=1;for(let i=1;i<dates.length;i++){if(daysBetween(dates[i],dates[i-1])<=3)n++;else break;}return n;})();
 
   const nx=nextUp();
-  const day=P.days[nx.dayId];
-  const isRest=!!nx.last&&!nx.ready&&nx.since===0;
+  const nextDay=P.days[nx.dayId];
+  // done today = last session was today
+  const isDoneToday=!!nx.last&&nx.since===0;
   const isWaiting=!!nx.last&&!nx.ready&&nx.since>0;
-  const isLate=nx.ready&&!!nx.last&&nx.since>nx.gap+2;
-  const heroGrad=(isRest||isWaiting)?HERO_GRAD.rest:(HERO_GRAD[nx.dayId]||HERO_GRAD.legs);
-  const weekDone=hist.filter(s=>(s.week||1)===nx.week).length;
+  const isReady=nx.ready;
+  const isFirst=!nx.last;
+  const isLate=isReady&&!!nx.last&&nx.since>nx.gap+2;
 
-  // Eyebrow
-  const eyebrow=!nx.last?'วันแรก':isRest?'ซ้อมไปแล้ววันนี้':isWaiting?`วันพัก · ${nx.since}/${nx.gap}`:isLate?`${nx.since} วันไม่ได้ซ้อม`:'ถัดไป';
+  // State label
+  const state=isFirst?'first':isDoneToday?'done':isLate?'late':isWaiting?'rest':'ready';
+  const greetLine=homeGreeting(nick,h,state,streak,nx.since);
 
-  // Muscles preview
-  const exDay=P.days[nx.dayId];
-  const muscPreview=[...new Set(exDay.ex.flatMap(e=>e.m))].slice(0,3).map(m=>muscName(m)).join(' · ');
+  // Hero card — 3 visual states
+  let heroCard;
 
-  // CTA button area
-  let ctaHtml;
-  if(isRest){
-    ctaHtml=`<div class="af-rest-badge">ถัดไป: <strong style="color:#fff">${day.name}</strong> · W${nx.week}</div>
-      <button class="af-ghost-btn" onclick="planStart('${nx.dayId}',${nx.week})">ซ้อม ${day.name} เลย</button>`;
-  }else if(isWaiting){
-    const left=nx.gap-nx.since;
-    ctaHtml=`<div class="af-rest-badge">พักอีก <strong style="color:#fff">${left} วัน</strong> แล้วจะได้ซ้อม ${day.name}</div>
-      <button class="af-ghost-btn" onclick="planStart('${nx.dayId}',${nx.week})">ข้ามพัก ซ้อมเลย</button>`;
-  }else{
-    ctaHtml=`<button class="af-start-btn" onclick="planStart('${nx.dayId}',${nx.week})">${nx.last?`เริ่มซ้อม ${day.name}`:'เริ่มซ้อมวันแรก'}</button>`;
-  }
-
-  const heroCard=`<div class="af-hero" style="background:${heroGrad}">
-    <div class="af-hero-inner">
-      <div class="af-hero-eyebrow"><div class="af-hero-eyebrow-dot"></div>${eyebrow}</div>
-      <div class="af-hero-title">${day.name}</div>
-      <div class="af-hero-sub">${day.th} · ${exDay.ex.length} exercises · W${nx.week}</div>
-      <div class="af-hero-pills">
-        <div class="af-hero-pill">${muscPreview}</div>
-        ${nx.last?`<div class="af-hero-pill">ล่าสุด ${fmtDate(nx.last.date)}</div>`:''}
-        ${weekDone>0?`<div class="af-hero-pill">${weekDone}/${P.schedule.order.length} วันนี้สัปดาห์นี้</div>`:''}
+  if(isDoneToday){
+    // State B: ซ้อมไปแล้ววันนี้ — แสดงสิ่งที่ทำไป + ถัดไป
+    const todaySess=nx.last;
+    const doneSets=todaySess.exercises?.reduce((a,e)=>a+(e.sets?.filter(x=>x.done).length||0),0)||0;
+    const durSec=todaySess.endTime&&todaySess.startTime?Math.round((todaySess.endTime-todaySess.startTime)/1000):0;
+    const durMin=durSec>0?Math.floor((durSec%3600)/60):0;
+    const lastDay=P.days[todaySess.dayId];
+    const nextWhen=daysUntilReady(nx.gap);
+    const nextMuscle=[...new Set(nextDay.ex.flatMap(e=>e.m))].slice(0,2).map(m=>muscName(m)).join(' · ');
+    heroCard=`<div class="af-hero" style="background:${HERO_GRAD.dark}">
+      <div class="af-hero-inner" style="padding-bottom:18px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--grn);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div><div style="font-size:13px;font-weight:700;color:var(--grn);text-transform:uppercase;letter-spacing:.07em">วันนี้เสร็จแล้ว</div>
+          <div style="font-size:22px;font-weight:800;color:#fff;letter-spacing:-.3px;line-height:1.1">${lastDay.name}</div></div>
+        </div>
+        <div style="display:flex;gap:12px;margin-bottom:18px">
+          ${doneSets>0?`<div style="background:rgba(255,255,255,.08);border-radius:10px;padding:8px 14px;text-align:center"><div style="font-size:22px;font-weight:800;color:#fff">${doneSets}</div><div style="font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.05em;margin-top:2px">Sets</div></div>`:''}
+          ${durMin>0?`<div style="background:rgba(255,255,255,.08);border-radius:10px;padding:8px 14px;text-align:center"><div style="font-size:22px;font-weight:800;color:#fff">${durMin}</div><div style="font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.05em;margin-top:2px">นาที</div></div>`:''}
+        </div>
+        <div style="border-top:1px solid rgba(255,255,255,.1);padding-top:16px">
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">ถัดไป · ${nextWhen}</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+            <div>
+              <div style="font-size:24px;font-weight:800;color:#fff;letter-spacing:-.4px">${nextDay.name}</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.55);margin-top:3px">${nextMuscle}</div>
+            </div>
+            <div style="width:44px;height:44px;border-radius:50%;background:${HERO_GRAD[nx.dayId]?.match(/#\w+/)?.[0]||'#666'};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <div style="font-size:11px;font-weight:800;color:#fff;text-align:center;line-height:1.1">${DAYS_SHORT[nx.dayId]}</div>
+            </div>
+          </div>
+        </div>
+        <button class="af-ghost-btn" style="margin-top:14px" onclick="planStart('${nx.dayId}',${nx.week})">ซ้อม ${nextDay.name} เดี๋ยวนี้เลย</button>
       </div>
-      <div class="af-hero-cta">${ctaHtml}</div>
-    </div>
-  </div>`;
+    </div>`;
+  }else if(isWaiting){
+    // State C: วันพัก
+    const left=nx.gap-nx.since;
+    const nextMuscle=[...new Set(nextDay.ex.flatMap(e=>e.m))].slice(0,2).map(m=>muscName(m)).join(' · ');
+    const dots=Array.from({length:nx.gap},(_,i)=>`<div style="width:10px;height:10px;border-radius:50%;background:${i<nx.since?'rgba(255,255,255,.6)':'rgba(255,255,255,.18)'}"></div>`).join('');
+    heroCard=`<div class="af-hero" style="background:${HERO_GRAD.dark}">
+      <div class="af-hero-inner">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:16px">
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.08em">วันพัก</div>
+          <div style="display:flex;gap:5px;margin-left:4px">${dots}</div>
+        </div>
+        <div style="font-size:34px;font-weight:800;letter-spacing:-.6px;line-height:1.05;color:#fff">${nextDay.name}</div>
+        <div style="font-size:14px;color:rgba(255,255,255,.6);margin-top:6px">${nextMuscle}</div>
+        <div style="margin-top:12px;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border-radius:20px;padding:5px 12px">
+          <div style="font-size:13px;color:rgba(255,255,255,.75);font-weight:600">${left===1?'พรุ่งนี้พร้อมแล้ว':left===2?'มะรืนนี้พร้อมแล้ว':`อีก ${left} วัน`}</div>
+        </div>
+        <div class="af-hero-cta">
+          <button class="af-ghost-btn" onclick="planStart('${nx.dayId}',${nx.week})">ข้ามพัก ซ้อมเลย</button>
+        </div>
+      </div>
+    </div>`;
+  }else{
+    // State A: พร้อมซ้อม / วันแรก
+    const grad=HERO_GRAD[nx.dayId]||HERO_GRAD.legs;
+    const muscPreview=[...new Set(nextDay.ex.flatMap(e=>e.m))].slice(0,3).map(m=>muscName(m)).join(' · ');
+    const weekDone=hist.filter(s=>(s.week||1)===nx.week).length;
+    heroCard=`<div class="af-hero" style="background:${grad}">
+      <div class="af-hero-inner">
+        <div class="af-hero-eyebrow"><div class="af-hero-eyebrow-dot"></div>${isFirst?'วันแรก':isLate?`${nx.since} วันไม่ได้ซ้อม`:'ถัดไป'}</div>
+        <div class="af-hero-title">${nextDay.name}</div>
+        <div class="af-hero-sub">${nextDay.th} · ${nextDay.ex.length} exercises · W${nx.week}</div>
+        <div class="af-hero-pills">
+          <div class="af-hero-pill">${muscPreview}</div>
+          ${weekDone>0?`<div class="af-hero-pill">สัปดาห์นี้ ${weekDone}/${P.schedule.order.length}</div>`:''}
+          ${nx.last?`<div class="af-hero-pill">ล่าสุด ${fmtDate(nx.last.date)}</div>`:''}
+        </div>
+        <div class="af-hero-cta">
+          <button class="af-start-btn" onclick="planStart('${nx.dayId}',${nx.week})">${isFirst?'เริ่มซ้อมวันแรก':`เริ่มซ้อม ${nextDay.name}`}</button>
+        </div>
+      </div>
+    </div>`;
+  }
 
   // Mini workout cards (other days)
   const otherCards=P.schedule.order.map(id=>{
@@ -952,8 +1017,8 @@ function renderHome(){
   }).join('');
 
   return`<div class="ph" style="padding:12px 20px 10px">
-    <h1 style="font-size:34px;font-weight:800;letter-spacing:-.5px">${nick?greetWord+', '+nick:'ซ้อม'}</h1>
-    <p style="font-size:13px;color:var(--tx3);margin-top:1px">${todayLabel}${streak>0?` · <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2.5" stroke-linecap="round" style="vertical-align:middle;margin-right:2px"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>${streak} ต่อเนื่อง`:''}</p>
+    <h1 style="font-size:34px;font-weight:800;letter-spacing:-.5px">${nick?'สวัสดี, '+nick:'ซ้อม'}</h1>
+    <p style="font-size:13px;color:var(--tx2);margin-top:2px;line-height:1.4">${greetLine}</p>
   </div>
   ${heroCard}
   <div class="af-row-label">วันซ้อมอื่นๆ</div>
@@ -1235,7 +1300,7 @@ function openSub(ei){
       <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--tx3);font-weight:600;margin-bottom:12px">เปลี่ยนท่า — ${ex.n}</div>
       ${items}
       <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--bdr)">
-        <div style="font-size:12px;color:var(--tx3);margin-bottom:6px;font-weight:500">➕ เพิ่มท่าเอง</div>
+        <div style="font-size:12px;color:var(--tx3);margin-bottom:6px;font-weight:500;display:flex;align-items:center;gap:5px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>เพิ่มท่าเอง</div>
         <div style="display:flex;gap:6px">
           <input class="inp" id="custom-sub-inp" placeholder="ชื่อท่า..." style="flex:1;font-size:14px" onkeydown="if(event.key==='Enter')addCustomSubAndSet('${k}',${ei})">
           <button class="btn btnp" style="padding:9px 14px;font-size:13px;white-space:nowrap" onclick="addCustomSubAndSet('${k}',${ei})">เพิ่ม</button>
@@ -1459,7 +1524,10 @@ function renderHistory(){
     }).join('');
     return`<div style="padding:16px 18px 4px;font-size:20px;font-weight:700;letter-spacing:-.2px">${label}</div>${rows}`;
   }).join('');
-  return`<div class="ph"><h1>ประวัติ</h1><p>${sessions.length} sessions</p></div>${expRow}${html}`;
+  if(!CALM){const d=new Date();CALM={y:d.getFullYear(),m:d.getMonth()};}
+  const order2=P.schedule.order;
+  const calSection=`<div class="af-row-label" style="padding-bottom:8px">ปฏิทิน</div>${renderCal()}<div class="lg" style="padding-bottom:6px">${order2.map(id=>`<div class="lg-i"><div class="lg-d" style="background:${DAYC[id]}"></div>${P.days[id].name}</div>`).join('')}</div>`;
+  return`<div class="ph"><h1>ประวัติ</h1><p>${sessions.length} sessions</p></div>${expRow}${calSection}<div class="af-row-label" style="padding-bottom:0">รายการ</div>${html}`;
 }
 function showSessDetail(date,dayId){
   const s=allSessions().find(x=>x.date===date&&x.dayId===dayId);
@@ -1604,13 +1672,15 @@ function renderVolTab(){
   });
   const {front,back}=anatomySVG(volMap);
   const legend=[{c:'#22c55e',l:'มาก'},{c:'#f97316',l:'ปานกลาง'},{c:'#eab308',l:'น้อย'},{c:'rgba(255,255,255,0.08)',l:'0 เซ็ต'}].map(i=>`<div class="vol-li"><div class="vol-dot" style="background:${i.c}"></div>${i.l}</div>`).join('');
-  const maxBar=Math.max(...Object.values(volMap),1,8);
-  const barHtml=Object.entries(P.muscleLabels).map(([k,lbl])=>{const v=volMap[k]||0;const pct=v/maxBar*100;const c=v===0?'var(--bdr)':v>=10?'var(--grn)':v>=6?'var(--acc)':'var(--yel)';return`<div class="vrow"><div class="vn">${lbl}</div><div class="vbw"><div class="vb" style="width:${pct}%;background:${c}"></div></div><div class="vnum">${v}</div></div>`;}).join('');
+  const maxBar=Math.max(...Object.values(volMap),1,20);
+  const barHtml=Object.entries(P.muscleLabels).map(([k,lbl])=>{const v=volMap[k]||0;const pct=v/maxBar*100;const mevPct=10/maxBar*100;const mavPct=20/maxBar*100;const c=v===0?'var(--bdr)':v>=20?'var(--grn)':v>=10?'var(--acc)':'var(--yel)';return`<div class="vrow"><div class="vn">${lbl}</div><div class="vbw" style="position:relative"><div class="vb" style="width:${pct}%;background:${c}"></div><div style="position:absolute;top:0;bottom:0;left:${mevPct}%;width:1px;background:rgba(255,255,255,.22)"></div><div style="position:absolute;top:0;bottom:0;left:${mavPct}%;width:1px;background:rgba(255,255,255,.38)"></div></div><div class="vnum">${v}</div></div>`;}).join('');
+  const volNote=`<div style="display:flex;gap:16px;margin-top:8px;font-size:11px;color:var(--tx3)"><div style="display:flex;align-items:center;gap:5px"><div style="width:1px;height:12px;background:rgba(255,255,255,.22)"></div>MEV ~10 sets</div><div style="display:flex;align-items:center;gap:5px"><div style="width:1px;height:12px;background:rgba(255,255,255,.38)"></div>MAV ~20 sets</div></div>`;
   return`<div class="slbl">Volume สัปดาห์นี้ (เซ็ต)</div>
   <div style="padding:0 12px">
     <div class="anatomy-wrap"><div class="anatomy-fig">${front}<div class="anatomy-lbl">ด้านหน้า</div></div><div class="anatomy-fig">${back}<div class="anatomy-lbl">ด้านหลัง</div></div></div>
     <div class="vol-legend">${legend}</div>
-    <details style="margin-top:6px"><summary style="font-size:12px;color:var(--tx3);cursor:pointer;padding:4px 0">▸ ตัวเลข (เซ็ต)</summary><div style="margin-top:8px">${barHtml}</div></details>
+    <div style="margin-top:8px">${barHtml}</div>
+    ${volNote}
   </div>`;
 }
 
