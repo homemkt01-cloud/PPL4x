@@ -882,32 +882,39 @@ function renderHome(){
     // State B: ซ้อมไปแล้ววันนี้ — แสดงสิ่งที่ทำไป + ถัดไป
     const todaySess=nx.last;
     const doneSets=todaySess.exercises?.reduce((a,e)=>a+(e.sets?.filter(x=>x.done).length||0),0)||0;
+    const totalSetsPlanned=todaySess.exercises?.reduce((a,e)=>a+(e.sets?.length||0),0)||0;
     const durSec=todaySess.endTime&&todaySess.startTime?Math.round((todaySess.endTime-todaySess.startTime)/1000):0;
     const durMin=durSec>0?Math.floor((durSec%3600)/60):0;
     const lastDay=P.days[todaySess.dayId];
     const nextWhen=daysUntilReady(nx.gap);
     const nextMuscle=[...new Set(nextDay.ex.flatMap(e=>e.m))].slice(0,2).map(m=>muscName(m)).join(' · ');
+    const setsLabel=totalSetsPlanned>0?`${doneSets}/${totalSetsPlanned}`:`${doneSets}`;
+    const setsFull=totalSetsPlanned>0&&doneSets>=totalSetsPlanned;
     heroCard=`<div class="af-hero" style="background:${HERO_GRAD.dark}">
       <div class="af-hero-inner" style="padding-bottom:18px">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
           <div style="width:36px;height:36px;border-radius:50%;background:var(--grn);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div><div style="font-size:13px;font-weight:700;color:var(--grn);text-transform:uppercase;letter-spacing:.07em">วันนี้เสร็จแล้ว</div>
+          <div><div style="font-size:12px;font-weight:700;color:var(--grn);text-transform:uppercase;letter-spacing:.08em">วันนี้เสร็จแล้ว</div>
           <div style="font-size:22px;font-weight:800;color:#fff;letter-spacing:-.3px;line-height:1.1">${lastDay.name}</div></div>
         </div>
-        <div style="display:flex;gap:12px;margin-bottom:18px">
-          ${doneSets>0?`<div style="background:rgba(255,255,255,.08);border-radius:10px;padding:8px 14px;text-align:center"><div style="font-size:22px;font-weight:800;color:#fff">${doneSets}</div><div style="font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.05em;margin-top:2px">Sets</div></div>`:''}
-          ${durMin>0?`<div style="background:rgba(255,255,255,.08);border-radius:10px;padding:8px 14px;text-align:center"><div style="font-size:22px;font-weight:800;color:#fff">${durMin}</div><div style="font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.05em;margin-top:2px">นาที</div></div>`:''}
+        <div style="display:flex;gap:10px;margin-bottom:18px">
+          ${doneSets>0?`<div style="flex:1;background:rgba(255,255,255,.08);border-radius:12px;padding:12px 16px">
+            <div style="font-size:26px;font-weight:800;color:${setsFull?'var(--grn)':'#fff'};letter-spacing:-.4px;line-height:1">${setsLabel}</div>
+            <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.38);letter-spacing:.08em;text-transform:uppercase;margin-top:4px">Sets</div>
+          </div>`:''}
+          ${durMin>0?`<div style="flex:1;background:rgba(255,255,255,.08);border-radius:12px;padding:12px 16px">
+            <div style="font-size:26px;font-weight:800;color:#fff;letter-spacing:-.4px;line-height:1">${durMin}</div>
+            <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.38);letter-spacing:.08em;text-transform:uppercase;margin-top:4px">นาที</div>
+          </div>`:''}
         </div>
         <div style="border-top:1px solid rgba(255,255,255,.1);padding-top:16px">
-          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">ถัดไป · ${nextWhen}</div>
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
-            <div>
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">ถัดไป · ${nextWhen}</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+            <div style="min-width:0">
               <div style="font-size:24px;font-weight:800;color:#fff;letter-spacing:-.4px">${nextDay.name}</div>
-              <div style="font-size:12px;color:rgba(255,255,255,.55);margin-top:3px">${nextDay.ex.length} ex · ${nextMuscle}</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.5);margin-top:3px">${nextDay.ex.length} exercises · ${nextMuscle}</div>
             </div>
-            <div style="width:44px;height:44px;border-radius:50%;background:${HERO_GRAD[nx.dayId]||HERO_GRAD.legs};display:flex;align-items:center;justify-content:center;flex-shrink:0">
-              <div style="font-size:11px;font-weight:800;color:#fff;text-align:center;line-height:1.1">${DAYS_SHORT[nx.dayId]}</div>
-            </div>
+            <div style="width:48px;height:48px;border-radius:12px;background:${HERO_GRAD[nx.dayId]||HERO_GRAD.legs};flex-shrink:0"></div>
           </div>
         </div>
         <button class="af-ghost-btn" style="margin-top:14px" onclick="planStart('${nx.dayId}',${nx.week})">ซ้อม ${nextDay.name} เดี๋ยวนี้เลย</button>
