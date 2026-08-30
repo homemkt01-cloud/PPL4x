@@ -845,13 +845,13 @@ const HERO_GRAD={
 function daysUntilReady(gap){if(gap<=1)return'พรุ่งนี้';if(gap===2)return'มะรืนนี้';return`อีก ${gap} วัน`;}
 function homeGreeting(nick,h,state,streak,since){
   // state: 'first'|'ready'|'done'|'rest'|'late'
-  if(state==='first')return'ก้าวแรกสำคัญที่สุด — let\'s go 🏋🏻‍♂️';
-  if(state==='done')return'ทำได้แล้ว — recovery ก่อนนะ 😴';
-  if(state==='late')return`ห่างไป ${since} วัน — ยังกลับมาได้เสมอ 🥹`;
-  if(streak>=5)return`${streak}-day streak — อย่าหยุดตอนนี้ 🔥`;
-  if(streak>=3)return`${streak} วันติดกัน ไปต่อ 🔥`;
-  if(state==='rest')return'กล้ามสร้างตอนพัก ไม่ใช่ตอนยก 🔋';
-  return'มาแล้วก็ลุยเลย 👊🏻';
+  if(state==='first')return'let\'s go 🏋🏻‍♂️';
+  if(state==='done')return'recovery ก่อนนะ 😴';
+  if(state==='late')return`ห่างไป ${since}วัน 🥹`;
+  if(streak>=5)return`${streak}-day streak 🔥`;
+  if(streak>=3)return`${streak} วันติดกัน 🔥`;
+  if(state==='rest')return'rest day 🔋';
+  return'let\'s go 👊🏻';
 }
 function renderHome(){
   const now=new Date();
@@ -1014,8 +1014,7 @@ function renderHome(){
   }).join('');
 
   return`<div class="ph" style="padding:12px 20px 10px">
-    <h1 style="font-size:34px;font-weight:800;letter-spacing:-.5px">${nick?(h<5?'🌙':h<12?'☀️':h<17?'💪':'🌆')+' '+(h<5?'Late night':h<12?'Morning':h<17?'Afternoon':'Evening')+', '+nick:'ซ้อม'}</h1>
-    <p style="font-size:13px;color:var(--tx2);margin-top:2px;line-height:1.4">${greetLine}</p>
+    <h1 style="font-size:26px;font-weight:800;letter-spacing:-.4px;line-height:1.2">${nick?(h<5?'🌙':h<12?'☀️':h<17?'💪':'🌆')+' '+(h<5?'Late night':h<12?'Morning':h<17?'Afternoon':'Evening')+', '+nick+' — '+greetLine:'ซ้อม'}</h1>
   </div>
   ${heroCard}
   <div class="af-row-label">วันซ้อมอื่นๆ</div>
