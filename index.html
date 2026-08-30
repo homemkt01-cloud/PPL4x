@@ -326,6 +326,60 @@ tr.wu-sep td{padding:5px 14px;font-size:9px;text-transform:uppercase;letter-spac
 .vol-li{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--tx2);white-space:nowrap}
 .vol-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+/* ══ HOME REDESIGN ════════════════════════════════════════════ */
+.home-wrap{padding:0 0 8px}
+.home-top{padding:20px 20px 6px;display:flex;align-items:flex-end;justify-content:space-between}
+.home-greet{font-size:32px;font-weight:800;letter-spacing:-.6px;line-height:1.05}
+.home-date{font-size:13px;color:var(--tx3);font-weight:400;margin-top:3px}
+.home-streak{display:flex;align-items:center;gap:5px;background:var(--surf2);border-radius:20px;padding:6px 12px;font-size:12px;color:var(--tx2);font-weight:600;flex-shrink:0;align-self:flex-start;margin-top:4px}
+/* Hero card */
+.hero{margin:14px 16px 0;border-radius:26px;overflow:hidden;position:relative;display:flex;flex-direction:column;transition:transform .15s,opacity .15s;min-height:190px}
+.hero:active{transform:scale(.977);opacity:.93}
+.hero-glow{position:absolute;inset:0;pointer-events:none}
+.hero-body{position:relative;z-index:1;padding:22px 22px 20px;flex:1;display:flex;flex-direction:column}
+.hero-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;opacity:.85}
+.hero-title{font-size:34px;font-weight:800;letter-spacing:-.7px;line-height:1.05;color:#fff}
+.hero-sub{font-size:13px;margin-top:6px;opacity:.7;color:#fff;line-height:1.4}
+.hero-actions{margin-top:auto;padding-top:18px}
+.hero-go{width:100%;padding:14px;border:none;border-radius:16px;font-size:17px;font-weight:800;cursor:pointer;letter-spacing:-.2px;font-family:inherit;transition:opacity .15s}
+.hero-go:active{opacity:.8}
+.hero-go.ghost{background:rgba(255,255,255,.15);color:#fff;font-size:15px;font-weight:600;padding:12px;margin-top:8px}
+.hero-rest-box{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:12px 14px;font-size:13px;color:rgba(255,255,255,.85);line-height:1.5}
+/* Day chips */
+.dchips{display:flex;gap:8px;padding:14px 16px 4px;overflow-x:auto;scrollbar-width:none}
+.dchips::-webkit-scrollbar{display:none}
+.dchip{flex-shrink:0;display:flex;align-items:center;gap:7px;padding:9px 15px;border-radius:22px;border:1.5px solid var(--bdr);background:var(--surf);cursor:pointer;transition:all .15s;font-family:inherit;font-size:13px;font-weight:600;color:var(--tx2);white-space:nowrap}
+.dchip .dc-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.dchip .dc-last{font-size:10px;color:var(--tx3);font-weight:400;margin-left:1px}
+.dchip:active{transform:scale(.94)}
+/* Stats */
+.sbar{display:flex;gap:8px;padding:14px 16px 0}
+.sbar-item{flex:1;background:var(--surf);border-radius:18px;padding:16px 10px 14px;text-align:center;overflow:hidden;cursor:default}
+.sbar-n{font-size:30px;font-weight:800;letter-spacing:-.5px;font-variant-numeric:tabular-nums;line-height:1}
+.sbar-l{font-size:10px;color:var(--tx3);margin-top:5px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.sbar-bar{height:3px;background:rgba(84,84,88,.4);border-radius:2px;margin:8px 0 0;overflow:hidden}
+.sbar-fill{height:100%;border-radius:2px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+/* Section labels */
+.hslbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);padding:18px 18px 8px}
+/* Cycle row v2 */
+.cyc2{display:flex;gap:6px;padding:0 16px;overflow-x:auto;scrollbar-width:none}
+.cyc2::-webkit-scrollbar{display:none}
+.cyc2-item{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 10px 9px;border-radius:14px;background:var(--surf);min-width:52px;position:relative;transition:background .2s}
+.cyc2-item.now{background:var(--acc-g);outline:1.5px solid rgba(198,255,0,.3)}
+.cyc2-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.cyc2-lbl{font-size:10px;font-weight:700;color:var(--tx3);text-align:center;line-height:1.2}
+.cyc2-item.now .cyc2-lbl{color:var(--acc)}
+.cyc2-item.rest-item .cyc2-dot{background:var(--bdr)!important}
+.cyc2-item.rest-item .cyc2-lbl{font-weight:400}
+.cyc2-pip{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--acc)}
+/* Progress strip */
+.pg2{display:grid;grid-template-columns:20px repeat(4,1fr);gap:5px;padding:0 16px}
+.pg2-h{font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--tx3);font-weight:600;text-align:center;padding-bottom:3px}
+.pg2-w{font-size:10px;color:var(--tx3);display:flex;align-items:center;justify-content:flex-end;padding-right:3px;font-variant-numeric:tabular-nums;font-weight:600}
+.pg2-c{aspect-ratio:1.4;border-radius:9px;border:1px solid var(--bdr);background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--tx3);cursor:pointer;transition:transform .1s}
+.pg2-c:active{transform:scale(.88)}
+.pg2-c.on{border-color:transparent;color:#000}
+.pg2-c.cur{box-shadow:0 0 0 2px var(--acc)}
 /* ══ MUSCLE CHIPS ═════════════════════════════════════════════ */
 .mchips{display:flex;flex-wrap:wrap;gap:4px;padding:4px 16px 6px}
 .mchip{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;letter-spacing:.03em}
@@ -781,101 +835,142 @@ function render(){
   renderTimer();
 }
 
-// ─── HOME (รวม plan + day picker) ────────────────────────────
+// ─── HOME ─────────────────────────────────────────────────────
 function renderHome(){
-  const todayLabel=new Date().toLocaleDateString('th-TH',{weekday:'long',day:'numeric',month:'long'});
-  const greetHour=new Date().getHours();
-  const greetWord=greetHour<12?'อรุณสวัสดิ์':greetHour<17?'สวัสดีตอนบ่าย':'สวัสดีตอนเย็น';
-  const nick2=CFG.nickname;
-  const greetMsgs=['พร้อมซ้อมแล้วหรือยัง?','วันนี้เป็นวันดีในการซ้อม 💪','มาทำให้ร่างกายแข็งแกร่งขึ้นกัน 💪','อย่าลืม progressive overload นะ 💪','มา crush it วันนี้ด้วยกัน 💪'];
-  const greetSub=greetMsgs[new Date().getDay()%greetMsgs.length];
-  const greetLine=nick2
-    ?`<div style="font-size:28px;font-weight:700;letter-spacing:-.3px">${greetWord}, ${nick2}!</div><div style="font-size:14px;color:var(--tx2);margin-top:3px">${greetSub}</div>`
-    :`<div style="font-size:26px;font-weight:700;letter-spacing:-.3px">มาซ้อมกันเลย 💪</div><div style="font-size:13px;color:var(--tx2);margin-top:3px">${greetSub}</div>`;
-  const hist2=allSessions().filter(s=>s.completed);
-  const streak2=(()=>{const dates=[...new Set(hist2.map(s=>s.date))].sort().reverse();if(!dates.length)return 0;let n=1;for(let i=1;i<dates.length;i++){if(daysBetween(dates[i],dates[i-1])<=3)n++;else break;}return n;})();
-  const streakHtml=streak2>0?`<div style="display:inline-flex;align-items:center;gap:4px;background:var(--surf2);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--tx2);margin-top:8px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> ${streak2} session ต่อเนื่อง</div>`:'';
+  const now=new Date();
+  const h=now.getHours();
+  const nick=CFG.nickname;
+  const greetWord=h<5?'กลางคืนนี้':h<12?'อรุณสวัสดิ์':h<17?'สวัสดีตอนบ่าย':'สวัสดีตอนเย็น';
+  const todayLabel=now.toLocaleDateString('th-TH',{weekday:'long',day:'numeric',month:'long'});
+  const hist=allSessions().filter(s=>s.completed);
+  const doneCount=hist.length;
+  const streak=(()=>{const dates=[...new Set(hist.map(s=>s.date))].sort().reverse();if(!dates.length)return 0;let n=1;for(let i=1;i<dates.length;i++){if(daysBetween(dates[i],dates[i-1])<=3)n++;else break;}return n;})();
 
-  // ── Next workout card ────────────────────────────────────────
+  // ── Hero ─────────────────────────────────────────────────────
   const nx=nextUp();
   const day=P.days[nx.dayId];
-  let statusHtml;
-  if(!nx.last){
-    statusHtml=`<button class="nxt-btn" onclick="planStart('${nx.dayId}',${nx.week})">เริ่มซ้อมวันแรก</button>`;
-  }else if(nx.since===0){
-    statusHtml=`<div class="nxt-rest">ซ้อม ${P.days[nx.last.dayId].name} ไปแล้ววันนี้ — พักได้เลย<br>ถัดไป: <strong>${day.name}</strong></div><button class="nxt-btn ghost" onclick="planStart('${nx.dayId}',${nx.week})">ซ้อม ${day.name} เลย</button>`;
-  }else if(!nx.ready){
-    const left=nx.gap-nx.since;
-    statusHtml=`<div class="nxt-rest"><strong>วันนี้พัก</strong> — เหลืออีก ${left} วัน (${nx.since}/${nx.gap})</div><button class="nxt-btn ghost" onclick="planStart('${nx.dayId}',${nx.week})">ข้ามพัก ซ้อมเลย</button>`;
+  const col=DAYC[nx.dayId];
+  const isRest=nx.last&&!nx.ready&&nx.since===0;
+  const isWaiting=nx.last&&!nx.ready&&nx.since>0;
+  const isLate=nx.ready&&nx.since>nx.gap+2;
+
+  // Hero background gradient
+  const heroBg=isRest||isWaiting
+    ?`background:linear-gradient(145deg,#1a1a2e 0%,#16213e 100%)`
+    :`background:linear-gradient(145deg,${col}22 0%,${col}08 60%,transparent 100%),var(--surf)`;
+
+  // Eyebrow text
+  const eyebrow=!nx.last?'เริ่มต้นกันเลย':isRest?'ซ้อมไปแล้ววันนี้':isWaiting?`พักอีก ${nx.gap-nx.since} วัน`:isLate?'นานแล้วนะ':'พร้อมซ้อม';
+  const eyeCol=isRest||isWaiting?'rgba(255,255,255,.6)':isLate?'var(--yel)':'var(--acc)';
+
+  // CTA
+  let heroActions;
+  if(isRest){
+    heroActions=`<div class="hero-rest-box">ถัดไป: <strong style="color:#fff">${day.name}</strong> · สัปดาห์ ${nx.week}</div>
+      <button class="hero-go ghost" style="width:100%;margin-top:8px;border-radius:16px;padding:12px;border:none;font-family:inherit;font-weight:600;font-size:15px;cursor:pointer;background:rgba(255,255,255,.12);color:#fff" onclick="planStart('${nx.dayId}',${nx.week})">ซ้อม ${day.name} เดี๋ยวนี้เลย</button>`;
+  }else if(isWaiting){
+    heroActions=`<div class="hero-rest-box">ถัดไป: <strong style="color:#fff">${day.name}</strong> · W${nx.week} · ${nx.since}/${nx.gap} วัน</div>
+      <button class="hero-go ghost" style="width:100%;margin-top:8px;border-radius:16px;padding:12px;border:none;font-family:inherit;font-weight:600;font-size:15px;cursor:pointer;background:rgba(255,255,255,.12);color:#fff" onclick="planStart('${nx.dayId}',${nx.week})">ข้ามพัก ซ้อมเลย</button>`;
   }else{
-    const late=nx.since>nx.gap+2?`<div style="font-size:12px;color:var(--yel);margin-bottom:7px">ห่างจากครั้งล่าสุด ${nx.since} วันแล้ว</div>`:'';
-    statusHtml=`${late}<button class="nxt-btn" onclick="planStart('${nx.dayId}',${nx.week})">เริ่มซ้อม ${day.name}</button>`;
+    heroActions=`<button class="hero-go" style="width:100%;padding:16px;border:none;border-radius:18px;font-size:18px;font-weight:800;cursor:pointer;letter-spacing:-.2px;font-family:inherit;background:${col};color:#fff;box-shadow:0 6px 24px ${col}44" onclick="planStart('${nx.dayId}',${nx.week})">${nx.last?'เริ่มซ้อม':'เริ่มซ้อมวันแรก'}</button>`;
   }
-  const nxCard=`<div class="nxt"><div class="nxt-top"><div class="nxt-dot" style="background:${DAYC[nx.dayId]}">${DAYS_SHORT[nx.dayId]}</div><div style="flex:1;min-width:0"><div class="nxt-lbl">${nx.ready||!nx.last?'ถัดไป':'พักอยู่'}</div><div class="nxt-nm">${day.name}</div><div class="nxt-sub">${day.th} · สัปดาห์ ${nx.week}${nx.last?' · ล่าสุด '+fmtDate(nx.last.date):''}</div></div></div><div class="nxt-act">${statusHtml}</div></div>`;
+  const lastLine=nx.last&&!isRest?`<div class="hero-sub">W${nx.week} · ${day.th}${nx.last?' · ล่าสุด '+fmtDate(nx.last.date):''}</div>`:'';
 
-  // ── Cycle strip ──────────────────────────────────────────────
-  const curIdx=(()=>{if(!nx.last)return 0;const li=CYCLE.findIndex(c=>c.d===nx.last.dayId);if(nx.ready)return CYCLE.findIndex(c=>c.d===nx.dayId);return Math.min(li+nx.since,CYCLE.length-1);})();
-  const cycHtml=CYCLE.map((c,i)=>{const on=i===curIdx?' now':'';if(c.r)return`<div class="cyc-i rest${on}"><div class="cyc-b" style="background:var(--bdr)"></div><div class="cyc-t">Rest</div></div>`;return`<div class="cyc-i${on}"><div class="cyc-b" style="background:${DAYC[c.d]}"></div><div class="cyc-t">${DAYS_SHORT[c.d]}</div></div>`;}).join('');
+  // Week progress chip
+  const weekDone=hist.filter(s=>(s.week||1)===nx.week).length;
+  const weekTotal=P.schedule.order.length;
 
-  // ── Stats row ────────────────────────────────────────────────
-  const doneCount=hist2.length;
-  const statsHtml=`<div class="stats" style="margin:0 16px 0">
-    <div class="stat"><div class="stat-n" style="color:var(--acc)">${doneCount}<span style="font-size:13px;color:var(--tx3)">/24</span></div><div class="stat-l">ซ้อมแล้ว</div></div>
-    <div class="stat"><div class="stat-n">${Math.round(doneCount/24*100)}%</div><div class="stat-l">Phase 1</div></div>
-    <div class="stat"><div class="stat-n" style="color:${streak2>1?'var(--grn)':'var(--tx)'}">${streak2}</div><div class="stat-l">ต่อเนื่อง</div></div>
+  const heroCard=`<div class="hero" style="${heroBg}">
+    <div class="hero-body">
+      <div class="hero-eyebrow" style="color:${eyeCol}">${eyebrow}</div>
+      <div class="hero-title" style="color:${isRest||isWaiting?'rgba(255,255,255,.85)':'var(--tx)'}">${day.name}</div>
+      ${lastLine}
+      <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+        <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.08);border-radius:10px;padding:4px 10px;font-size:11px;font-weight:600;color:${isRest||isWaiting?'rgba(255,255,255,.6)':'var(--tx3)'}">
+          <div style="width:8px;height:8px;border-radius:50%;background:${col}"></div>
+          สัปดาห์ ${nx.week} · ${weekDone}/${weekTotal} วัน
+        </div>
+        ${isLate?`<div style="background:rgba(255,214,10,.12);border-radius:10px;padding:4px 10px;font-size:11px;font-weight:700;color:var(--yel)">${nx.since} วันไม่ได้ซ้อม</div>`:''}
+      </div>
+      <div class="hero-actions">${heroActions}</div>
+    </div>
   </div>`;
 
-  // ── Day cards (week selector) ────────────────────────────────
-  const wk=P.weeks[String(CFG.week)];
-  const wBtns=[1,2,3,4,5,6].map(w=>`<button class="wbtn${CFG.week===w?' on':''}" onclick="setWeek(${w})">W${w}${w===6?'★':''}</button>`).join('');
-  const dayColor={legs:'var(--dl)',push:'var(--dp)',pull:'var(--du)',full:'var(--df)'};
-  const dayCards=P.schedule.order.map(id=>{
-    const d=P.days[id];
+  // ── Cycle row ────────────────────────────────────────────────
+  const curIdx=(()=>{if(!nx.last)return 0;const li=CYCLE.findIndex(c=>c.d===nx.last.dayId);if(nx.ready)return CYCLE.findIndex(c=>c.d===nx.dayId);return Math.min(li+nx.since,CYCLE.length-1);})();
+  const cycHtml=CYCLE.map((c,i)=>{
+    const isNow=i===curIdx;
+    if(c.r)return`<div class="cyc2-item rest-item${isNow?' now':''}"><div class="cyc2-dot" style="background:var(--bdr)"></div><div class="cyc2-lbl">Rest</div>${isNow?'<div class="cyc2-pip"></div>':''}</div>`;
+    return`<div class="cyc2-item${isNow?' now':''}"><div class="cyc2-dot" style="background:${DAYC[c.d]}"></div><div class="cyc2-lbl">${DAYS_SHORT[c.d]}</div>${isNow?'<div class="cyc2-pip"></div>':''}</div>`;
+  }).join('');
+
+  // ── Stats ────────────────────────────────────────────────────
+  const pct=Math.round(doneCount/24*100);
+  const statsHtml=`<div class="sbar">
+    <div class="sbar-item">
+      <div class="sbar-n" style="color:var(--acc)">${doneCount}<span style="font-size:14px;color:var(--tx3);font-weight:600">/24</span></div>
+      <div class="sbar-l">ซ้อมแล้ว</div>
+      <div class="sbar-bar"><div class="sbar-fill" style="width:${pct}%;background:var(--acc)"></div></div>
+    </div>
+    <div class="sbar-item">
+      <div class="sbar-n">${pct}%</div>
+      <div class="sbar-l">Phase 1</div>
+      <div class="sbar-bar"><div class="sbar-fill" style="width:${pct}%;background:var(--tx2)"></div></div>
+    </div>
+    <div class="sbar-item">
+      <div class="sbar-n" style="color:${streak>2?'var(--grn)':streak>0?'var(--tx)':'var(--tx3)'}">${streak}</div>
+      <div class="sbar-l">ต่อเนื่อง</div>
+      <div class="sbar-bar"><div class="sbar-fill" style="width:${Math.min(streak/7*100,100)}%;background:var(--grn)"></div></div>
+    </div>
+  </div>`;
+
+  // ── Day chips ────────────────────────────────────────────────
+  const chipsHtml=P.schedule.order.map(id=>{
     const ls=lastSession(id);
-    const muscles=[...new Set(d.ex.flatMap(e=>e.m))].map(m=>muscName(m)).join(' · ');
-    const lastTxt=ls?`ล่าสุด ${fmtDate(ls.date)}`:'ยังไม่เคยซ้อม';
-    const c=dayColor[id]||'var(--acc)';
-    return`<button class="dbtn" style="--day-c:${c}" onclick="startSession('${id}')">
-      <div class="dbtn-tint"></div>
-      <div class="dbtn-body">
-        <span class="dn">${d.name}</span>
-        <span class="dt">${d.th} · ${d.ex.length} exercises</span>
-        <div class="d-musc">${muscles}</div>
-        <div class="d-last">${lastTxt}</div>
-      </div>
-      <div class="d-play"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="5,3 19,12 5,21"/></svg></div>
+    const lastTxt=ls?fmtDate(ls.date):'';
+    return`<button class="dchip" onclick="startSession('${id}')">
+      <div class="dc-dot" style="background:${DAYC[id]}"></div>
+      ${P.days[id].name}
+      ${lastTxt?`<span class="dc-last">${lastTxt}</span>`:''}
     </button>`;
   }).join('');
 
   // ── Progress grid ────────────────────────────────────────────
   const order=P.schedule.order;
-  const doneMap={};hist2.forEach(s=>{doneMap[(s.week||1)+'_'+s.dayId]=s;});
-  let pgHtml=`<div class="pg-h"></div>`+order.map(id=>`<div class="pg-h" style="color:${DAYC[id]}">${DAYS_SHORT[id]}</div>`).join('');
+  const doneMap={};hist.forEach(s=>{doneMap[(s.week||1)+'_'+s.dayId]=s;});
+  let pgHtml=`<div class="pg2-h"></div>`+order.map(id=>`<div class="pg2-h" style="color:${DAYC[id]}">${DAYS_SHORT[id]}</div>`).join('');
   for(let w=1;w<=6;w++){
-    pgHtml+=`<div class="pg-w">W${w}</div>`;
-    order.forEach(id=>{const s=doneMap[w+'_'+id];const cur=(w===nx.week&&id===nx.dayId&&nx.ready)?' cur':'';pgHtml+=s?`<div class="pg-c on${cur}" style="background:${DAYC[id]}" onclick="showSessDetail('${s.date}','${id}')" title="${fmtDate(s.date)}">✓</div>`:`<div class="pg-c${cur}" onclick="planStart('${id}',${w})">${w===6?'☾':'·'}</div>`;});
+    pgHtml+=`<div class="pg2-w">W${w}</div>`;
+    order.forEach(id=>{
+      const s=doneMap[w+'_'+id];
+      const cur=(w===nx.week&&id===nx.dayId&&nx.ready)?' cur':'';
+      pgHtml+=s
+        ?`<div class="pg2-c on${cur}" style="background:${DAYC[id]}" onclick="showSessDetail('${s.date}','${id}')">✓</div>`
+        :`<div class="pg2-c${cur}" onclick="planStart('${id}',${w})">${w===6?'☾':'·'}</div>`;
+    });
   }
 
-  // ── Calendar ─────────────────────────────────────────────────
-  if(!CALM){const d=new Date();CALM={y:d.getFullYear(),m:d.getMonth()};}
-
-  return`<div class="ph"><h1>ซ้อม</h1><p>${todayLabel}</p></div>
-    <div style="padding:20px 20px 4px">${greetLine}${streakHtml}</div>
-    ${nxCard}
-    <div style="padding:2px 14px 0;font-size:11px;color:var(--tx3);line-height:1.5">${P.schedule.restRule_th}</div>
-    <div class="cyc" style="margin-top:10px">${cycHtml}</div>
-    <div class="slbl" style="padding-top:18px">ความคืบหน้า</div>
+  return`<div class="home-wrap">
+    <div class="home-top">
+      <div>
+        <div class="home-greet">${nick?greetWord+', '+nick+'!':greetWord}</div>
+        <div class="home-date">${todayLabel}</div>
+      </div>
+      ${streak>0?`<div class="home-streak"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2.5" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>${streak}</div>`:''}
+    </div>
+    ${heroCard}
+    <div class="hslbl">เลือกวันซ้อม</div>
+    <div class="dchips">${chipsHtml}</div>
+    <div class="hslbl">ความคืบหน้า</div>
     ${statsHtml}
-    <div class="pg" style="margin-top:10px">${pgHtml}</div>
-    <div style="padding:4px 14px 0;font-size:11px;color:var(--tx3)">กดช่องว่างเพื่อเริ่มซ้อมวันนั้น · ☾ = deload</div>
-    <div class="slbl" style="padding-top:18px">เลือกวันซ้อม</div>
-    <div class="wsel">${wBtns}</div>
-    ${wk?.deload?`<div class="dlnote">! Deload — ${wk.deloadNote_th||'ลดน้ำหนัก ห้ามดันถึงหมดแรง'}</div>`:''}
-    <div class="dgrid">${dayCards}</div>
-    <div class="slbl" style="padding-top:18px">ปฏิทิน</div>
-    ${renderCal()}
-    <div class="lg">${order.map(id=>`<div class="lg-i"><div class="lg-d" style="background:${DAYC[id]}"></div>${P.days[id].name}</div>`).join('')}</div>
-    <div style="height:20px"></div>`;
+    <div class="hslbl" style="padding-bottom:10px">รอบซ้อม</div>
+    <div class="cyc2">${cycHtml}</div>
+    <div style="padding:2px 16px 0;font-size:10px;color:var(--tx3);line-height:1.6">${P.schedule.restRule_th}</div>
+    <div class="hslbl">ตาราง</div>
+    <div class="pg2">${pgHtml}</div>
+    <div style="padding:6px 16px 0;font-size:10px;color:var(--tx3)">กดช่องว่างเพื่อซ้อมวันนั้น · ☾ = Deload</div>
+    <div style="height:24px"></div>
+  </div>`;
 }
 function setWeek(w){CFG.week=w;saveCfg();render();}
 
