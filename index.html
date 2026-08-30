@@ -283,6 +283,25 @@ tr.wu-sep td{padding:5px 14px;font-size:9px;text-transform:uppercase;letter-spac
 .wu-name{font-size:14px;color:var(--tx);font-weight:500}
 .wu-meta{font-size:11px;color:var(--tx3);margin-top:2px}
 .wu-video-link{color:var(--acc);text-decoration:none;font-size:11px;background:none;border:none;padding:0;cursor:pointer;font-family:inherit;font-weight:500}
+/* ══ LAST SESSION HINT ════════════════════════════════════════ */
+.last-hint{font-size:11px;color:var(--tx3);padding:3px 14px 5px;background:var(--bg);border-bottom:1px solid var(--bdr);line-height:1.4}
+.last-hint strong{color:var(--tx2)}
+/* ══ SET ACTIONS ══════════════════════════════════════════════ */
+.set-actions{display:flex;gap:6px;padding:7px 14px 9px;border-top:1px solid var(--bdr);background:var(--bg)}
+.set-add-btn{flex:1;padding:6px 0;border-radius:8px;border:1.5px dashed var(--bdr-s);background:none;color:var(--tx3);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit}
+.set-add-btn:active{border-color:var(--acc);color:var(--acc);background:var(--acc-d)}
+.set-rm-btn{padding:6px 12px;border-radius:8px;border:1px solid var(--bdr);background:none;color:var(--tx3);font-size:12px;cursor:pointer;transition:all .15s;font-family:inherit}
+.set-rm-btn:active{border-color:var(--red);color:var(--red)}
+/* ══ PROFILE ══════════════════════════════════════════════════ */
+.prof-seg{display:flex;margin:10px 14px 6px;background:var(--surf2);border-radius:10px;padding:2px;gap:2px}
+.prof-seg-btn{flex:1;padding:6px 4px;border-radius:8px;border:none;background:none;color:var(--tx3);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit;letter-spacing:.02em}
+.prof-seg-btn.on{background:var(--surf);color:var(--tx);box-shadow:0 1px 4px rgba(0,0,0,.18)}
+.pr-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--bdr)}
+.pr-exname{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pr-val{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:700;color:var(--acc);font-variant-numeric:tabular-nums;flex-shrink:0}
+.pr-date{font-size:10px;color:var(--tx3);text-align:right;line-height:1.3}
+.onerm-result{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:800;color:var(--acc);text-align:center;padding:10px;font-variant-numeric:tabular-nums}
+.onerm-sub{font-size:12px;color:var(--tx3);text-align:center;margin-top:-6px;padding-bottom:10px}
 /* ══ ANATOMY ══════════════════════════════════════════════════ */
 .anatomy-wrap{display:flex;justify-content:center;gap:14px;padding:6px 8px 4px}
 .anatomy-fig{flex:1;max-width:140px;min-width:0;overflow:hidden}
@@ -299,8 +318,8 @@ tr.wu-sep td{padding:5px 14px;font-size:9px;text-transform:uppercase;letter-spac
   <main id="main"></main>
   <nav id="nav">
     <button class="nb on" id="nb-today" onclick="goNav('today')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="4" height="10" rx="1"/><rect x="18" y="7" width="4" height="10" rx="1"/><path d="M6 9h12M6 15h12"/></svg>
-      ซ้อมวันนี้
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      ซ้อม
     </button>
     <button class="nb" id="nb-plan" onclick="goNav('plan')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
@@ -310,13 +329,9 @@ tr.wu-sep td{padding:5px 14px;font-size:9px;text-transform:uppercase;letter-spac
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       ประวัติ
     </button>
-    <button class="nb" id="nb-tools" onclick="goNav('tools')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-      เครื่องมือ
-    </button>
-    <button class="nb" id="nb-guide" onclick="goNav('guide')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-      คู่มือ
+    <button class="nb" id="nb-profile" onclick="goNav('profile')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      โปรไฟล์
     </button>
   </nav>
 </div>
@@ -597,8 +612,7 @@ function render(){
   if(SCR==='today')m.innerHTML=SESS?renderWorkout():renderDayPicker();
   else if(SCR==='plan')m.innerHTML=renderPlan();
   else if(SCR==='history')m.innerHTML=renderHistory();
-  else if(SCR==='tools')m.innerHTML=renderTools();
-  else if(SCR==='guide')m.innerHTML=renderGuide();
+  else if(SCR==='profile')m.innerHTML=renderProfile();
   renderTimer();
 }
 
@@ -723,6 +737,19 @@ function buildCard(ei){
     tableHtml=`<table class="st"><thead><tr><th>#</th><th>น้ำหนัก (kg)</th><th>ครั้ง / RPE</th><th></th></tr></thead><tbody>${wuRowsHtml}${rows}</tbody></table>`;
   }
 
+  // Last session hint
+  const lastEx2=lastSess?.exercises?.find(e=>e.baseIdx===el.baseIdx||e.name===el.name);
+  const lastDoneSets=lastEx2?.sets?.filter(s=>s.done&&s.weight>0&&s.reps>0)||[];
+  let lastHintHtml='';
+  if(lastDoneSets.length){
+    const topSet=lastDoneSets.reduce((a,b)=>(b.weight*b.reps>a.weight*a.reps?b:a),lastDoneSets[0]);
+    const wds=lastDoneSets.map(s=>`${s.weight}×${s.reps}`).join(', ');
+    lastHintHtml=`<div class="last-hint">รอบที่แล้ว: <strong>${wds}</strong></div>`;
+  }
+
+  const minSets=1;
+  const setActionsHtml=`<div class="set-actions"><button class="set-rm-btn" onclick="removeSet(${ei})" title="ลบเซ็ตสุดท้าย">− เซ็ต</button><button class="set-add-btn" onclick="addSet(${ei})">+ เพิ่มเซ็ต</button></div>`;
+
   const badgeRow=(bc!=='bn'||ex.superset)?`<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:5px">${ssBadge}${bc!=='bn'?`<span class="bdg ${bc}">${bl}</span>`:''}</div>`:'';
   return`<div class="${cls}" id="exc_${ei}">
     <div class="exh">
@@ -733,7 +760,7 @@ function buildCard(ei){
       </div>
       <div style="display:flex;gap:6px;align-items:center;flex-shrink:0">${subBtn}</div>
     </div>
-    ${boHtml}${mdHtml}${sugHtml}${tableHtml}
+    ${lastHintHtml}${boHtml}${mdHtml}${sugHtml}${tableHtml}${ex.type!=='hold'?setActionsHtml:''}
   </div>`;
 }
 
@@ -805,6 +832,25 @@ function markDone(ei,si){
       if(found){const el=document.getElementById(found);el?.scrollIntoView({behavior:'smooth',block:'center'});}
     },350);
   }
+}
+
+function addSet(ei){
+  if(!SESS)return;
+  const sets=SESS.exercises[ei].sets;
+  const last=sets[sets.length-1];
+  sets.push({weight:last?.weight||0,reps:null,done:false});
+  saveSess();
+  const card=document.getElementById('exc_'+ei);
+  if(card){const n=document.createElement('div');n.innerHTML=buildCard(ei);card.replaceWith(n.firstChild);}
+}
+function removeSet(ei){
+  if(!SESS)return;
+  const sets=SESS.exercises[ei].sets;
+  if(sets.length<=1)return;
+  sets.pop();
+  saveSess();
+  const card=document.getElementById('exc_'+ei);
+  if(card){const n=document.createElement('div');n.innerHTML=buildCard(ei);card.replaceWith(n.firstChild);}
 }
 
 // ─── SUB PICKER ──────────────────────────────────────────────
@@ -1031,6 +1077,163 @@ function handleImport(e){
   const r=new FileReader();
   r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.sessions)localStorage.setItem('ppl_hist',JSON.stringify(d.sessions));if(d.cfg){CFG={...CFG,...d.cfg};saveCfg();}if(d.subs){SUBS=d.subs;saveSubs();}render();alert('นำเข้าสำเร็จ');}catch(err){alert('ไฟล์ไม่ถูกต้อง');}};
   r.readAsText(f);
+}
+
+// ─── PROFILE ─────────────────────────────────────────────────
+let PROF_TAB='pr'; // 'pr' | 'vol' | 'calc' | 'guide' | 'settings'
+function setProfileTab(t){PROF_TAB=t;render();}
+
+function renderProfile(){
+  const segs=[
+    {k:'pr',l:'PR'},
+    {k:'vol',l:'Volume'},
+    {k:'calc',l:'คำนวณ'},
+    {k:'guide',l:'คู่มือ'},
+    {k:'settings',l:'ตั้งค่า'},
+  ];
+  const segHtml=segs.map(s=>`<button class="prof-seg-btn${PROF_TAB===s.k?' on':''}" onclick="setProfileTab('${s.k}')">${s.l}</button>`).join('');
+  let body='';
+  if(PROF_TAB==='pr') body=renderPR();
+  else if(PROF_TAB==='vol') body=renderVolTab();
+  else if(PROF_TAB==='calc') body=renderCalcTab();
+  else if(PROF_TAB==='guide') body=renderGuideContent();
+  else if(PROF_TAB==='settings') body=renderSettingsTab();
+  return`<div class="ph"><h1>โปรไฟล์</h1><p>PPL 4x · Jeff Nippard</p></div>
+  <div class="prof-seg">${segHtml}</div>
+  ${body}<div style="height:20px"></div>`;
+}
+
+function renderPR(){
+  const hist=allSessions().filter(s=>s.completed);
+  if(!hist.length)return`<div class="empty"><h3>ยังไม่มีข้อมูล</h3><p>ซ้อมก่อนแล้วค้าง PR จะปรากฏที่นี่</p></div>`;
+  // Build PR map: exName -> {weight, reps, date}
+  const prMap={};
+  hist.forEach(s=>{
+    s.exercises?.forEach(ex=>{
+      ex.sets?.filter(x=>x.done&&x.weight>0&&x.reps>0).forEach(x=>{
+        const cur=prMap[ex.name];
+        if(!cur||x.weight>cur.weight||(x.weight===cur.weight&&x.reps>cur.reps)){
+          prMap[ex.name]={weight:x.weight,reps:x.reps,date:s.date};
+        }
+      });
+    });
+  });
+  const rows=Object.entries(prMap).sort((a,b)=>b[1].weight-a[1].weight).map(([name,pr])=>`
+    <div class="pr-row">
+      <div style="flex:1;min-width:0">
+        <div class="pr-exname">${name}</div>
+        <div class="pr-date">${fmtDate(pr.date)}</div>
+      </div>
+      <div style="text-align:right">
+        <div class="pr-val">${pr.weight} kg</div>
+        <div style="font-size:11px;color:var(--tx3)">× ${pr.reps}</div>
+      </div>
+    </div>`).join('');
+  return`<div class="slbl">Personal Records</div>${rows}`;
+}
+
+function renderVolTab(){
+  const now=new Date();
+  const ws=new Date(now.getFullYear(),now.getMonth(),now.getDate()-((now.getDay()+6)%7));
+  const wkStart=dkey(ws.getFullYear(),ws.getMonth(),ws.getDate());
+  const wkSess=allSessions().filter(s=>s.completed&&s.date>=wkStart);
+  const volMap={};
+  wkSess.forEach(s=>{
+    s.exercises?.forEach((ex,xi)=>{
+      const dayEx=P.days[s.dayId]?.ex[ex.baseIdx!==undefined?ex.baseIdx:xi];
+      (dayEx?.m||[]).forEach(m=>{volMap[m]=(volMap[m]||0)+(ex.sets?.filter(x=>x.done).length||0);});
+    });
+  });
+  const {front,back}=anatomySVG(volMap);
+  const legend=[{c:'#22c55e',l:'มาก'},{c:'#f97316',l:'ปานกลาง'},{c:'#eab308',l:'น้อย'},{c:'rgba(255,255,255,0.08)',l:'0 เซ็ต'}].map(i=>`<div class="vol-li"><div class="vol-dot" style="background:${i.c}"></div>${i.l}</div>`).join('');
+  const maxBar=Math.max(...Object.values(volMap),1,8);
+  const barHtml=Object.entries(P.muscleLabels).map(([k,lbl])=>{const v=volMap[k]||0;const pct=v/maxBar*100;const c=v===0?'var(--bdr)':v>=10?'var(--grn)':v>=6?'var(--acc)':'var(--yel)';return`<div class="vrow"><div class="vn">${lbl}</div><div class="vbw"><div class="vb" style="width:${pct}%;background:${c}"></div></div><div class="vnum">${v}</div></div>`;}).join('');
+  return`<div class="slbl">Volume สัปดาห์นี้ (เซ็ต)</div>
+  <div style="padding:0 12px">
+    <div class="anatomy-wrap"><div class="anatomy-fig">${front}<div class="anatomy-lbl">ด้านหน้า</div></div><div class="anatomy-fig">${back}<div class="anatomy-lbl">ด้านหลัง</div></div></div>
+    <div class="vol-legend">${legend}</div>
+    <details style="margin-top:6px"><summary style="font-size:12px;color:var(--tx3);cursor:pointer;padding:4px 0">▸ ตัวเลข (เซ็ต)</summary><div style="margin-top:8px">${barHtml}</div></details>
+  </div>`;
+}
+
+function renderCalcTab(){
+  return`<div class="slbl">เครื่องคิดแผ่น (บาร์ 20kg)</div>
+  <div style="padding:0 14px 12px">
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <input class="inp" type="number" id="pt" placeholder="น้ำหนักเป้า (kg)" style="width:190px" inputmode="decimal" oninput="calcPlates()">
+    </div>
+    <div id="pr" class="prow" style="min-height:44px;margin-top:8px"></div>
+  </div>
+
+  <div class="slbl">เครื่องคิดวอร์ม</div>
+  <div style="padding:0 14px 12px">
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <input class="inp" type="number" id="ww" placeholder="น้ำหนักเซ็ตจริง (kg)" style="width:200px" inputmode="decimal" oninput="calcWarmup()">
+      <select class="inp" id="ws" style="width:130px" onchange="calcWarmup()">
+        <option value="1">1 เซ็ตวอร์ม</option>
+        <option value="2">2 เซ็ตวอร์ม</option>
+        <option value="3" selected>3 เซ็ตวอร์ม</option>
+        <option value="4">4 เซ็ตวอร์ม</option>
+      </select>
+    </div>
+    <div id="wr" style="margin-top:8px"></div>
+  </div>
+
+  <div class="slbl">1RM Calculator (Epley)</div>
+  <div style="padding:0 14px 12px">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+      <input class="inp" type="number" id="orm_w" placeholder="น้ำหนัก (kg)" style="width:150px" inputmode="decimal" oninput="calc1RM()">
+      <input class="inp" type="number" id="orm_r" placeholder="ครั้ง" style="width:100px" inputmode="numeric" oninput="calc1RM()">
+    </div>
+    <div id="orm_res"></div>
+  </div>`;
+}
+
+function calc1RM(){
+  const w=parseFloat(document.getElementById('orm_w')?.value)||0;
+  const r=parseInt(document.getElementById('orm_r')?.value)||0;
+  const res=document.getElementById('orm_res');if(!res)return;
+  if(!w||!r||r<1){res.innerHTML='';return;}
+  if(r===1){res.innerHTML=`<div class="onerm-result">${w} kg</div><div class="onerm-sub">= 1RM โดยตรง</div>`;return;}
+  const orm=Math.round(w*(1+r/30)*10)/10;
+  const pcts=[[100,'1RM'],[95,'~1-2'],[90,'~3-4'],[85,'~5-6'],[80,'~7-8'],[75,'~9-10'],[70,'~11-12']];
+  const rows=pcts.map(([p,rep])=>`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--bdr);font-size:13px"><span style="color:var(--tx2)">${p}% · ${rep} ครั้ง</span><span style="font-variant-numeric:tabular-nums;font-weight:600">${Math.round(orm*p/100/2.5)*2.5} kg</span></div>`).join('');
+  res.innerHTML=`<div class="onerm-result">${orm} kg</div><div class="onerm-sub">1RM ประมาณการ (Epley)</div><div style="margin-top:6px">${rows}</div>`;
+}
+
+function renderGuideContent(){
+  const terms=P.keyTerms.map(t=>`<div class="tc"><div style="display:flex;align-items:baseline;gap:6px"><span class="tterm">${t.term}</span>${t.full?`<span class="tfull">${t.full}</span>`:''}</div><div class="tdef">${t.th}</div></div>`).join('');
+  const faqs=P.faq.map(f=>`<div class="fq"><div class="fqq">${f.q_th}</div><div class="fqa">${f.a_th}</div></div>`).join('');
+  const prog=P.progression.rules_th.map(r=>`<div style="display:flex;gap:7px;padding:6px 0;border-bottom:1px solid var(--bdr)"><span style="color:var(--acc);flex-shrink:0">•</span><span style="font-size:13px;color:var(--tx2);line-height:1.5">${r}</span></div>`).join('');
+  return`<div style="padding:8px 14px 4px;font-size:13px;color:var(--tx2);line-height:1.5">${P.schedule.restRule_th}</div>
+  <div class="slbl">Progressive Overload</div>
+  <div style="padding:0 14px 10px">${prog}</div>
+  <div class="slbl">FAQ</div>${faqs}
+  <div class="slbl">คำศัพท์</div>${terms}`;
+}
+
+function renderSettingsTab(){
+  return`<div class="slbl">การตั้งค่า</div>
+  <div style="padding:0 14px">
+    <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:12px 0;border-bottom:1px solid var(--bdr)">
+      <input type="checkbox" ${CFG.repFloor4?'checked':''} onchange="CFG.repFloor4=this.checked;saveCfg()" style="width:18px;height:18px;accent-color:var(--acc)">
+      <div>
+        <div style="font-size:14px;font-weight:500">repFloor4</div>
+        <div style="font-size:12px;color:var(--tx2)">ถ้า reps น้อยกว่า 4 ให้ขึ้นเป็น 4 แทน</div>
+      </div>
+    </label>
+    <div style="padding:12px 0;border-bottom:1px solid var(--bdr);display:flex;justify-content:space-between;align-items:center">
+      <div><div style="font-size:14px;font-weight:500">สัปดาห์ปัจจุบัน</div><div style="font-size:12px;color:var(--tx2)">W${CFG.week} — ปรับได้ที่แท็บซ้อม</div></div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--acc)">W${CFG.week}</div>
+    </div>
+    <div style="padding:10px 0">
+      <div style="font-size:14px;font-weight:500;margin-bottom:8px">ข้อมูล</div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btns" onclick="exportData()" style="flex:1">↑ Export JSON</button>
+        <label class="btn btns" style="cursor:pointer;flex:1;text-align:center">↓ Import JSON<input type="file" accept=".json" style="display:none" onchange="handleImport(event)"></label>
+      </div>
+    </div>
+  </div>`;
 }
 
 // ─── TOOLS ───────────────────────────────────────────────────
